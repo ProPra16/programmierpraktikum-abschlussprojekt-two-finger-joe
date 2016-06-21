@@ -1,6 +1,6 @@
 public class Save{
 
-public void save(boolean Status){
+public void save(int Status){
 
 
 }
