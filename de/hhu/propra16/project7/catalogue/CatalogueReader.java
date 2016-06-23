@@ -15,10 +15,10 @@ public class CatalogueReader {
 		return result;
 	}
 	
-	private final ParseSource mSource;
+	private final ParseHelper mSource;
 	
 	private CatalogueReader(ParseSource source) {
-		mSource = source;
+		mSource = new ParseHelper(source);
 	}
 	
 	public Catalogue parseCatalogue() throws ParseException {
