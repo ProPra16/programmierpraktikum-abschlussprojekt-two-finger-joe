@@ -44,9 +44,7 @@ public class ParseHelper implements ParseSource {
 	}
 	
 	public void skipWhite() throws ParseException {
-		if(!endReached()) {
-			while(isWhite()) proceed();
-		}
+		while(!endReached() && isWhite()) proceed();
 	}
 	
 	public void forceGap() throws ParseException {
@@ -77,8 +75,8 @@ public class ParseHelper implements ParseSource {
 			if(run && !masked) {
 				yet += c;
 			}
+			proceed();
 		}
-		match('"');
 		return yet;
 	}
 	

@@ -1,5 +1,12 @@
 package de.hhu.propra16.project7.catalogue;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import de.hhu.propra16.project7.catalogue.CodeTemplate.Category;
 
 /* @author Marvin Cohrs */
@@ -7,7 +14,28 @@ import de.hhu.propra16.project7.catalogue.CodeTemplate.Category;
 public class CatalogueReader {
 
 	public static Catalogue readFromString(String input) throws ParseException {
+		System.out.println("[debug] readFromString: "+input);
 		return readFromSource(new StringSource(input));
+	}
+	
+	public static Catalogue readFromFile(File file) throws ParseException {		
+		try {
+			FileInputStream stream = new FileInputStream(file);
+			InputStreamReader streamReader = new InputStreamReader(stream);
+			BufferedReader bufferedReader = new BufferedReader(streamReader);
+			String accumulator = "", lastLine;
+			try {
+				while((lastLine = bufferedReader.readLine()) != null) {
+					accumulator += lastLine + "\n";
+				}
+			} finally {
+				
+				bufferedReader.close();
+			}
+			return readFromString(accumulator);
+		} catch(IOException e) {
+			throw new ParseException(file.getName(), "-", e.getMessage());
+		}
 	}
 	
 	public static Catalogue readFromSource(ParseSource source) throws ParseException {
@@ -36,10 +64,12 @@ public class CatalogueReader {
 			mSource.skipWhite();
 		}
 		mSource.match('}');
+		System.out.println("[debug] after catalogue{} block");
 		return new Catalogue();
 	}
 	
 	private Project parseProject() throws ParseException {
+		System.out.println("Enter parseProject");
 		mSource.match("project");
 		mSource.forceGap();
 		String title = mSource.quotedString();
@@ -49,6 +79,7 @@ public class CatalogueReader {
 		Project project = new Project(title);
 		char lookAhead = mSource.peekChar();
 		while(Character.isLetter(lookAhead)) {
+			System.out.println("[debug] parseProject loop");
 			if(lookAhead == 't') {
 				mSource.match("test");
 				mSource.forceGap();
@@ -61,15 +92,22 @@ public class CatalogueReader {
 					mSource.match("mplementation");
 					mSource.forceGap();
 					CodeTemplate template = parseCodeTemplate(CodeTemplate.Category.Implementation);
+				} else {
+					mSource.match("nstruction");
+					mSource.forceGap();
+					String instr = mSource.quotedString();
+					project.appendInstructions(instr);
+					mSource.skipWhite();
+					mSource.match(';');
 				}
 			}
+			mSource.skipWhite();
 		}
 		return null;
 	}
 
-	private CodeTemplate parseCodeTemplate(Category test) {
-		// TODO Auto-generated method stub
-		
+	private CodeTemplate parseCodeTemplate(Category test) throws ParseException {
+		mSource.match("template");
 		return null;
 	}
 
