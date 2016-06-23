@@ -27,15 +27,15 @@ public class StringSource implements ParseSource {
 		if(!endReached()) {
 			mPosition++;
 		} else {
-			raise("Tried to proceed, but end is already reached.");
+			throw raise("Tried to proceed, but end is already reached.");
 		}
 	}
 
 	public void match(char expected) throws ParseException {
 		if(endReached()) {
-			raise("Tried to match\""+expected+"\", but found the end of input.");
+			throw raise("Tried to match\""+expected+"\", but found the end of input.");
 		} else if(mBuffer.charAt(mPosition) != expected) {
-			raise("Tried to match\""+expected+"\", but found \""+mBuffer.charAt(mPosition)+"\".");
+			throw raise("Tried to match\""+expected+"\", but found \""+mBuffer.charAt(mPosition)+"\".");
 		} else {
 			proceed();
 		}
@@ -64,12 +64,47 @@ public class StringSource implements ParseSource {
 	}
 	
 	public boolean isWhite() throws ParseException {
-		final char[] whites = { ' ', '\t', '\r', '\n' };
-		return Arrays.asList(whites).contains(peekChar());
+		char c = peekChar();
+		return c == ' ' || c == '\t' || c == '\r' || c == '\n';
 	}
 	
 	public void skipWhite() throws ParseException {
-		while(isWhite()) proceed();
+		if(!endReached()) {
+			while(isWhite()) proceed();
+		}
+	}
+	
+	public void forceGap() throws ParseException {
+		char c = peekChar();
+		if(Character.isLetterOrDigit(c)) {
+			throw raise("Space expected but \""+c+"\" found.");
+		} else {
+			skipWhite();
+		}
+	}
+	
+	public String quotedString() throws ParseException {
+		match('"');
+		boolean masked = false, run = true;
+		String yet = "";
+		while(run) {
+			char c = peekChar();
+			boolean wasMasked = masked;
+			masked = false;
+			switch(c) {
+			case '"':
+				run = wasMasked;
+				break;
+			case '\\':
+				masked = !wasMasked;
+				break;
+			}
+			if(run && !masked) {
+				yet += c;
+			}
+		}
+		match('"');
+		return yet;
 	}
 
 }

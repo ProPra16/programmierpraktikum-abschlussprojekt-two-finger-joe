@@ -13,4 +13,6 @@ public interface ParseSource {
 	public ParseSource replicate();
     public boolean isWhite() throws ParseException;
     public void skipWhite() throws ParseException;
+    public void forceGap() throws ParseException;
+    public String quotedString() throws ParseException;
 }
