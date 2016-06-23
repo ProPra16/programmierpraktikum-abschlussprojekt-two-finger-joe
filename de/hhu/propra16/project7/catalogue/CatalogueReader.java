@@ -1,5 +1,7 @@
 package de.hhu.propra16.project7.catalogue;
 
+import de.hhu.propra16.project7.catalogue.CodeTemplate.Category;
+
 /* @author Marvin Cohrs */
 
 public class CatalogueReader {
@@ -44,11 +46,30 @@ public class CatalogueReader {
 		mSource.skipWhite();
 		mSource.match('{');
 		mSource.skipWhite();
-		String instructions = "";
+		Project project = new Project(title);
 		char lookAhead = mSource.peekChar();
 		while(Character.isLetter(lookAhead)) {
-			
+			if(lookAhead == 't') {
+				mSource.match("test");
+				mSource.forceGap();
+				CodeTemplate template = parseCodeTemplate(CodeTemplate.Category.Test);
+				project.getTemplates().add(template);
+			} else {
+				mSource.match('i');
+				lookAhead = mSource.peekChar();
+				if(lookAhead == 'm') {
+					mSource.match("mplementation");
+					mSource.forceGap();
+					CodeTemplate template = parseCodeTemplate(CodeTemplate.Category.Implementation);
+				}
+			}
 		}
+		return null;
+	}
+
+	private CodeTemplate parseCodeTemplate(Category test) {
+		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

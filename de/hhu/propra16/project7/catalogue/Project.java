@@ -13,9 +13,9 @@ public class Project {
 	private String mTitle, mInstructions;
 	private List<CodeTemplate> mTemplates;
 	
-	public Project(String title, String instructions) {
+	public Project(String title) {
 		mTitle = title;
-		mInstructions = instructions;
+		mInstructions = "";
 		mTemplates = new LinkedList<>();
 	}
 	
@@ -41,6 +41,14 @@ public class Project {
 	
 	public String getInstructions() {
 		return mInstructions;
+	}
+	
+	public void appendInstructions(String newInstr) {
+		if(mInstructions.equals("") || mInstructions.charAt(mInstructions.length()-1) == ' ') {
+			mInstructions += newInstr;
+		} else {
+			mInstructions += " " + newInstr;
+		}
 	}
 	
 }
