@@ -39,15 +39,6 @@ public class FileSource extends StringSource {
 	}
 	
 	@Override
-	public ParseSource replicate() {
-		FileSource fs = new FileSource(mBuffer, mFilename);
-		fs.mCol = mCol;
-		fs.mRow = mRow;
-		fs.mPosition = mPosition;
-		return fs;
-	}
-	
-	@Override
 	public void proceed() throws ParseException {
 		char prev = peekChar();
 		super.proceed();

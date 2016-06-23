@@ -9,5 +9,4 @@ public interface ParseSource {
 	public ParseException raise(String message);
 	public char peekChar() throws ParseException;
 	public boolean endReached();
-	public ParseSource replicate();
 }

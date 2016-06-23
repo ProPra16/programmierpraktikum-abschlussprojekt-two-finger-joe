@@ -34,10 +34,6 @@ public class ParseHelper implements ParseSource {
 		return mInnerSource.endReached();	
 	}
 	
-	public ParseSource replicate() {
-		return new ParseHelper(mInnerSource.replicate());
-	}
-	
 	public boolean isWhite() throws ParseException {
 		char c = peekChar();
 		return c == ' ' || c == '\t' || c == '\r' || c == '\n';

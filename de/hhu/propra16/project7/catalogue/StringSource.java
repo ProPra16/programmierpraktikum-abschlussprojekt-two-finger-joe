@@ -11,15 +11,6 @@ public class StringSource implements ParseSource {
 		mBuffer = buffer;
 		mPosition = 0;
 	}
-	
-	public StringSource(StringSource original) {
-		mBuffer = original.mBuffer;
-		mPosition = original.mPosition;
-	}
-	
-	public ParseSource replicate() {
-		return new StringSource(this);
-	}
 
 	public void proceed() throws ParseException {
 		if(!endReached()) {
