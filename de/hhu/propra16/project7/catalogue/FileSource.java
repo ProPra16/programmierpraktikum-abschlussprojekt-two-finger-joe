@@ -11,6 +11,7 @@ public class FileSource extends StringSource {
 	private final String mFilename;
 	private int mRow, mCol;
 	
+	// Read the file into memory and instantiate FileSource
 	public static FileSource fromFile(File file) throws ParseException {
 		try {
 			FileInputStream stream = new FileInputStream(file);
@@ -42,6 +43,7 @@ public class FileSource extends StringSource {
 	public void proceed() throws ParseException {
 		char prev = peekChar();
 		super.proceed();
+		// Track the two-dimensional position
 		if(prev == '\n') {
 			mRow++;
 			mCol = 0;
@@ -52,6 +54,7 @@ public class FileSource extends StringSource {
 	
 	@Override
 	public ParseException raise(String message) {
+		// For files we report line and column instead of the character index
 		return new ParseException(mFilename, String.format("line %d col %d", mRow, mCol), message);
 	}
 	

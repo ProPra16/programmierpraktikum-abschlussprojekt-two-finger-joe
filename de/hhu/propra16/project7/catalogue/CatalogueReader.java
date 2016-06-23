@@ -8,14 +8,17 @@ import de.hhu.propra16.project7.catalogue.CodeTemplate.Category;
 
 public class CatalogueReader {
 
+	// Read a catalogue from a given String
 	public static Catalogue readFromString(String input) throws ParseException {
 		return readFromSource(new StringSource(input));
 	}
 	
+	// Read a catalogue from a given File
 	public static Catalogue readFromFile(File file) throws ParseException {		
 		return readFromSource(FileSource.fromFile(file));
 	}
 	
+	// Read a catalogue from any ParseSource instance
 	public static Catalogue readFromSource(ParseSource source) throws ParseException {
 		CatalogueReader reader = new CatalogueReader(source);
 		Catalogue result = reader.parseCatalogue();
@@ -29,25 +32,28 @@ public class CatalogueReader {
 		mSource = new ParseHelper(source);
 	}
 	
+	// Parse a catalogue{} block
 	public Catalogue parseCatalogue() throws ParseException {
+		// Block head
 		mSource.skipWhite();
 		mSource.match("catalogue");
 		mSource.skipWhite();
 		mSource.match('{');
 		mSource.skipWhite();
 		Catalogue catalogue = new Catalogue();
+		// Loop for project{} blocks
 		while(mSource.peekChar() == 'p') {
 			Project project = parseProject();
 			catalogue.getProjects().add(project);
 			mSource.skipWhite();
 		}
 		mSource.match('}');
-		System.out.println("[debug] after catalogue{} block");
 		return catalogue;
 	}
 	
+	// Parse a project{} block
 	private Project parseProject() throws ParseException {
-		System.out.println("Enter parseProject");
+		// Block head
 		mSource.match("project");
 		mSource.forceGap();
 		String title = mSource.quotedString();
@@ -56,9 +62,10 @@ public class CatalogueReader {
 		mSource.skipWhite();
 		Project project = new Project(title);
 		char lookAhead = mSource.peekChar();
+		// Loop for instruction and template{} blocks
 		while(Character.isLetter(lookAhead)) {
-			System.out.println("[debug] parseProject loop");
 			if(lookAhead == 't') {
+				// test template{}
 				mSource.match("test");
 				mSource.forceGap();
 				CodeTemplate template = parseCodeTemplate(CodeTemplate.Category.Test);
@@ -67,11 +74,13 @@ public class CatalogueReader {
 				mSource.match('i');
 				lookAhead = mSource.peekChar();
 				if(lookAhead == 'm') {
+					// implementation template{}
 					mSource.match("mplementation");
 					mSource.forceGap();
 					CodeTemplate template = parseCodeTemplate(CodeTemplate.Category.Implementation);
 					project.getTemplates().add(template);
 				} else {
+					// instruction;
 					mSource.match("nstruction");
 					mSource.forceGap();
 					String instr = mSource.quotedString();
@@ -87,6 +96,7 @@ public class CatalogueReader {
 		return project;
 	}
 
+	// Parse a template{} block
 	private CodeTemplate parseCodeTemplate(Category category) throws ParseException {
 		mSource.match("template");
 		mSource.forceGap();
@@ -96,6 +106,7 @@ public class CatalogueReader {
 		return new CodeTemplate(category, filename, content);
 	}
 
+	// Make sure there is nothing left in the ParseSource
 	public void ensureEndReached() throws ParseException {
 		mSource.skipWhite();
 		if(!mSource.endReached()) {

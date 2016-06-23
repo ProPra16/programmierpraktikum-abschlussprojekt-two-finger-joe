@@ -19,14 +19,17 @@ public class CodeTemplate {
 		mContent = content;
 	}
 	
+	// Is this a test or an implementation template?
 	public Category getCategory() {
 		return mCategory;
 	}
 	
+	// Preferred filename for this template
 	public String getFilename() {
 		return mFilename;
 	}
 	
+	// The actual code
 	public String getContent() {
 		return mContent;
 	}

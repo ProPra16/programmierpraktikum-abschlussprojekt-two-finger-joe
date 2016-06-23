@@ -12,6 +12,7 @@ public class StringSource implements ParseSource {
 		mPosition = 0;
 	}
 
+	// Implements ParseSource.proceed()
 	public void proceed() throws ParseException {
 		if(!endReached()) {
 			mPosition++;
@@ -20,6 +21,7 @@ public class StringSource implements ParseSource {
 		}
 	}
 
+	// Implements ParseSource.match()
 	public void match(char expected) throws ParseException {
 		if(endReached()) {
 			throw raise("Tried to match\""+expected+"\", but found the end of input.");
@@ -30,18 +32,21 @@ public class StringSource implements ParseSource {
 		}
 	}
 
+	// Implements ParseSource.raise()
 	public ParseException raise(String message) {
 		return new ParseException("<StringSource>", "char "+Integer.toString(mPosition), message);
 	}
 
+	// Implements ParseSource.peekChar()
 	public char peekChar() throws ParseException {
 		if(endReached()) {
-			throw raise("Tried to peek the next char of input, but found the end of input.");
+			throw raise("Tried to peek the next char, but found the end of input.");
 		} else {
 			return mBuffer.charAt(mPosition);
 		}
 	}
 	
+	// Implements ParseSource.endReached()
 	public boolean endReached() {
 		return mPosition >= mBuffer.length();
 	}

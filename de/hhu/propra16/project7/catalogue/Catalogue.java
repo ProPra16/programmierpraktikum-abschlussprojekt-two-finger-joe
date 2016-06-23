@@ -13,6 +13,7 @@ public class Catalogue {
 		mProjects = new LinkedList<>();
 	}
 	
+	// Get the list of associated projects. Use getProjects().add(...) to add one.
 	public List<Project> getProjects() {
 		return mProjects;
 	}

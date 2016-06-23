@@ -4,7 +4,7 @@ package de.hhu.propra16.project7.catalogue;
 
 public class ParseException extends Exception {
 
-	// generated
+	// generated, required for Serializable
 	private static final long serialVersionUID = -7888869718218381802L;
 
 	public ParseException(String filename, String position, String message) {
