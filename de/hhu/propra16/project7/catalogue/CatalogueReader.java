@@ -1,11 +1,6 @@
 package de.hhu.propra16.project7.catalogue;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
 import de.hhu.propra16.project7.catalogue.CodeTemplate.Category;
 
@@ -14,28 +9,11 @@ import de.hhu.propra16.project7.catalogue.CodeTemplate.Category;
 public class CatalogueReader {
 
 	public static Catalogue readFromString(String input) throws ParseException {
-		System.out.println("[debug] readFromString: "+input);
 		return readFromSource(new StringSource(input));
 	}
 	
 	public static Catalogue readFromFile(File file) throws ParseException {		
-		try {
-			FileInputStream stream = new FileInputStream(file);
-			InputStreamReader streamReader = new InputStreamReader(stream);
-			BufferedReader bufferedReader = new BufferedReader(streamReader);
-			String accumulator = "", lastLine;
-			try {
-				while((lastLine = bufferedReader.readLine()) != null) {
-					accumulator += lastLine + "\n";
-				}
-			} finally {
-				
-				bufferedReader.close();
-			}
-			return readFromString(accumulator);
-		} catch(IOException e) {
-			throw new ParseException(file.getName(), "-", e.getMessage());
-		}
+		return readFromSource(FileSource.fromFile(file));
 	}
 	
 	public static Catalogue readFromSource(ParseSource source) throws ParseException {
@@ -103,6 +81,7 @@ public class CatalogueReader {
 			}
 			mSource.skipWhite();
 		}
+		mSource.match('}');
 		return null;
 	}
 

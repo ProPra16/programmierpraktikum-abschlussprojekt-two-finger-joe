@@ -4,8 +4,8 @@ package de.hhu.propra16.project7.catalogue;
 
 public class StringSource implements ParseSource {
 	
-	private final String mBuffer;
-	private int mPosition;
+	protected final String mBuffer;
+	protected int mPosition;
 	
 	public StringSource(String buffer) {
 		mBuffer = buffer;
