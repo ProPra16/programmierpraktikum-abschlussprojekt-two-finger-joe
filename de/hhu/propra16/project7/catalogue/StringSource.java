@@ -1,7 +1,5 @@
 package de.hhu.propra16.project7.catalogue;
 
-import java.util.Arrays;
-
 /* @author Marvin Cohrs */
 
 public class StringSource implements ParseSource {
@@ -41,12 +39,6 @@ public class StringSource implements ParseSource {
 		}
 	}
 
-	public void match(String expected) throws ParseException {
-		for(char c : expected.toCharArray()) {
-			match(c);
-		}
-	}
-
 	public ParseException raise(String message) {
 		return new ParseException("<StringSource>", "char "+Integer.toString(mPosition), message);
 	}
@@ -63,48 +55,4 @@ public class StringSource implements ParseSource {
 		return mPosition >= mBuffer.length();
 	}
 	
-	public boolean isWhite() throws ParseException {
-		char c = peekChar();
-		return c == ' ' || c == '\t' || c == '\r' || c == '\n';
-	}
-	
-	public void skipWhite() throws ParseException {
-		if(!endReached()) {
-			while(isWhite()) proceed();
-		}
-	}
-	
-	public void forceGap() throws ParseException {
-		char c = peekChar();
-		if(Character.isLetterOrDigit(c)) {
-			throw raise("Space expected but \""+c+"\" found.");
-		} else {
-			skipWhite();
-		}
-	}
-	
-	public String quotedString() throws ParseException {
-		match('"');
-		boolean masked = false, run = true;
-		String yet = "";
-		while(run) {
-			char c = peekChar();
-			boolean wasMasked = masked;
-			masked = false;
-			switch(c) {
-			case '"':
-				run = wasMasked;
-				break;
-			case '\\':
-				masked = !wasMasked;
-				break;
-			}
-			if(run && !masked) {
-				yet += c;
-			}
-		}
-		match('"');
-		return yet;
-	}
-
 }
