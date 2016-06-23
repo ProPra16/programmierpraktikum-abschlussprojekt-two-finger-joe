@@ -84,13 +84,32 @@ public class ParseHelper implements ParseSource {
 		match('{');
 		int open = 0;
 		char lookAhead = peekChar();
+		boolean masked = false, quoted = false, 
+				lineComment = false, blockComment = false,
+				slashSeen = false, astSeen = false;
 		String yet = "";
 		while(open >= 0) {
-			if(lookAhead == '{') {
+			boolean wasMasked = masked;
+			masked = false;
+			if(lookAhead == '{' && !quoted && !lineComment && !blockComment) {
 				open++;
-			} else if(lookAhead == '}') {
+			} else if(lookAhead == '}' && !quoted && !lineComment && !blockComment) {
 				open--;
+			} else if(lookAhead == '\"' && !wasMasked && !lineComment && !blockComment) {
+				quoted = !quoted;
+			} else if(lookAhead == '\\' && quoted) {
+				masked = !wasMasked;
+			} else if(lookAhead == '/' && slashSeen) {
+				lineComment = true;
+			} else if(lookAhead == '\n' && lineComment) {
+				lineComment = false;
+			} else if(lookAhead == '*' && slashSeen) {
+				blockComment = true;
+			} else if(lookAhead == '/' && astSeen) {
+				blockComment = false;
 			}
+			astSeen = lookAhead == '*' && !lineComment && blockComment && !slashSeen;;
+			slashSeen = lookAhead == '/' && !lineComment && !blockComment && !quoted;
 			if(open >= 0) {
 				yet += lookAhead;
 				proceed();
