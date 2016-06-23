@@ -80,4 +80,42 @@ public class ParseHelper implements ParseSource {
 		return yet;
 	}
 	
+	public String bracedBlock() throws ParseException {
+		match('{');
+		int open = 0;
+		char lookAhead = peekChar();
+		String yet = "";
+		while(open >= 0) {
+			if(lookAhead == '{') {
+				open++;
+			} else if(lookAhead == '}') {
+				open--;
+			}
+			if(open >= 0) {
+				yet += lookAhead;
+				proceed();
+				lookAhead = peekChar();
+			}
+		}
+		match('}');
+		System.out.println("Will now call untrim");
+		return layouttrim(yet);
+	}
+	
+	private static String layouttrim(String str) {
+		String indent = "";
+		int pos = 0;
+		char c = str.charAt(pos);
+		while(pos < str.length() && (c == ' ' || c == '\t' || c == '\n')) {
+			if(c == '\n') {
+				indent = "";
+			} else {
+				indent += c;
+			}
+			pos++;
+			c = str.charAt(pos);
+		}
+		return str.substring(pos).replace("\n"+indent, "\n").trim();
+	}
+	
 }

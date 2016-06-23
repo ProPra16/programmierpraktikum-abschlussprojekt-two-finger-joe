@@ -43,7 +43,7 @@ public class CatalogueReader {
 		}
 		mSource.match('}');
 		System.out.println("[debug] after catalogue{} block");
-		return new Catalogue();
+		return catalogue;
 	}
 	
 	private Project parseProject() throws ParseException {
@@ -70,6 +70,7 @@ public class CatalogueReader {
 					mSource.match("mplementation");
 					mSource.forceGap();
 					CodeTemplate template = parseCodeTemplate(CodeTemplate.Category.Implementation);
+					project.getTemplates().add(template);
 				} else {
 					mSource.match("nstruction");
 					mSource.forceGap();
@@ -80,14 +81,19 @@ public class CatalogueReader {
 				}
 			}
 			mSource.skipWhite();
+			lookAhead = mSource.peekChar();
 		}
 		mSource.match('}');
-		return null;
+		return project;
 	}
 
-	private CodeTemplate parseCodeTemplate(Category test) throws ParseException {
+	private CodeTemplate parseCodeTemplate(Category category) throws ParseException {
 		mSource.match("template");
-		return null;
+		mSource.forceGap();
+		String filename = mSource.quotedString();
+		mSource.skipWhite();
+		String content = mSource.bracedBlock();
+		return new CodeTemplate(category, filename, content);
 	}
 
 	public void ensureEndReached() throws ParseException {
