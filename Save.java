@@ -25,9 +25,9 @@ public class Save {
 	}
 
 	public static void saveText(String Eingabe) {
-	//	Datei = Datei();
+        //      String Datei = Datei();
 	//	FileWriter saveText = new FileWriter();
-	//	saveText.Stream(Stream,"projekt/code.java");
+	//	saveText.Stream(Stream,Datei);
 	}
 
 	public static void codeToTemp(String Eingabe) {
@@ -45,6 +45,9 @@ public class Save {
 		save(status, Stream);
 	}
 	
+	public String Datei(){
+		//check OS;
+	}
 
 
 	public class FileSchreiben {
