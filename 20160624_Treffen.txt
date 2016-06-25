@@ -1,0 +1,15 @@
+Treffen vom Fr, 24.6.2016
+
+Anwesend:
+ - Andre
+ - Florian
+ - Gareth
+ - Marvin
+
+Ergebnisse:
+ - Gareth implementiert die zentrale Programmlogik
+ - Andre implementiert Oeffnen und Speichern der Programmdateien
+ - Florian wird in den kommenden Tagen seine fertige GUI an den Katalog
+   anbinden
+ - Alle Programmteile werden ab sofort Packages zugeordnet
+ - Der Status wird in Zukunft als Enumerationstyp gespeichert
