@@ -1,4 +1,4 @@
 - Es wird mit Gradle gebaut
-- Travis wir dfür Continuous Integration
+- Travis Status ![Build Status](https://travis-ci.com/barbieauglend/TwoFingerJoe.svg?token=vy1pnGkHyGjDFcjgF8Lh&branch=master)
 - Wir treffen uns mindestens einmal pro Woche und diskutieren unseren Fortschritt
 - wir protokollieren diese Treffen (jede Woche ein anderes Teammitglied)
