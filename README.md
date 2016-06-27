@@ -1,1 +1,4 @@
-README
+- Es wird mit Gradle gebaut
+- Travis wir dfür Continuous Integration
+- Wir treffen uns mindestens einmal pro Woche und diskutieren unseren Fortschritt
+- wir protokollieren diese Treffen (jede Woche ein anderes Teammitglied)
