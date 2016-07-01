@@ -1,1 +1,7 @@
-
+public class compile{
+  
+  
+  
+  
+  
+}
