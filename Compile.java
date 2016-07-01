@@ -3,7 +3,7 @@ import vk.core.api.CompilerFactory;
 import vk.core.api.JavaStringCompiler;
 import vk.core.internal.InternalResult
 
-public class compile {
+public class Compile {
 	
 
 	boolean CompileErrors(String className, String classContent){
