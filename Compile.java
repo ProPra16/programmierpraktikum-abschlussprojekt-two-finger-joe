@@ -6,7 +6,7 @@ import vk.core.internal.InternalResult
 public class Compile {
 	
 
-	boolean CompileErrors(String className, String classContent){
+	public boolean CompileErrors(String className, String classContent){
 		
 	
 	CompilationUnit unit = new CompilationUnit(className, classContent, false);
