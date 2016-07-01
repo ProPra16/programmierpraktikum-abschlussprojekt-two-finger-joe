@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <?language JavaScript?>
+
+  <?import javafx.scene.control.*?>
+  <?import javafx.scene.layout.*?>
+  <?import javafx.geometry.*?>
+  <?import javafx.scene.text.*?>
+  <?import javafx.scene.shape.*?>
+
+  <HBox fx:controller="de.hhu.propra16.controller.project7.Project_Controller" xmlns:fx="http://javafx.com/fxml" prefWidth="640" prefHeight="480">
+
+    <VBox prefWidth="40" prefHeight="480"/>
+
+    <VBox prefWidth="560" prefHeight="480">
+
+      <VBox prefWidth="560" prefHeight="10"/>
+
+      <TilePane prefWidth="100" prefHeight="40" alignment="CENTER">
+        <Text fx:id="statusAnweisung" textAlignment="CENTER">
+          <font>
+            <Font name="Arial Black" size="20.0"/>
+          </font>
+        </Text>
+      </TilePane>
+      <VBox prefWidth="560" prefHeight="350">
+        <TextArea fx:id="codewindow" prefWidth="560" prefHeight="350"/>
+      </VBox>
+
+      <HBox prefWidth="640" prefHeight="80">
+        <HBox prefWidth="340" prefHeight="160"/>
+        <HBox spacing="20" prefHeight="80" alignment="CENTER">
+          <Button fx:id="resetButton" prefWidth="100" mnemonicParsing="false" onAction="#handleResetButtonAction" text="Reset" alignment="CENTER" textAlignment="CENTER"/>
+          <Button fx:id="backButton" prefWidth="100" mnemonicParsing="false" onAction="#handleBackButtonAction" text="Zurück" alignment="CENTER" textAlignment="CENTER"/>
+          <Button fx:id="weiterButton" prefWidth="100" mnemonicParsing="false" onAction="#handleWeiterButtonAction" alignment="CENTER" textAlignment="CENTER"/>
+        </HBox>
+      </HBox>
+
+    </VBox>
+
+    <VBox prefWidth="40" prefHeight="480">
+      <VBox prefWidth="40" prefHeight="430"/>
+      <TilePane prefWidth="20" alignment="CENTER">
+        <children>
+          <Circle fx:id="statusLight" centerX="10" centerY="10" radius="10"/>
+        </children>
+      </TilePane>
+    </VBox>
+
+  </HBox>
