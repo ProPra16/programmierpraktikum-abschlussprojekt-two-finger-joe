@@ -1,0 +1,37 @@
+
+	/* 
+	 * In Input werden Nutzerwahl, Status und Zustände [Kompiliert der Code / Schlagen Tests fehl?] 
+	 * des Codes eingelesen. llten wir uns in Status Green befinden, 
+	 * der User in Refactoring befinden, werden alle Daten eingelesen und der nächste Status wird ermittelt. 
+	 * 
+	 */
+
+	      public Input(int Nutzer, boolean CompilerWorks, boolean TestFehlschlag, int Status)
+	
+	/* 
+	 * In Input werden Nutzerwahl, Status und Zustände [Kompiliert der Code / Schlagen Tests fehl?] 
+	 * des Codes eingelesen. llten wir uns in Status Green befinden, 
+	 * der User in Refactoring befinden, werden alle Daten eingelesen und der nächste Status wird ermittelt. 
+	 * 
+	 */
+	
+	public Red(int Nutzer,	boolean CompilerWorks, boolean TestFehlschlag)
+		
+	
+	
+	/*Befinden wir uns Status Red, wird geschaut, ob entweder ein Test fehlschlägt, 
+	 * oder der Code nicht kompiliert. Sollte die Nutzerwahl = 1 (GREEN) sein, 
+	 * wird der nächste Status gespeichert. Wir wechseln zu Status Green. 
+	 * Wollten wir in Refactoring gelangen, muss der Code alle Tests bestehen und der Code muss kompilieren. 
+	 * Nutzerwahl 2 wird dann erkannt.
+	 */
+	
+	
+	public  Green(int Nutzer, boolean CompilerWorks, boolean TestFehlschlag)
+	
+	/* Tests müssen vor und nach dem Refactoring funktionieren. 
+	 * Wollten wir also die Tests bearbeiten, muss dies geprüft werden. Erst dann wird Nutzer = 0 erkannt. 
+	 */
+	
+	
+	public int Refactoring(int Nutzer, boolean CompilerWorks, boolean TestFehlschlag)
