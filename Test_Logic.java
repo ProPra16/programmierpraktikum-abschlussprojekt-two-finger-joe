@@ -1,88 +1,118 @@
 /* Erste Skizze der Logik Architektur*/
 
+//package de.hhu.propra16.project7;
 
-//Nutzer = 0; Wählt RED
-//Nutzer = 1; Wählt GREEN
-//Nutzer = 1; BLACK
+//import vk.core.api.CompilationUnit;
+//import vk.core.api.CompilerFactory;
+//import vk.core.api.JavaStringCompiler;
+//import vk.core.internal.InternalResult
 
-//Status = 0; Befindet sich in  RED
-//Status = 1;  Befindet sich in   GREEN
-//Status = 1;  Befindet sich in  BLACK
+
+
+// übersichtlichkeit halber: https://github.com/ProPra16/programmierpraktikum-abschlussprojekt-two-finger-joe/blob/Logik/test
+
+
 
 
 
 public class Test_Logic {
 	
 	public static void main(String[] args){
-		//Logic log = new Logic();
-		//int a = log.Input(0,true,false,2);
-		//System.out.println(a);
-		
+	
+		test();
 	}
 	
-	/* 
-	 * In Input werden Nutzerwahl, Status und Zustände [Kompiliert der Code / Schlagen Tests fehl?] 
-	 * des Codes eingelesen. llten wir uns in Status Green befinden, 
-	 * der User in Refactoring befinden, werden alle Daten eingelesen und der nächste Status wird ermittelt. 
-	 * 
-	 */
+
+
+	
+	public Status Input(int Nutzer, 
+				boolean TestFehlschlag, Status status){
+				boolean CompilerWorks = true;
+				
+				
+			//	boolean CompilerWorks = CompileErrors();
+				
+				
+		
+		if(status==Status.Red) return Red( Nutzer,  CompilerWorks,  TestFehlschlag);
+		if(status==Status.Green) return Green( Nutzer,  CompilerWorks,  TestFehlschlag);
+		if(status==Status.Refactoring) return Refactoring( Nutzer,  CompilerWorks,  TestFehlschlag);
+		
+		
+		return Status.Red;
+	}
 	
 
 	
-	public int Input(int Nutzer, 
-			boolean CompilerWorks, boolean TestFehlschlag, int Status){
-		
-		if(Status==0)Status = Red( Nutzer,  CompilerWorks,  TestFehlschlag);
-		if(Status==1)Status = Green(Nutzer,  CompilerWorks, TestFehlschlag);
-		if(Status==2) Status =  Black(Nutzer,  CompilerWorks,  TestFehlschlag);
-		
-		return Status*-1;
-	}
-	
-	/* 
-	 * In Input werden Nutzerwahl, Status und Zustände [Kompiliert der Code / Schlagen Tests fehl?] 
-	 * des Codes eingelesen. llten wir uns in Status Green befinden, 
-	 * der User in Refactoring befinden, werden alle Daten eingelesen und der nächste Status wird ermittelt. 
-	 * 
-	 */
-	
-	public int Red(int Nutzer, 
+	public Status Red(int Nutzer, 
 			boolean CompilerWorks, boolean TestFehlschlag){
 		
 			if(Nutzer==1 && (CompilerWorks==false||TestFehlschlag==true)){	
-				return -1;
+				return Status.Green;
 				}
 
-		return 0;
+		return Status.Red;
 				
-	}
+	} 
 	
 	
-	/*Befinden wir uns Status Red, wird geschaut, ob entweder ein Test fehlschlägt, 
-	 * oder der Code nicht kompiliert. Sollte die Nutzerwahl = 1 (GREEN) sein, 
-	 * wird der nächste Status gespeichert. Wir wechseln zu Status Green. 
-	 * Wollten wir in Refactoring gelangen, muss der Code alle Tests bestehen und der Code muss kompilieren. 
-	 * Nutzerwahl 2 wird dann erkannt.
-	 */
+
 	
-	
-	public int Green(int Nutzer, 
+	public Status Green(int Nutzer, 
 			boolean CompilerWorks, boolean TestFehlschlag){
 
-			if(Nutzer==0)return 0;
-			if(Nutzer==1)return -1;
-			if(Nutzer==2 && CompilerWorks==true && TestFehlschlag == false)return -2;
-			return -1;		
+			if(Nutzer==0)return Status.Red;
+			if(Nutzer==1)return Status.Green;
+			if(Nutzer==2 && CompilerWorks==true && TestFehlschlag == false)return Status.Refactoring;
+			
+			
+			return Status.Green;		
 	}
 	
-	/* Tests müssen vor und nach dem Refactoring funktionieren. 
-	 * Wollten wir also die Tests bearbeiten, muss dies geprüft werden. Erst dann wird Nutzer = 0 erkannt. 
-	 */
+
 	
 	
-	public int Black(int Nutzer, 
+	public Status Refactoring(int Nutzer, 
 			boolean CompilerWorks, boolean TestFehlschlag){
-			if(Nutzer==0 && CompilerWorks==true && TestFehlschlag == false)return 0;
-			return -2;		
+			if(Nutzer==0 && CompilerWorks==true && TestFehlschlag == false)return Status.Red;
+			return Status.Refactoring;		
 	}
+	
+	
+/*	public boolean CompileErrors(String className, String classContent){
+			CompilationUnit unit = new CompilationUnit(className, classContent, false);
+			JavaStringCompiler compiler = CompilerFactory.getCompiler(unit);
+		return  compiler.hasCompileErrors();
+	
+	} */
+	
+	public enum Status
+	{
+		Red, Green, Refactoring
+	}
+	
+	public static void test(){
+		
+		 Status status = Status.Red;
+		 
+			Logic log = new Logic();
+			Status a = log.Input(1,true,status);
+			System.out.println(a);
+			
+			
+			status = Status.Green;
+			 a = log.Input(2,false,status);
+			System.out.println(a);
+			
+			status = Status.Refactoring;
+			 a = log.Input(0,false,status);
+			System.out.println(a);
+		
+		
+	}
+	
+	
+	
+	
+		
 }
