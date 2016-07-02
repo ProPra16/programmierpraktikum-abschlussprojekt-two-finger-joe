@@ -8,13 +8,6 @@ import vk.core.internal.InternalResult
 /* Erste Skizze der Logik Architektur*/
 
 
-//Nutzer = 0; Wählt RED
-//Nutzer = 1; Wählt GREEN
-//Nutzer = 1; BLACK
-
-//Status = 0; Befindet sich in  RED
-//Status = 1;  Befindet sich in   GREEN
-//Status = 1;  Befindet sich in  BLACK
 
 
 
@@ -37,7 +30,9 @@ public class Logic {
 
 	
 	public int Input(int Nutzer, 
-			boolean CompilerWorks, boolean TestFehlschlag, int Status){
+			 boolean TestFehlschlag, int Status){
+				
+				boolean CompilerWorks = CompileErrors();
 		
 		if(Status==0)Status = Red( Nutzer,  CompilerWorks,  TestFehlschlag);
 		if(Status==1)Status = Green(Nutzer,  CompilerWorks, TestFehlschlag);
