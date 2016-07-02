@@ -11,7 +11,7 @@
 
 
 
-public class Logic {
+public class Test_Logic {
 	
 	public static void main(String[] args){
 		//Logic log = new Logic();
