@@ -1,5 +1,10 @@
 package de.hhu.propra16.project7;
 
+import vk.core.api.CompilationUnit;
+import vk.core.api.CompilerFactory;
+import vk.core.api.JavaStringCompiler;
+import vk.core.internal.InternalResult
+
 /* Erste Skizze der Logik Architektur*/
 
 
@@ -87,4 +92,15 @@ public class Logic {
 			if(Nutzer==0 && CompilerWorks==true && TestFehlschlag == false)return 0;
 			return -2;		
 	}
+	
+	
+	public boolean CompileErrors(String className, String classContent){
+			CompilationUnit unit = new CompilationUnit(className, classContent, false);
+			JavaStringCompiler compiler = CompilerFactory.getCompiler(unit);
+		return compiler.hasCompileErrors();
+	
+	}
+	
+	
+	
 }
