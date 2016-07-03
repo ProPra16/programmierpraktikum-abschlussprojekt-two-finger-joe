@@ -22,20 +22,23 @@ public class Logic {
 	private Status Zustand;
 	
 	private boolean Baby;
+	private boolean Interrupt;
 	private int Minuten;
 	
 	int seconds;
 	
 	public static void main(String[] args){
-	
-		test();
+		
+		Logic test = new Logic();
+		test.test();
+		
 	}
 	
 
 
 	
 	public void Input(Befehl befehl, 
-				boolean TestFehlschlag, int BabySteps){
+				boolean TestFehlschlag){
 				boolean CompilerWorks = true;
 				
 				
@@ -43,8 +46,8 @@ public class Logic {
 				
 				Status status = getStatus();
 		
-		if(status==Status.Red)  Red( befehl,  CompilerWorks,  TestFehlschlag, status, BabySteps);
-		if(status==Status.Green)  Green( befehl,  CompilerWorks,  TestFehlschlag);
+		if(status==Status.Red||status==Status.BabyRed)  Red( befehl,  CompilerWorks,  TestFehlschlag, status);
+		if(status==Status.Green||status==Status.BabyGreen)  Green( befehl,  CompilerWorks,   TestFehlschlag, status);
 		if(status==Status.Refactoring)  Refactoring( befehl,  CompilerWorks,  TestFehlschlag);
 		
 		
@@ -54,7 +57,7 @@ public class Logic {
 
 	
 	public void Red(Befehl befehl, 
-			boolean CompilerWorks, boolean TestFehlschlag, Status status, int BabySteps){
+			boolean CompilerWorks, boolean TestFehlschlag, Status status){
 		
 
 				if(getBabyBoolean()==true){StartTimer(getStatus());return;}
@@ -74,9 +77,9 @@ public class Logic {
 
 	
 	public void Green(Befehl befehl, 
-			boolean CompilerWorks, boolean TestFehlschlag){
+			boolean CompilerWorks, boolean TestFehlschlag,  Status status){
 		
-				if(getBabyBoolean()==true){StartTimer(getStatus());return;}
+				if(getBabyBoolean()==true&&befehl!=Befehl.DoRefactoring){StartTimer(getStatus()); return;} 
 
 
 			if(befehl==Befehl.DoRed){ setStatus(Status.Red); return;}
@@ -120,50 +123,54 @@ public class Logic {
 	
 
 	
-	public static void test(){
+	public  void test(){
 		
 		
 			
 		
 			
-			Logic log = new Logic(); 	
-			
-			log.BabySteps(1 ,false);
-			
-			log.setStatus(Status.Red); //Standard
-			
-			log.Input(Befehl.DoGreen,true, 0);
-			
-			System.out.println(log.getStatus());
-			
-			log.Input(Befehl.DoRed,true, 0);
-			
-			System.out.println(log.getStatus());
-			
-			log.Input(Befehl.DoGreen,true, 0);
-			
-			System.out.println(log.getStatus());
 			
 			
-			log.Input(Befehl.DoRefactoring,false, 0);
+			BabySteps(1 ,true); 		
+			setInterrupt(false);
 			
-			System.out.println(log.getStatus());
 			
-				log.Input(Befehl.DoGreen,false, 0);
 			
-			System.out.println(log.getStatus());
+			setStatus(Status.Red); //Standard
 			
-			log.Input(Befehl.DoRed,false, 0);
+			Input(Befehl.DoGreen,true);
 			
-			System.out.println(log.getStatus());
 			
-			log.Input(Befehl.DoRefactoring,false, 0);
+			System.out.println(getStatus());
 			
-			System.out.println(log.getStatus());
+			Input(Befehl.DoRed,true);
 			
-			log.Input(Befehl.DoGreen,true, 0);
+			System.out.println(getStatus());
 			
-			System.out.println(log.getStatus());
+			Input(Befehl.DoGreen,true);
+			
+			System.out.println(getStatus());
+		
+			Input(Befehl.DoRefactoring,false);
+			
+			System.out.println(getStatus());
+	
+			
+				Input(Befehl.DoGreen,false);
+			
+			System.out.println(getStatus());
+			
+			Input(Befehl.DoRed,false);
+			
+			System.out.println(getStatus());
+			
+			Input(Befehl.DoRefactoring,false);
+			
+			System.out.println(getStatus());
+			
+			Input(Befehl.DoGreen,true);
+			
+			System.out.println(getStatus());
 			
 	
 	
@@ -202,6 +209,14 @@ public class Logic {
 		return Baby;
 	}
 	
+	public void setInterrupt(boolean Interrupt){
+		this.Interrupt = Interrupt;
+	}
+	
+	public boolean getInterrupt(){
+		return Interrupt;
+	}
+	
 
 	public void StartTimer(Status status ){
 
@@ -211,7 +226,7 @@ public class Logic {
 	}
 	
 	public long ConvertSeconds(int Minuten){
-	long Vergleich  = Minuten*6;
+	long Vergleich  = Minuten/2;
 	return Vergleich;
 	}
 	
@@ -221,12 +236,18 @@ public class Logic {
 		seconds = 0;
 		try {
 		while(seconds<=Vergleich){
+			
+		
+			
 			 Thread.sleep(1000); seconds++;}
 		
-		if(status==Status.Green){;setStatus(Status.Red);}
-		if(status==Status.Red){setStatus(Status.Green);}
+		if(getInterrupt()==false){
+		if(status==Status.Green||status==Status.BabyGreen){;setStatus(Status.BabyRed);}
+		if(status==Status.Red||status==Status.BabyRed){setStatus(Status.BabyGreen);}}
 		
-
+		if(getInterrupt()==true){
+		if(status==Status.Green||status==Status.BabyGreen){;setStatus(Status.Red);}
+		if(status==Status.Red||status==Status.BabyRed){setStatus(Status.Green);}}
 		
 		
 		
@@ -243,7 +264,7 @@ public class Logic {
 
 public enum Status
 {
-	Red, Green, Refactoring
+	Red, Green, Refactoring, BabyRed, BabyGreen
 }
 
 public enum Befehl
