@@ -4,10 +4,11 @@
 
 package de.hhu.propra16.project7;
 
-//import vk.core.api.CompilationUnit;
-//import vk.core.api.CompilerFactory;
-//import vk.core.api.JavaStringCompiler;
-//import vk.core.internal.InternalResult
+import vk.core.api.CompilationUnit;
+import vk.core.api.CompilerFactory;
+import vk.core.api.CompilerResult;
+import vk.core.api.JavaStringCompiler;
+import vk.core.api.TestResult;
 
 
 
@@ -27,6 +28,7 @@ public class Logic {
 	
 	int seconds;
 	
+	
 	public static void main(String[] args){
 		
 		Logic test = new Logic();
@@ -37,12 +39,10 @@ public class Logic {
 
 
 	
-	public void Input(Befehl befehl, 
-				boolean TestFehlschlag){
-				boolean CompilerWorks = true;
-				
-				
-			//	boolean CompilerWorks = CompileErrors();
+	public void Input(Befehl befehl, boolean TestFehlschlag){
+							
+			boolean CompilerWorks = CompileErrors("Name","Content");
+
 				
 				Status status = getStatus();
 		
@@ -111,16 +111,30 @@ public class Logic {
 	}
 	
 	
-/*	public boolean CompileErrors(String className, String classContent){
+	
+	public boolean TestFehlschlag(String className, String classContent){
+		CompilationUnit unit = new CompilationUnit(className, classContent, false);
+		JavaStringCompiler compiler = CompilerFactory.getCompiler(unit);
+		compiler.compileAndRunTests();
+		TestResult result = compiler.getTestResult();
+		
+		if(result.getNumberOfFailedTests()>=1) return true;				
+		
+		return false;
+		
+		
+	}
+	
+	
+	public boolean CompileErrors(String className, String classContent){
 			CompilationUnit unit = new CompilationUnit(className, classContent, false);
 			JavaStringCompiler compiler = CompilerFactory.getCompiler(unit);
-		return  compiler.hasCompileErrors();
+			compiler.compileAndRunTests();
+			CompilerResult result = compiler.getCompilerResult();
+						
+		return result.hasCompileErrors();  
 	
-	} */
-	
-	
-	
-	
+	}
 
 	
 	public  void test(){
