@@ -26,7 +26,7 @@ public class Project_Controller
 	private Text statusAnweisung;
 
 	private Color[] status = {Color.RED,Color.GREEN,Color.BLACK};
-	private String[] buttonText = {"Coden","Prüfen","Testen"};
+	//private String[] buttonText = {"Coden","Prüfen","Testen"};
 	private String[] statusAnw = {"Einen fehlschlagenden Test schreiben","Code schreiben","Code optimieren"};
 
 	private int currStatus = 0;
@@ -39,7 +39,7 @@ public class Project_Controller
 	public void initialize()
 	{
 		statusLight.setFill(status[currStatus]);
-		weiterButton.setText(buttonText[currStatus]);
+	//	weiterButton.setText(buttonText[currStatus]);
 		statusAnweisung.setText(statusAnw[currStatus]);
 	}
 
@@ -52,7 +52,7 @@ public class Project_Controller
 	@FXML
 	private void handleWeiterButtonAction(ActionEvent event) throws IOException
 	{
-		if(currStatus == 0){
+		/*if(currStatus == 0){
 			projectLogic.Input(Befehl.DoRed);
 		}
 		
@@ -62,12 +62,31 @@ public class Project_Controller
 		
 		if(currStatus == 2){
 			projectLogic.Input(Befehl.DoRefactoring);
-		}
+		}*/
 		currStatus++;
 		if( currStatus > 2 ) currStatus = 0;
 		statusLight.setFill(status[currStatus]);
-		weiterButton.setText(buttonText[currStatus]);
+		//weiterButton.setText(buttonText[currStatus]);
 		statusAnweisung.setText(statusAnw[currStatus]);
+	}
+	
+	@FXML
+	private void handleTestButtonAction(ActionEvent event) throws IOException
+	{
+		projectLogic.Input(Befehl.DoRed);
+		
+	}
+	
+	@FXML
+	private void handleCodeButtonAction(ActionEvent event) throws IOException
+	{
+		projectLogic.Input(Befehl.DoGreen);
+	}
+	
+	@FXML
+	private void handleRefractoringButtonAction(ActionEvent event) throws IOException
+	{
+		projectLogic.Input(Befehl.DoRefactoring);
 	}
 
 	@FXML

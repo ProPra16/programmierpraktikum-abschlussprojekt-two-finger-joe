@@ -91,7 +91,11 @@ public class Logic {
 		JavaStringCompiler compiler = CompilerRun(className, classContent);
 		TestResult result = compiler.getTestResult();
 		
-		if(result.getNumberOfFailedTests()>=1) return true;				
+		if(result.getNumberOfFailedTests()>=1){
+			return true;	
+		
+		//TODO Exception falls die Datei nicht vorhanden ist
+		}
 		
 		return false;
 	}
