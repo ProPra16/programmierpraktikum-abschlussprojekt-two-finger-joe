@@ -238,9 +238,9 @@ public class Logic {
 		long Vergleich = ConvertSeconds(Minuten);
 		 Stoppuhrstarte(status, Vergleich);
 	}
-	
+	//*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 	public long ConvertSeconds(int Minuten){
-	long Vergleich  = Minuten/2;
+	long Vergleich  = Minuten/2;  //*60;
 	return Vergleich;
 	}
 	
