@@ -47,7 +47,7 @@ public class Logic {
 				Status status = getStatus();
 		
 		if(status==Status.Red||status==Status.BabyRed)  Red( befehl,  CompilerWorks,  TestFehlschlag, status);
-		if(status==Status.Green||status==Status.BabyGreen)  Green( befehl,  CompilerWorks,   TestFehlschlag, status);
+		if(status==Status.Green)  Green( befehl,  CompilerWorks,   TestFehlschlag, status);
 		if(status==Status.Refactoring)  Refactoring( befehl,  CompilerWorks,  TestFehlschlag);
 		
 		
@@ -146,7 +146,7 @@ public class Logic {
 			
 			
 			BabySteps(1 ,true); 		
-			setInterrupt(false);
+		
 			
 			
 			
@@ -226,10 +226,10 @@ public class Logic {
 	public void setInterrupt(boolean Interrupt){
 		this.Interrupt = Interrupt;
 	}
-	
+	/*
 	public boolean getInterrupt(){
 		return Interrupt;
-	}
+	}*/
 	
 
 	public void StartTimer(Status status ){
@@ -255,13 +255,18 @@ public class Logic {
 			
 			 Thread.sleep(1000); seconds++;}
 		
-		if(getInterrupt()==false){
+		//if(getInterrupt()==false){
+			
 		if(status==Status.Green||status==Status.BabyGreen){;setStatus(Status.BabyRed);}
-		if(status==Status.Red||status==Status.BabyRed){setStatus(Status.BabyGreen);}}
-		
+		if(status==Status.Red||status==Status.BabyRed){setStatus(Status.BabyRed);}
+			
+			
+			
+		//}
+		/*
 		if(getInterrupt()==true){
 		if(status==Status.Green||status==Status.BabyGreen){;setStatus(Status.Red);}
-		if(status==Status.Red||status==Status.BabyRed){setStatus(Status.Green);}}
+		if(status==Status.Red||status==Status.BabyRed){setStatus(Status.Green);}}*/
 		
 		
 		
@@ -278,7 +283,7 @@ public class Logic {
 
 public enum Status
 {
-	Red, Green, Refactoring, BabyRed, BabyGreen
+	Red, Green, Refactoring, BabyRed
 }
 
 public enum Befehl
