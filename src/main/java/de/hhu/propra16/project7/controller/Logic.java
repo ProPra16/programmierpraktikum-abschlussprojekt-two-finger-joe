@@ -10,8 +10,6 @@ import vk.core.api.CompilerResult;
 import vk.core.api.JavaStringCompiler;
 import vk.core.api.TestResult;
 
-
-
 // übersichtlichkeit halber: https://github.com/ProPra16/programmierpraktikum-abschlussprojekt-two-finger-joe/blob/Logik/test
 
 public class Logic {
@@ -23,8 +21,7 @@ public class Logic {
 	private int Minuten;
 	
 	int seconds;
-	
-	
+
 	/*public static void main(String[] args){
 		
 		Logic test = new Logic();
@@ -109,24 +106,15 @@ public class Logic {
 
 	
 	public  void test(){
-	
 
- 		
-			
- 		
-			
-			
 			
 			BabySteps(1 ,true); 		
 			setInterrupt(false);
-			
-			
 			
 			setStatus(Status.Red); //Standard
 			
 			Input(Befehl.DoGreen);
 			
-			
 			System.out.println(getStatus());
 			
 			Input(Befehl.DoRed);
@@ -157,9 +145,6 @@ public class Logic {
 			
 			System.out.println(getStatus());
 			
-	
-	
-		
 	}
 	
 	
