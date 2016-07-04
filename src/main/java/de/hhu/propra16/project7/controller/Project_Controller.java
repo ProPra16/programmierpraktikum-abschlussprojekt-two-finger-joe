@@ -30,9 +30,11 @@ public class Project_Controller
 	private String[] statusAnw = {"Einen fehlschlagenden Test schreiben","Code schreiben","Code optimieren"};
 
 	private int currStatus = 0;
-
-	public Project_Controller()
-	{}
+	private Logic projectLogic = new Logic();
+	
+	
+	public Project_Controller(){
+	}
 
 	public void initialize()
 	{
@@ -50,9 +52,17 @@ public class Project_Controller
 	@FXML
 	private void handleWeiterButtonAction(ActionEvent event) throws IOException
 	{
-		// if( status == 0 ) Speichere Code in Test.java -> Öffne Code.java
-		// if( status == 1 ) Teste und speichere den Code in Code.java, wenn er die Tests erfüllt, sonst gib Fehler aus
-		// if( status == 2 ) Teste und speichere den Code in Code.java, wenn er die Tests erfüllt, sonst gib Fehler aus -> Öffne Test.java
+		if(currStatus == 0){
+			projectLogic.Input(Befehl.DoRed);
+		}
+		
+		if(currStatus == 1){
+			projectLogic.Input(Befehl.DoGreen);
+		}
+		
+		if(currStatus == 2){
+			projectLogic.Input(Befehl.DoRefactoring);
+		}
 		currStatus++;
 		if( currStatus > 2 ) currStatus = 0;
 		statusLight.setFill(status[currStatus]);
