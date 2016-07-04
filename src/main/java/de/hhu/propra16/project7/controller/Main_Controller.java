@@ -27,14 +27,14 @@ public class Main_Controller
 	// private Project aktProject;
 	private String aktProject;
 
-	public Main_Controller()
-	{}
+	public Main_Controller(){
+	}
 
 	public void initialize()
 	{
 		// Wenn Main Fenster aufgerufen wird, fuellt die Methode die "projects" ListView
 		// fuelleProjects();
-
+		
 		listViewData.add("Heinz");
 		listViewData.add("Horst");
 
