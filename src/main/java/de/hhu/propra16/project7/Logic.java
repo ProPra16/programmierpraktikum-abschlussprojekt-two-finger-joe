@@ -15,15 +15,12 @@ import vk.core.api.TestResult;
 // übersichtlichkeit halber: https://github.com/ProPra16/programmierpraktikum-abschlussprojekt-two-finger-joe/blob/Logik/test
 
 
-
-
-
-public class Logic {
+public class Save {
 	
 	private Status Zustand;
 	
 	private boolean Baby;
-	private boolean Interrupt;
+	private boolean ItWorks;
 	private int Minuten;
 	
 	int seconds;
@@ -45,8 +42,12 @@ public class Logic {
 
 				
 				Status status = getStatus();
+				if(status==Status.BabyRed){
+					
+					setStatus(Status.Red);
+				}
 		
-		if(status==Status.Red||status==Status.BabyRed)  Red( befehl,  CompilerWorks,  TestFehlschlag, status);
+		if(status==Status.Red)  Red( befehl,  CompilerWorks,  TestFehlschlag, status);
 		if(status==Status.Green)  Green( befehl,  CompilerWorks,   TestFehlschlag, status);
 		if(status==Status.Refactoring)  Refactoring( befehl,  CompilerWorks,  TestFehlschlag);
 		
@@ -223,13 +224,15 @@ public class Logic {
 		return Baby;
 	}
 	
-	public void setInterrupt(boolean Interrupt){
-		this.Interrupt = Interrupt;
+	public void setItWorks(boolean ItWorks){
+		this.ItWorks = ItWorks;
 	}
-	/*
-	public boolean getInterrupt(){
-		return Interrupt;
-	}*/
+	
+	public boolean getItWorks(){
+		
+		
+		return ItWorks;
+	}
 	
 
 	public void StartTimer(Status status ){
@@ -255,18 +258,13 @@ public class Logic {
 			
 			 Thread.sleep(1000); seconds++;}
 		
-		//if(getInterrupt()==false){
+		if(getItWorks()==false){
 			
-		if(status==Status.Green||status==Status.BabyGreen){;setStatus(Status.BabyRed);}
-		if(status==Status.Red||status==Status.BabyRed){setStatus(Status.BabyRed);}
-			
-			
-			
-		//}
-		/*
-		if(getInterrupt()==true){
-		if(status==Status.Green||status==Status.BabyGreen){;setStatus(Status.Red);}
-		if(status==Status.Red||status==Status.BabyRed){setStatus(Status.Green);}}*/
+			setStatus(Status.BabyRed);
+		
+		}
+		
+		if(getItWorks()==true){return;}
 		
 		
 		
