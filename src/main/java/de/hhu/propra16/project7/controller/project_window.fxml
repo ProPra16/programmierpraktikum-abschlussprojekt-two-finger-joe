@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<HBox prefHeight="480" prefWidth="640" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="de.hhu.propra16.project7.controller.Project_Controller">
+<HBox prefHeight="480" prefWidth="640" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hhu.propra16.project7.controller.Project_Controller">
 
     <VBox prefHeight="480" prefWidth="40" />
 
@@ -31,10 +31,11 @@
 
       <HBox prefHeight="80" prefWidth="640">
         <HBox prefHeight="80.0" prefWidth="192.0" />
-        <HBox alignment="CENTER" prefHeight="80" spacing="20">
+        <HBox alignment="CENTER" prefHeight="80" prefWidth="733.0" spacing="20">
           <Button fx:id="resetButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleTestButtonAction" prefWidth="100" text="Test" textAlignment="CENTER" />
           <Button fx:id="backButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleCodeButtonAction" prefWidth="100" text="Code" textAlignment="CENTER" />
           <Button fx:id="weiterButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleRefractoringButtonAction" prefWidth="100" text="Refractoring" textAlignment="CENTER" />
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleBackButtonAction" prefWidth="100" text="Zurück" textAlignment="CENTER" />
         </HBox>
       </HBox>
 

@@ -14,7 +14,7 @@ import javafx.scene.paint.*;
 public class Project_Controller
 {
 	@FXML
-	private Button resetButton, weiterButton, backButton;
+	private Button testButton, codeButton, refractoringButton, backButton;
 
 	@FXML
 	private TextArea codewindow;
@@ -26,7 +26,6 @@ public class Project_Controller
 	private Text statusAnweisung;
 
 	private Color[] status = {Color.RED,Color.GREEN,Color.BLACK};
-	//private String[] buttonText = {"Coden","Prüfen","Testen"};
 	private String[] statusAnw = {"Einen fehlschlagenden Test schreiben","Code schreiben","Code optimieren"};
 
 	private int currStatus = 0;
@@ -39,58 +38,43 @@ public class Project_Controller
 	public void initialize()
 	{
 		statusLight.setFill(status[currStatus]);
-	//	weiterButton.setText(buttonText[currStatus]);
 		statusAnweisung.setText(statusAnw[currStatus]);
-	}
-
-	@FXML
-	private void handleResetButtonAction(ActionEvent event) throws IOException
-	{
-		// Ersetze den momentanen Code mit dem Inhalt von Code.java
 	}
 
 	@FXML
 	private void handleWeiterButtonAction(ActionEvent event) throws IOException
 	{
-		/*if(currStatus == 0){
-			projectLogic.Input(Befehl.DoRed);
-		}
-		
-		if(currStatus == 1){
-			projectLogic.Input(Befehl.DoGreen);
-		}
-		
-		if(currStatus == 2){
-			projectLogic.Input(Befehl.DoRefactoring);
-		}*/
-		currStatus++;
-		if( currStatus > 2 ) currStatus = 0;
+	}
+	
+	@FXML
+	private void handleTestButtonAction(ActionEvent event) 
+	{
+		projectLogic.Input(Befehl.DoRed);
+		currStatus = projectLogic.getStatus().ordinal();
 		statusLight.setFill(status[currStatus]);
-		//weiterButton.setText(buttonText[currStatus]);
 		statusAnweisung.setText(statusAnw[currStatus]);
 	}
 	
 	@FXML
-	private void handleTestButtonAction(ActionEvent event) throws IOException
-	{
-		projectLogic.Input(Befehl.DoRed);
-		
-	}
-	
-	@FXML
-	private void handleCodeButtonAction(ActionEvent event) throws IOException
+	private void handleCodeButtonAction(ActionEvent event) 
 	{
 		projectLogic.Input(Befehl.DoGreen);
+		currStatus = projectLogic.getStatus().ordinal();
+		statusLight.setFill(status[currStatus]);
+		statusAnweisung.setText(statusAnw[currStatus]);
 	}
 	
 	@FXML
-	private void handleRefractoringButtonAction(ActionEvent event) throws IOException
+	private void handleRefractoringButtonAction(ActionEvent event)
 	{
 		projectLogic.Input(Befehl.DoRefactoring);
+		currStatus = projectLogic.getStatus().ordinal();
+		statusLight.setFill(status[currStatus]);
+		statusAnweisung.setText(statusAnw[currStatus]);
 	}
 
 	@FXML
-	private void handleBackButtonAction(ActionEvent event) throws IOException
+	private void handleBackButtonAction(ActionEvent event) throws IOException 
 	{
 		// Wechselt in das Main-Fenster, wenn der Start Button geklickt wird
 		Stage stage = (Stage) backButton.getScene().getWindow();
