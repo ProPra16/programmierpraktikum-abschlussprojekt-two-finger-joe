@@ -35,11 +35,11 @@ public class Logic {
 	
 	public void Input(Befehl befehl){
 		
-		boolean CompileErrors = CompileErrors();  
-		boolean TestFehlschlag = TestFehlschlag();
+		//boolean CompileErrors = CompileErrors();  
+		//boolean TestFehlschlag = TestFehlschlag();
 				
-		//boolean CompilerWorks = CompileErrors("Name","Content");
-		//boolean TestFehlschlag = TestFehlschlag("Name","Content");
+		boolean CompilerWorks = CompileErrors("Name","Content");
+		boolean TestFehlschlag = TestFehlschlag("Name","Content");
 
 				
 				Status status = getStatus();
@@ -113,7 +113,7 @@ public class Logic {
 	}
 	
 	
-	/*
+	
 	public boolean TestFehlschlag(String className, String classContent){
 		CompilationUnit unit = new CompilationUnit(className, classContent, false);
 		JavaStringCompiler compiler = CompilerFactory.getCompiler(unit);
@@ -136,14 +136,14 @@ public class Logic {
 						
 		return result.hasCompileErrors();  
 	
-	} */
+	} 
 	
 	
 	
 	
 	/**/
 	//TEST: TestFehlschlag & CompileErrors
-	
+	/*
 	
 	public void setTestFehlschlag(boolean TestFehlschlag){
 				
@@ -176,7 +176,7 @@ public class Logic {
 		
 	} 
 
-	
+	*/
 	
 	/**/
 	//END TEST: TestFehlschlag & CompileErrors
