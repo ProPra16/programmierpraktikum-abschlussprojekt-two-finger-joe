@@ -1,5 +1,0 @@
-Damit wir nicht wieder durcheinander kommen, eine Liste wichtiger Definitionen.
-
-Status = 0; //Red
-Status = 1; //Green
-Status = 2; //Black
