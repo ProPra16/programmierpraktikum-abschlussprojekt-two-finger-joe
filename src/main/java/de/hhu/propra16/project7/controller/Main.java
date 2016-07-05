@@ -1,5 +1,3 @@
-// Anregung oder Grundgerüst für Thais, als Main-Klasse des Programms
-
 package de.hhu.propra16.project7.controller;
 
 import java.io.IOException;
