@@ -1,7 +1,7 @@
 //import BabySteps.Status;
 
 /* Erste Skizze der Logik Architektur*/
-
+/**/
 package de.hhu.propra16.project7;
 
 import vk.core.api.CompilationUnit;
@@ -20,36 +20,37 @@ public class Logic {
 	private Status Zustand;
 	
 	private boolean Baby;
-	private boolean ItWorks;
+	//private boolean ItWorks;
 	private int Minuten;
+	
+	private boolean TestFehlschlag;
+	private boolean CompileErrors;
 	
 	int seconds;
 	
 	
-	public static void main(String[] args){
-		
-		Logic test = new Logic();
-		test.test();
-		
-	}
-	
+
 
 
 	
-	public void Input(Befehl befehl, boolean TestFehlschlag){
-							
-			boolean CompilerWorks = CompileErrors("Name","Content");
+	public void Input(Befehl befehl){
+		
+		boolean CompileErrors = CompileErrors();  
+		boolean TestFehlschlag = TestFehlschlag();
+				
+		//boolean CompilerWorks = CompileErrors("Name","Content");
+		//boolean TestFehlschlag = TestFehlschlag("Name","Content");
 
 				
 				Status status = getStatus();
-				if(status==Status.BabyRed){
+			/*	if(status==Status.BabyRed){
 					
 					setStatus(Status.Red);
-				}
+				} */
 		
-		if(status==Status.Red)  Red( befehl,  CompilerWorks,  TestFehlschlag, status);
-		if(status==Status.Green)  Green( befehl,  CompilerWorks,   TestFehlschlag, status);
-		if(status==Status.Refactoring)  Refactoring( befehl,  CompilerWorks,  TestFehlschlag);
+		if(status==Status.Red||status==Status.BabyRed)  Red( befehl,  CompileErrors,  TestFehlschlag, status);
+		if(status==Status.Green||status==Status.BabyGreen)  Green( befehl,  CompileErrors,   TestFehlschlag, status);
+		if(status==Status.Refactoring)  Refactoring( befehl,  CompileErrors,  TestFehlschlag);
 		
 		
 		return;
@@ -63,7 +64,7 @@ public class Logic {
 
 				if(getBabyBoolean()==true){StartTimer(getStatus());return;}
 		
-			if(befehl==Befehl.DoGreen && (CompilerWorks==false||TestFehlschlag==true)){	
+			if(befehl==Befehl.DoGreen && (CompileErrors==true||TestFehlschlag==true)){	
 				setStatus(Status.Green);
 				return;
 				}
@@ -78,14 +79,14 @@ public class Logic {
 
 	
 	public void Green(Befehl befehl, 
-			boolean CompilerWorks, boolean TestFehlschlag,  Status status){
+			boolean CompileErrors, boolean TestFehlschlag,  Status status){
 		
 				if(getBabyBoolean()==true&&befehl!=Befehl.DoRefactoring){StartTimer(getStatus()); return;} 
 
 
 			if(befehl==Befehl.DoRed){ setStatus(Status.Red); return;}
 			if(befehl==Befehl.DoGreen){ setStatus(Status.Green); return;}
-			if(befehl==Befehl.DoRefactoring && CompilerWorks==true && TestFehlschlag == false){ setStatus(Status.Refactoring); return;}
+			if(befehl==Befehl.DoRefactoring && CompileErrors==false && TestFehlschlag == false){ setStatus(Status.Refactoring); return;}
 			
 			setStatus(Status.Green);
 			return;		
@@ -95,8 +96,8 @@ public class Logic {
 	
 	
 	public void Refactoring(Befehl befehl, 
-			boolean CompilerWorks, boolean TestFehlschlag){
-			if(befehl==Befehl.DoRed && CompilerWorks==true && TestFehlschlag == false){ setStatus(Status.Red); return;}
+			boolean CompileErrors, boolean TestFehlschlag){
+			if(befehl==Befehl.DoRed && CompileErrors==false && TestFehlschlag == false){ setStatus(Status.Red); return;}
 			
 			setStatus(Status.Refactoring);
 			return ;		
@@ -112,7 +113,7 @@ public class Logic {
 	}
 	
 	
-	
+	/*
 	public boolean TestFehlschlag(String className, String classContent){
 		CompilationUnit unit = new CompilationUnit(className, classContent, false);
 		JavaStringCompiler compiler = CompilerFactory.getCompiler(unit);
@@ -135,63 +136,50 @@ public class Logic {
 						
 		return result.hasCompileErrors();  
 	
+	} */
+	
+	
+	
+	
+	/**/
+	//TEST: TestFehlschlag & CompileErrors
+	
+	
+	public void setTestFehlschlag(boolean TestFehlschlag){
+				
+		
+		this.TestFehlschlag = TestFehlschlag;
+		
+		
 	}
+	
+	
+	public void setCompileErrors(boolean CompileErrors){
+		
+		this.CompileErrors =CompileErrors;
+		
+	} 
+	
+	
+	public boolean TestFehlschlag(){
+				
+		
+		return TestFehlschlag;
+		
+		
+	}
+	
+	
+	public boolean CompileErrors(){
+		
+		return CompileErrors;
+		
+	} 
 
 	
-	public  void test(){
-		
-		
-			
-		
-			
-			
-			
-			BabySteps(1 ,true); 		
-		
-			
-			
-			
-			setStatus(Status.Red); //Standard
-			
-			Input(Befehl.DoGreen,true);
-			
-			
-			System.out.println(getStatus());
-			
-			Input(Befehl.DoRed,true);
-			
-			System.out.println(getStatus());
-			
-			Input(Befehl.DoGreen,true);
-			
-			System.out.println(getStatus());
-		
-			Input(Befehl.DoRefactoring,false);
-			
-			System.out.println(getStatus());
 	
-			
-				Input(Befehl.DoGreen,false);
-			
-			System.out.println(getStatus());
-			
-			Input(Befehl.DoRed,false);
-			
-			System.out.println(getStatus());
-			
-			Input(Befehl.DoRefactoring,false);
-			
-			System.out.println(getStatus());
-			
-			Input(Befehl.DoGreen,true);
-			
-			System.out.println(getStatus());
-			
-	
-	
-		
-	}
-	
+	/**/
+	//END TEST: TestFehlschlag & CompileErrors
 	
 
 
@@ -224,7 +212,7 @@ public class Logic {
 		return Baby;
 	}
 	
-	public void setItWorks(boolean ItWorks){
+	/* public void setItWorks(boolean ItWorks){
 		this.ItWorks = ItWorks;
 	}
 	
@@ -232,7 +220,7 @@ public class Logic {
 		
 		
 		return ItWorks;
-	}
+	} */
 	
 
 	public void StartTimer(Status status ){
@@ -258,13 +246,19 @@ public class Logic {
 			
 			 Thread.sleep(1000); seconds++;}
 		
-		if(getItWorks()==false){
-			
-			setStatus(Status.BabyRed);
 		
-		}
 		
-		if(getItWorks()==true){return;}
+		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors()==true || TestFehlschlag()==true)){setStatus(Status.BabyRed); return;}
+		
+		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors()==false && TestFehlschlag()==false)){setStatus(Status.Red); return;}
+		
+
+		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors()==false && TestFehlschlag()==false)){setStatus(Status.BabyGreen); return;}	
+		
+		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors()==true || TestFehlschlag()==true)){setStatus(Status.Green); return;}	
+		
+		
+		
 		
 		
 		
@@ -281,7 +275,7 @@ public class Logic {
 
 public enum Status
 {
-	Red, Green, Refactoring, BabyRed
+	Red, Green, Refactoring, BabyRed, BabyGreen
 }
 
 public enum Befehl
