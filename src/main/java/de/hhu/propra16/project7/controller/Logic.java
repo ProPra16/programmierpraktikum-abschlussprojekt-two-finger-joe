@@ -4,6 +4,7 @@
 
 package de.hhu.propra16.project7.controller;
 
+import de.hhu.propra16.project7.controller.Status;
 import vk.core.api.CompilationUnit;
 import vk.core.api.CompilerFactory;
 import vk.core.api.CompilerResult;
@@ -117,7 +118,6 @@ public class Logic {
 
 			
 			BabySteps(1 ,true); 		
-			setInterrupt(false);
 			
 			setStatus(Status.Red); //Standard
 			
@@ -220,13 +220,13 @@ public class Logic {
 			
 			 Thread.sleep(1000); seconds++;}
 		
-		if(getInterrupt()==false){
-		if(status==Status.Green||status==Status.BabyGreen){;setStatus(Status.BabyRed);}
-		if(status==Status.Red||status==Status.BabyRed){setStatus(Status.BabyGreen);}}
+		if(getItWorks()==false){
+			
+			setStatus(Status.BabyRed);
 		
-		if(getInterrupt()==true){
-		if(status==Status.Green||status==Status.BabyGreen){;setStatus(Status.Red);}
-		if(status==Status.Red||status==Status.BabyRed){setStatus(Status.Green);}}
+		}
+		
+		if(getItWorks()==true){return;}
 		
 		
 		

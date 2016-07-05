@@ -44,7 +44,7 @@ public class Main_Controller
 		// projects.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<KLASSE VON MARVIN>()
 		projects.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
 		{
-			@Override
+			
 			public void changed(ObservableValue<? extends String> observable,
 			String oldValue, String newValue)
 			{
