@@ -17,7 +17,7 @@ public class Logic {
 	private Status Zustand;
 	
 	private boolean Baby;
-	private boolean Interrupt;
+	private boolean ItWorks;
 	private int Minuten;
 	
 	int seconds;
@@ -35,8 +35,12 @@ public class Logic {
 				
 		Status status = getStatus();
 		
-		if(status==Status.Red||status==Status.BabyRed)  Red( befehl,  CompilerWorks,  TestFehlschlag, status);
-		if(status==Status.Green||status==Status.BabyGreen)  Green( befehl,  CompilerWorks,   TestFehlschlag, status);
+		if(status==Status.BabyRed){
+			setStatus(Status.Red);
+			}
+		
+		if(status==Status.Red)  Red( befehl,  CompilerWorks,  TestFehlschlag, status);
+		if(status==Status.Green)  Green( befehl,  CompilerWorks,   TestFehlschlag, status);
 		if(status==Status.Refactoring)  Refactoring( befehl,  CompilerWorks,  TestFehlschlag);
 		
 		return;
@@ -183,15 +187,16 @@ public class Logic {
 		return Baby;
 	}
 	
-	public void setInterrupt(boolean Interrupt){
-		this.Interrupt = Interrupt;
+	public void setItWorks(boolean ItWorks){
+		this.ItWorks = ItWorks;
 	}
 	
-	public boolean getInterrupt(){
-		return Interrupt;
+	public boolean getItWorks(){
+		
+		
+		return ItWorks;
 	}
 	
-
 	public void StartTimer(Status status ){
 
 		int Minuten = getMinute();
