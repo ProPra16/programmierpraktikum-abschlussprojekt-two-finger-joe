@@ -15,7 +15,7 @@ import vk.core.api.TestResult;
 // übersichtlichkeit halber: https://github.com/ProPra16/programmierpraktikum-abschlussprojekt-two-finger-joe/blob/Logik/test
 
 
-public class Save {
+public class Logic {
 	
 	private Status Zustand;
 	
