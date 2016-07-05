@@ -18,7 +18,7 @@ public class Logic {
 	private Status Zustand;
 	
 	private boolean Baby;
-	private boolean ItWorks;
+	//private boolean ItWorks;
 	private int Minuten;
 	
 	int seconds;
@@ -31,17 +31,17 @@ public class Logic {
 	}*/
 	
 	public void Input(Befehl befehl){
-		boolean CompilerWorks = CompileErrors("Name","Content");
+		boolean CompilerWorks = CompileErrors("Name","classContent");
 		boolean TestFehlschlag = TestFehlschlag("className", "classContent"); 
 				
 		Status status = getStatus();
-		
+		/*
 		if(status==Status.BabyRed){
 			setStatus(Status.Red);
-			}
+			} */
 		
-		if(status==Status.Red)  Red( befehl,  CompilerWorks,  TestFehlschlag, status);
-		if(status==Status.Green)  Green( befehl,  CompilerWorks,   TestFehlschlag, status);
+		if(status==Status.Red||status==Status.BabyRed)  Red( befehl,  CompilerWorks,  TestFehlschlag, status);
+		if(status==Status.Green||status==Status.BabyGreen)  Green( befehl,  CompilerWorks,   TestFehlschlag, status);
 		if(status==Status.Refactoring)  Refactoring( befehl,  CompilerWorks,  TestFehlschlag);
 		
 		return;
@@ -114,7 +114,7 @@ public class Logic {
 
 
 	
-	public  void test(){
+/*	public  void test(){
 
 			
 			BabySteps(1 ,true); 		
@@ -153,7 +153,7 @@ public class Logic {
 			
 			System.out.println(getStatus());
 			
-	}
+	} */
 	
 	
 
@@ -187,7 +187,7 @@ public class Logic {
 		return Baby;
 	}
 	
-	public void setItWorks(boolean ItWorks){
+	/*public void setItWorks(boolean ItWorks){
 		this.ItWorks = ItWorks;
 	}
 	
@@ -195,7 +195,7 @@ public class Logic {
 		
 		
 		return ItWorks;
-	}
+	}*/
 	
 	public void StartTimer(Status status ){
 
@@ -220,13 +220,27 @@ public class Logic {
 			
 			 Thread.sleep(1000); seconds++;}
 		
+		
+		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors()==true || TestFehlschlag()==true)){setStatus(Status.BabyRed); return;}
+		
+		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors()==false && TestFehlschlag()==false)){setStatus(Status.Red); return;}
+		
+
+		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors()==false && TestFehlschlag()==false)){setStatus(Status.BabyGreen); return;}	
+		
+		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors()==true || TestFehlschlag()==true)){setStatus(Status.Green); return;}	
+		
+		
+		
+		
+		/*
 		if(getItWorks()==false){
 			
 			setStatus(Status.BabyRed);
 		
 		}
 		
-		if(getItWorks()==true){return;}
+		if(getItWorks()==true){return;}*/
 		
 		
 		
