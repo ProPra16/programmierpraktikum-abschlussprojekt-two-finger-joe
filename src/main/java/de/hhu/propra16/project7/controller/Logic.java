@@ -11,7 +11,7 @@ import vk.core.api.CompilerResult;
 import vk.core.api.JavaStringCompiler;
 import vk.core.api.TestResult;
 
-// übersichtlichkeit halber: https://github.com/ProPra16/programmierpraktikum-abschlussprojekt-two-finger-joe/blob/Logik/test
+import de.hhu.propra16.project7.fileinteraction.*;
 
 public class Logic {
 	
@@ -22,6 +22,9 @@ public class Logic {
 	private int Minuten;
 	
 	int seconds;
+	
+	Opener opener;
+	Saver saver;
 
 	/*public static void main(String[] args){
 		
@@ -32,11 +35,15 @@ public class Logic {
 	
 	public Logic(){
 		
+		opener = new Opener();
+		saver = new Saver();
+
+		
 	}
 	
-	public void Input(Befehl befehl){
-		boolean CompilerWorks = CompileErrors("Name","classContent");
-		boolean TestFehlschlag = TestFehlschlag("className", "classContent"); 
+	public void Input(Befehl befehl, String classname, String eingabe){
+		boolean CompilerWorks = CompileErrors(classname,eingabe);
+		boolean TestFehlschlag = TestFehlschlag(classname, eingabe); 
 				
 		Status status = getStatus();
 		/*
@@ -44,39 +51,59 @@ public class Logic {
 			setStatus(Status.Red);
 			} */
 		
-		if(status==Status.Red||status==Status.BabyRed)  Red( befehl,  CompilerWorks,  TestFehlschlag, status);
-		if(status==Status.Green||status==Status.BabyGreen)  Green( befehl,  CompilerWorks,   TestFehlschlag, status);
-		if(status==Status.Refactoring)  Refactoring( befehl,  CompilerWorks,  TestFehlschlag);
+		if(status==Status.Red||status==Status.BabyRed)  Red( befehl,  CompilerWorks,  TestFehlschlag, status, classname, eingabe);
+		if(status==Status.Green||status==Status.BabyGreen)  Green( befehl,  CompilerWorks,   TestFehlschlag, status, classname, eingabe);
+		if(status==Status.Refactoring)  Refactoring( befehl,  CompilerWorks,  TestFehlschlag, classname, eingabe);
 		
 		return;
 	}
 	
-	public void Red(Befehl befehl, boolean CompilerWorks, boolean TestFehlschlag, Status status){
+	public void Red(Befehl befehl, boolean CompilerWorks, 
+						boolean TestFehlschlag, Status status, String classname, String eingabe){
 		
 		if(getBabyBoolean()==true){StartTimer(getStatus());return;}
 		if(befehl==Befehl.DoGreen && (CompilerWorks==false||TestFehlschlag==true)){	
-			setStatus(Status.Green);
+			{	setStatus(Status.Green); 
+				opener.open(getStatus(), classname);
+				saver.save(getStatus(), eingabe);			
+			}
 			return;
 		}
 		setStatus(Status.Red);
 		return;
 	} 
 	
-	public void Green(Befehl befehl, boolean CompilerWorks, boolean TestFehlschlag,  Status status){
+	public void Green(Befehl befehl, boolean CompilerWorks,
+							boolean TestFehlschlag,  Status status, String classname, String eingabe){
 		if(getBabyBoolean()==true&&befehl!=Befehl.DoRefactoring){
 			StartTimer(getStatus());
 			return;
 		} 
-		if(befehl==Befehl.DoRed){ setStatus(Status.Red); return;}
-		if(befehl==Befehl.DoGreen){ setStatus(Status.Green); return;}
-		if(befehl==Befehl.DoRefactoring && CompilerWorks==true && TestFehlschlag == false){ setStatus(Status.Refactoring); return;}
-		setStatus(Status.Green);
+		if(befehl==Befehl.DoRed){ 
+			setStatus(Status.Red); 
+			opener.open(getStatus(),  classname);
+			saver.save(getStatus(),  eingabe);	
+		return;}
+		if(befehl==Befehl.DoGreen){ 
+			return;}
+		if(befehl==Befehl.DoRefactoring && CompilerWorks==true && TestFehlschlag == false){ 
+			setStatus(Status.Refactoring);
+			opener.open(getStatus(), String classname);
+			saver.save(getStatus(), String eingabe);	
+			return;}
 		return;		
 	}
 	
-	public void Refactoring(Befehl befehl, boolean CompilerWorks, boolean TestFehlschlag){
-			if(befehl==Befehl.DoRed && CompilerWorks==true && TestFehlschlag == false){ setStatus(Status.Red); return;}
-			setStatus(Status.Refactoring);
+	public void Refactoring(Befehl befehl, boolean CompilerWorks, 
+								boolean TestFehlschlag, String classname, String eingabe){
+			if(befehl==Befehl.DoRed && CompilerWorks==true && TestFehlschlag == false){ 
+				
+				setStatus(Status.Red); 
+				opener.open(getStatus(), String classname);
+				saver.save(getStatus(), String eingabe):
+				return;}
+
+			
 			return ;		
 	}
 	
@@ -118,46 +145,6 @@ public class Logic {
 
 
 	
-/*	public  void test(){
-
-			
-			BabySteps(1 ,true); 		
-			
-			setStatus(Status.Red); //Standard
-			
-			Input(Befehl.DoGreen);
-			
-			System.out.println(getStatus());
-			
-			Input(Befehl.DoRed);
-			
-			System.out.println(getStatus());
-			
-			Input(Befehl.DoGreen);
-			
-			System.out.println(getStatus());
-		
-			Input(Befehl.DoRefactoring);
-			
-			System.out.println(getStatus());
-	
-			Input(Befehl.DoGreen);
-			
-			System.out.println(getStatus());
-			
-			Input(Befehl.DoRed);
-			
-			System.out.println(getStatus());
-			
-			Input(Befehl.DoRefactoring);
-			
-			System.out.println(getStatus());
-			
-			Input(Befehl.DoGreen);
-			
-			System.out.println(getStatus());
-			
-	} */
 	
 	
 
@@ -227,14 +214,24 @@ public class Logic {
 			 Thread.sleep(1000); seconds++;}
 		
 		
-		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors("Name","classContent")==true || TestFehlschlag("Name","classContent")==true)){setStatus(Status.BabyRed); return;}
+		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors("Name","classContent")==true || TestFehlschlag("Name","classContent")==true))
+				{setStatus(Status.BabyRed); 
+				Delete(getStatus());
+				return;}
 		
-		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors("Name","classContent")==false && TestFehlschlag("Name","classContent")==false)){setStatus(Status.Red); return;}
+		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors("Name","classContent")==false && TestFehlschlag("Name","classContent")==false))
+				{setStatus(Status.Red); 
+				return;}
 		
 
-		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors("Name","classContent")==false && TestFehlschlag("Name","classContent")==false)){setStatus(Status.BabyGreen); return;}	
+		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors("Name","classContent")==false && TestFehlschlag("Name","classContent")==false))
+				{setStatus(Status.BabyGreen); 
+				Delete(getStatus());		
+				return;}	
 		
-		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors("Name","classContent")==true || TestFehlschlag("Name","classContent")==true)){setStatus(Status.Green); return;}	
+		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors("Name","classContent")==true || TestFehlschlag("Name","classContent")==true))
+				{setStatus(Status.Green); 
+				return;}	
 		
 		
 		
