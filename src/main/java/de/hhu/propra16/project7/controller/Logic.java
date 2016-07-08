@@ -26,10 +26,9 @@ public class Logic {
 	
 	int seconds;
 	
-	Project aktProject;
-	
 	Opener opener;
 	Saver saver;
+	Project aktProject;
 
 	/*public static void main(String[] args){
 		
@@ -38,14 +37,10 @@ public class Logic {
 		
 	}*/
 	
-	public Logic(String title){
-		
+	public Logic(String title){		
 		opener = new Opener(title);
 		saver = new Saver(title);
-		aktProject = new Project(title);
-		
-
-		
+		aktProject = new Project(title);		
 	}
 	
 	public void Input(Befehl befehl, String classname, String eingabe, String title) throws IOException{
@@ -88,8 +83,8 @@ public class Logic {
 		} 
 		if(befehl==Befehl.DoRed){ 
 			setStatus(Status.Red); 
-			opener.open(getStatus(),  classname);
-			saver.save(getStatus(),  eingabe);	
+			opener.open(getStatus(), classname);
+			saver.save(getStatus(), eingabe);	
 		return;}
 		if(befehl==Befehl.DoGreen){ 
 			return;}

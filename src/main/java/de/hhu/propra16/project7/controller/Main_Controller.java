@@ -2,6 +2,7 @@ package de.hhu.propra16.project7.controller;
 
 import java.io.IOException;
 
+import de.hhu.propra16.project7.catalogue.Project;
 import javafx.beans.value.*;
 import javafx.collections.*;
 import javafx.fxml.*;
@@ -28,6 +29,7 @@ public class Main_Controller
 	private String aktProject;
 
 	public Main_Controller(){
+		
 	}
 
 	public void initialize()
@@ -45,13 +47,17 @@ public class Main_Controller
 		projects.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
 		{
 			
-			public void changed(ObservableValue<? extends String> observable,
+	public void changed(ObservableValue<? extends String> observable,
 			String oldValue, String newValue)
 			{
 				goals.setText(newValue);
 				aktProject = newValue;
 			}
 		});
+	}
+	
+	public String getAktProject(){
+		return aktProject;
 	}
 
 	@FXML

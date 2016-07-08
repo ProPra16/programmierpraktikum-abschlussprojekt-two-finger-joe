@@ -30,9 +30,12 @@ public class Project_Controller
 
 	private int currStatus = 0;
 	private Logic projectLogic;
+	private Main_Controller mc;
 	
 	
 	public Project_Controller(){
+		mc = new Main_Controller();
+		projectLogic = new Logic(mc.getAktProject());
 		
 	}
 
@@ -50,7 +53,7 @@ public class Project_Controller
 	@FXML
 	private void handleTestButtonAction(ActionEvent event) 
 	{
-	Input(Befehl.DoRed, classname, eingabe);
+		Input(Befehl.DoRed, classname, eingabe);
 		currStatus = projectLogic.getStatus().ordinal();
 		statusLight.setFill(status[currStatus]);
 		statusAnweisung.setText(statusAnw[currStatus]);
