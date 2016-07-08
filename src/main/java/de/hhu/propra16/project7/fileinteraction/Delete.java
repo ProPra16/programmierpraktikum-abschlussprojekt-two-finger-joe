@@ -1,16 +1,19 @@
+package de.hhu.propra16.project7.fileinteraction;
+
 import java.io.*;
+
+import de.hhu.propra16.project7.controller.Status;
 
 public class Delete {
 	
 
 	
-	public static void delete(Logic.Status status) {
-
+	public static void delete(Status status) {
 		
-	if(status==Logic.Status.BabyRed){        
+	if(status==Status.BabyRed){        
 		DeleteTest(); }
 	
-	if(status==Logic.Status.BabyGreen){        
+	if(status==Status.BabyGreen){        
 		DeleteCode(); }
 		
 	}

@@ -4,10 +4,6 @@
 //import Logic.Status;
 package de.hhu.propra16.project7.tests;
 
-import de.hhu.propra16.project7.controller.Befehl;
-import de.hhu.propra16.project7.controller.Logic;
-import de.hhu.propra16.project7.controller.Status;
-
 public class Logic_Test {
 	
 	public static void main(String[] args){
@@ -36,18 +32,18 @@ public class Logic_Test {
 		
 		
 		test.BabySteps(1 ,false); 	
-		//test.setCompileErrors(true);
-		//test.setTestFehlschlag(true);
+		test.setCompileErrors(true);
+		test.setTestFehlschlag(true);
 	
 		int i = 0;
 		
 		
-		test.setStatus(Status.Red); System.out.println(i + ". " + test.getStatus() + " is " + (test.getStatus()==Status.Red)); i++;
-		test.Input(Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.Green)); i++;
-		test.Input(Befehl.DoRefactoring); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.Green)); i++;
+		test.setStatus(Logic.Status.Red); System.out.println(i + ". " + test.getStatus() + " is " + (test.getStatus()==Logic.Status.Red)); i++;
+		test.Input(Logic.Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Green)); i++;
+		test.Input(Logic.Befehl.DoRefactoring); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Green)); i++;
 		
-		test.Input(Befehl.DoRed); System.out.println(i + ". "+test.getStatus() + " is " + (test.getStatus()==Status.Red)); i++;
-		test.Input(Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.Green)); i++;
+		test.Input(Logic.Befehl.DoRed); System.out.println(i + ". "+test.getStatus() + " is " + (test.getStatus()==Logic.Status.Red)); i++;
+		test.Input(Logic.Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Green)); i++;
 		
 		/*
 		 * - Compiliert 
@@ -56,61 +52,61 @@ public class Logic_Test {
 		 * 
 		 * */
 		test.BabySteps(1 ,false); 	
-		//test.setCompileErrors(false);
-		//test.setTestFehlschlag(false);
+		test.setCompileErrors(false);
+		test.setTestFehlschlag(false);
 		
 		
-		test.Input(Befehl.DoRefactoring); System.out.println(i + ". "+test.getStatus() + " is " + (test.getStatus()==Status.Refactoring)); i++;
-		test.Input(Befehl.DoGreen); System.out.println(i + ". "+test.getStatus() + " is " + (test.getStatus()==Status.Refactoring)); i++;
-		test.Input(Befehl.DoRefactoring); System.out.println(i + ". "+test.getStatus() + " is " + (test.getStatus()==Status.Refactoring)); i++;
-		test.setStatus(Status.Red); System.out.println(i + ". " + test.getStatus() + " is " + (test.getStatus()==Status.Red)); i++;
-		test.Input(Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.Red)); i++;
-		test.Input(Befehl.DoRefactoring); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.Red)); i++;
-		//test.setCompileErrors(true);
-		//test.setTestFehlschlag(true);
-		test.Input(Befehl.DoRefactoring); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.Red)); i++;
-		test.Input(Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.Green)); i++;
-		test.Input(Befehl.DoRefactoring); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.Green)); i++;
-		test.setStatus(Status.Red); System.out.println(i + ". " + test.getStatus() + " is " + (test.getStatus()==Status.Red)); i++;
+		test.Input(Logic.Befehl.DoRefactoring); System.out.println(i + ". "+test.getStatus() + " is " + (test.getStatus()==Logic.Status.Refactoring)); i++;
+		test.Input(Logic.Befehl.DoGreen); System.out.println(i + ". "+test.getStatus() + " is " + (test.getStatus()==Logic.Status.Refactoring)); i++;
+		test.Input(Logic.Befehl.DoRefactoring); System.out.println(i + ". "+test.getStatus() + " is " + (test.getStatus()==Logic.Status.Refactoring)); i++;
+		test.setStatus(Logic.Status.Red); System.out.println(i + ". " + test.getStatus() + " is " + (test.getStatus()==Logic.Status.Red)); i++;
+		test.Input(Logic.Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Red)); i++;
+		test.Input(Logic.Befehl.DoRefactoring); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Red)); i++;
+		test.setCompileErrors(true);
+		test.setTestFehlschlag(true);
+		test.Input(Logic.Befehl.DoRefactoring); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Red)); i++;
+		test.Input(Logic.Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Green)); i++;
+		test.Input(Logic.Befehl.DoRefactoring); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Green)); i++;
+		test.setStatus(Logic.Status.Red); System.out.println(i + ". " + test.getStatus() + " is " + (test.getStatus()==Logic.Status.Red)); i++;
 		
 		
 		/************* BABY STEPS ***********************/
 
 		test.BabySteps(1 ,true); 
 		
-		//test.setCompileErrors(false);
-		//test.setTestFehlschlag(true);
+		test.setCompileErrors(false);
+		test.setTestFehlschlag(true);
 		
-		test.Input(Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.Green)); i++;
+		test.Input(Logic.Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Green)); i++;
 		
-		test.Input(Befehl.DoRed); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.BabyRed)); i++;
+		test.Input(Logic.Befehl.DoRed); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.BabyRed)); i++;
 		
-		//test.setCompileErrors(true);
-		//test.setTestFehlschlag(false);
+		test.setCompileErrors(true);
+		test.setTestFehlschlag(false);
 		
-		test.Input(Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.Green)); i++;
+		test.Input(Logic.Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Green)); i++;
 		
-		test.Input(Befehl.DoRed); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.BabyRed)); i++;
+		test.Input(Logic.Befehl.DoRed); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.BabyRed)); i++;
 		
-		test.Input(Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.Green)); i++;
+		test.Input(Logic.Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Green)); i++;
 		
-		//test.setCompileErrors(true);
-		//test.setTestFehlschlag(true);
-		
-		
-		test.Input(Befehl.DoRed); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.BabyRed)); i++;
-		
-		test.Input(Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.Green)); i++;
-		
-		//test.setCompileErrors(false);
-		//test.setTestFehlschlag(false);
+		test.setCompileErrors(true);
+		test.setTestFehlschlag(true);
 		
 		
-		test.Input(Befehl.DoRed); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.Red)); i++;
-		test.Input(Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.BabyGreen)); i++;
+		test.Input(Logic.Befehl.DoRed); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.BabyRed)); i++;
 		
-		test.Input(Befehl.DoRefactoring); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.Refactoring)); i++;
-		test.Input(Befehl.DoRed); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Status.Red)); i++;
+		test.Input(Logic.Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Green)); i++;
+		
+		test.setCompileErrors(false);
+		test.setTestFehlschlag(false);
+		
+		
+		test.Input(Logic.Befehl.DoRed); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Red)); i++;
+		test.Input(Logic.Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.BabyGreen)); i++;
+		
+		test.Input(Logic.Befehl.DoRefactoring); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Refactoring)); i++;
+		test.Input(Logic.Befehl.DoRed); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Red)); i++;
 		
 }		
 	
