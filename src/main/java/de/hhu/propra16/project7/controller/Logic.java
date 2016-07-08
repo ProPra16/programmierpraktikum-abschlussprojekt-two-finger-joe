@@ -41,7 +41,7 @@ public class Logic {
 		
 	}
 	
-	public void Input(Befehl befehl, String classname, String eingabe){
+	public void Input(Befehl befehl, String classname, String eingabe, String title){
 		boolean CompilerWorks = CompileErrors(classname,eingabe);
 		boolean TestFehlschlag = TestFehlschlag(classname, eingabe); 
 				
@@ -51,17 +51,17 @@ public class Logic {
 			setStatus(Status.Red);
 			} */
 		
-		if(status==Status.Red||status==Status.BabyRed)  Red( befehl,  CompilerWorks,  TestFehlschlag, status, classname, eingabe);
-		if(status==Status.Green||status==Status.BabyGreen)  Green( befehl,  CompilerWorks,   TestFehlschlag, status, classname, eingabe);
+		if(status==Status.Red||status==Status.BabyRed)  Red( befehl,  CompilerWorks,  TestFehlschlag, status, classname, eingabe, title);
+		if(status==Status.Green||status==Status.BabyGreen)  Green( befehl,  CompilerWorks,   TestFehlschlag, status, classname, eingabe, title);
 		if(status==Status.Refactoring)  Refactoring( befehl,  CompilerWorks,  TestFehlschlag, classname, eingabe);
 		
 		return;
 	}
 	
 	public void Red(Befehl befehl, boolean CompilerWorks, 
-						boolean TestFehlschlag, Status status, String classname, String eingabe){
+						boolean TestFehlschlag, Status status, String classname, String eingabe, String title){
 		
-		if(getBabyBoolean()==true){StartTimer(getStatus());return;}
+		if(getBabyBoolean()==true){StartTimer(getStatus(), classname, eingabe, title);return;}
 		if(befehl==Befehl.DoGreen && (CompilerWorks==false||TestFehlschlag==true)){	
 			{	setStatus(Status.Green); 
 				opener.open(getStatus(), classname);
@@ -74,9 +74,9 @@ public class Logic {
 	} 
 	
 	public void Green(Befehl befehl, boolean CompilerWorks,
-							boolean TestFehlschlag,  Status status, String classname, String eingabe){
+							boolean TestFehlschlag,  Status status, String classname, String eingabe, String title){
 		if(getBabyBoolean()==true&&befehl!=Befehl.DoRefactoring){
-			StartTimer(getStatus());
+			StartTimer(getStatus(), classname,eingabe,title);
 			return;
 		} 
 		if(befehl==Befehl.DoRed){ 
@@ -188,11 +188,11 @@ public class Logic {
 		return ItWorks;
 	}*/
 	
-	public void StartTimer(Status status ){
+	public void StartTimer(Status status , String classname, String eingabe, String title){
 
 		int Minuten = getMinute();
 		long Vergleich = ConvertSeconds(Minuten);
-		 Stoppuhrstarte(status, Vergleich);
+		 Stoppuhrstarte(status, Vergleich, classname, eingabe, title);
 	}
 	
 	public long ConvertSeconds(int Minuten){
@@ -200,7 +200,7 @@ public class Logic {
 	return Vergleich;
 	}
 	
-	void Stoppuhrstarte(Status status, Long Vergleich)
+	void Stoppuhrstarte(Status status, Long Vergleich, String classname, String eingabe, String title)
 	{ 
 		
 		seconds = 0;
@@ -208,28 +208,25 @@ public class Logic {
 		
 		try {
 		while(seconds<=Vergleich){
-			
-		
-			
 			 Thread.sleep(1000); seconds++;}
 		
 		
-		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors("Name","classContent")==true || TestFehlschlag("Name","classContent")==true))
+		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors(classname,eingabe)==true || TestFehlschlag("Name","classContent")==true))
 				{setStatus(Status.BabyRed); 
-				Delete(getStatus());
+				Delete(getStatus(), title);
 				return;}
 		
-		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors("Name","classContent")==false && TestFehlschlag("Name","classContent")==false))
+		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors(classname,eingabe)==false && TestFehlschlag("Name","classContent")==false))
 				{setStatus(Status.Red); 
 				return;}
 		
 
-		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors("Name","classContent")==false && TestFehlschlag("Name","classContent")==false))
+		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors(classname,eingabe)==false && TestFehlschlag("Name","classContent")==false))
 				{setStatus(Status.BabyGreen); 
-				Delete(getStatus());		
+				Delete(getStatus(), title);		
 				return;}	
 		
-		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors("Name","classContent")==true || TestFehlschlag("Name","classContent")==true))
+		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors(classname,eingabe)==true || TestFehlschlag("Name","classContent")==true))
 				{setStatus(Status.Green); 
 				return;}	
 		
