@@ -25,7 +25,7 @@ public class Logic_Test {
 		 * - Tests schlagen fehl
 		 * - BabySteps ist aus 
 		 * 
-		 * */
+		 * 
 		
 		
 		Logic test = new Logic();
@@ -50,7 +50,7 @@ public class Logic_Test {
 		 * - Tests funktionieren
 		 * - BabySteps ist aus 
 		 * 
-		 * */
+		 * *//*
 		test.BabySteps(1 ,false); 	
 		test.setCompileErrors(false);
 		test.setTestFehlschlag(false);
@@ -68,10 +68,10 @@ public class Logic_Test {
 		test.Input(Logic.Befehl.DoGreen); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Green)); i++;
 		test.Input(Logic.Befehl.DoRefactoring); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Green)); i++;
 		test.setStatus(Logic.Status.Red); System.out.println(i + ". " + test.getStatus() + " is " + (test.getStatus()==Logic.Status.Red)); i++;
-		
+		*/
 		
 		/************* BABY STEPS ***********************/
-
+		/*
 		test.BabySteps(1 ,true); 
 		
 		test.setCompileErrors(false);
@@ -107,7 +107,7 @@ public class Logic_Test {
 		
 		test.Input(Logic.Befehl.DoRefactoring); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Refactoring)); i++;
 		test.Input(Logic.Befehl.DoRed); System.out.println(i + ". " +test.getStatus() + " is " + (test.getStatus()==Logic.Status.Red)); i++;
-		
+		*/
 }		
 	
 
