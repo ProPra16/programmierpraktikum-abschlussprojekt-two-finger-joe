@@ -2,33 +2,32 @@ package de.hhu.propra16.project7.fileinteraction;
 
 import java.io.*;
 
+import de.hhu.propra16.project7.catalogue.Project;
 import de.hhu.propra16.project7.controller.Status;
 
-public class Delete {
+public class Delete{
 	
-
-	
-	public static void delete(Status status) {
+	public static void delete(Status status, String title) {
 		
 	if(status==Status.BabyRed){        
-		DeleteTest(); }
+		DeleteTest(title); }
 	
 	if(status==Status.BabyGreen){        
-		DeleteCode(); }
+		DeleteCode(title); }
 		
 	}
 		
 
-	public static void DeleteCode(){
+	public static void DeleteCode(String title){
 		bin(System.getProperty("user.dir") + "/de/hhu/propra16/fileinteraction/projects/code.java");
-		ReplaceCode();
+		ReplaceCode(title);
 		
 	}
 	
 	
-	public static void DeleteTest(){
+	public static void DeleteTest(String title){
 		bin(System.getProperty("user.dir") + "/de/hhu/propra16/fileinteraction/projects/test.java");
-		ReplaceTest();
+		ReplaceTest(title);
 	}
 	
 	public static void bin(String Path) {
@@ -38,16 +37,14 @@ public class Delete {
         }
     }
 	
-	public static void ReplaceCode() {
-  
-		//get last backup
-		
-    }
+	public static void ReplaceCode(String title) {
+		Project project = new Project(title);
+		project.getInstructions();
+	}
 	
-	public static void ReplaceTest() {
-		
-		//get last backup
-		  
+	public static void ReplaceTest(String title) {
+		Project project = new Project(title);
+		project.getTestTemplates();		  
     }
 	
 }
