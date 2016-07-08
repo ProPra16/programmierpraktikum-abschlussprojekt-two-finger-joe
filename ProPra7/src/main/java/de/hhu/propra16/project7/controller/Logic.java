@@ -30,6 +30,10 @@ public class Logic {
 		
 	}*/
 	
+	public Logic(){
+		
+	}
+	
 	public void Input(Befehl befehl){
 		boolean CompilerWorks = CompileErrors("Name","classContent");
 		boolean TestFehlschlag = TestFehlschlag("className", "classContent"); 
