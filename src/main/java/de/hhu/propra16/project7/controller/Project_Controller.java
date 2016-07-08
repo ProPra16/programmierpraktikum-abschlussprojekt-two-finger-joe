@@ -50,7 +50,7 @@ public class Project_Controller
 	@FXML
 	private void handleTestButtonAction(ActionEvent event) 
 	{
-		projectLogic.Input(Befehl.DoRed, classname, eingabe);
+	Input(Befehl.DoRed, classname, eingabe);
 		currStatus = projectLogic.getStatus().ordinal();
 		statusLight.setFill(status[currStatus]);
 		statusAnweisung.setText(statusAnw[currStatus]);
@@ -59,7 +59,7 @@ public class Project_Controller
 	@FXML
 	private void handleCodeButtonAction(ActionEvent event) 
 	{
-		projectLogic.Input(Befehl.DoGreen);
+		projectLogic.Input(Befehl.DoGreen, classname, eingabe);
 		currStatus = projectLogic.getStatus().ordinal();
 		statusLight.setFill(status[currStatus]);
 		statusAnweisung.setText(statusAnw[currStatus]);
@@ -68,7 +68,7 @@ public class Project_Controller
 	@FXML
 	private void handleRefractoringButtonAction(ActionEvent event)
 	{
-		projectLogic.Input(Befehl.DoRefactoring);
+		projectLogic.Input(Befehl.DoRefactoring, classname, eingabe);
 		currStatus = projectLogic.getStatus().ordinal();
 		statusLight.setFill(status[currStatus]);
 		statusAnweisung.setText(statusAnw[currStatus]);
