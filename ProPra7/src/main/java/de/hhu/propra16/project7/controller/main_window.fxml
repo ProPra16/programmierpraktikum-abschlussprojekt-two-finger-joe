@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <?language JavaScript?>
+
+  <?import javafx.scene.control.*?>
+  <?import javafx.scene.layout.*?>
+  <?import javafx.geometry.*?>
+  <?import javafx.scene.text.*?>
+
+  <VBox fx:controller="de.hhu.propra16.project7.controller.Main_Controller" xmlns:fx="http://javafx.com/fxml" prefWidth="640" prefHeight="480">
+
+    <HBox prefWidth="640" minHeight="10" prefHeight="10">
+    </HBox>
+
+    <HBox prefWidth="640" prefHeight="460">
+
+      <VBox minWidth="20" prefWidth="20" prefHeight="460">
+      </VBox>
+
+      <VBox spacing="10" prefWidth="260" prefHeight="460">
+        <children>
+          <VBox prefWidth="260" prefHeight="20" alignment="CENTER">
+            <Text text="Übungen" textAlignment="CENTER">
+              <font>
+                <Font name="Arial Black" size="20"/>
+              </font>
+            </Text>
+          </VBox>
+          <VBox prefWidth="260" prefHeight="420" alignment="CENTER">
+            <ListView fx:id="projects" prefWidth="260" prefHeight="420">
+            </ListView>
+          </VBox>
+        </children>
+      </VBox>
+
+      <VBox prefWidth="40" prefHeight="460">
+      </VBox>
+
+      <VBox spacing="10" prefWidth="300" prefHeight="460">
+        <children>
+          <VBox prefWidth="300" prefHeight="20" alignment="CENTER">
+            <Text text="Ziele der Übung" textAlignment="CENTER">
+              <font>
+                <Font name="Arial Black" size="20"/>
+              </font>
+            </Text>
+          </VBox>
+          <VBox>
+            <TextArea fx:id="goals" prefWidth="300" prefHeight="420">
+            </TextArea>
+          </VBox>
+        </children>
+      </VBox>
+
+      <VBox minWidth="20" prefWidth="20" prefHeight="460">
+      </VBox>
+
+    </HBox>
+
+    <VBox prefWidth="640" prefHeight="80">
+      <HBox spacing="20" prefHeight="80" alignment="CENTER">
+        <Button fx:id="startButton" mnemonicParsing="false" onAction="#handleAktButtonAction" text="Aktualisieren" alignment="CENTER" textAlignment="CENTER"/>
+        <Button fx:id="startButton" mnemonicParsing="false" onAction="#handleStartButtonAction" text="Start" alignment="CENTER" textAlignment="CENTER"/>
+      </HBox>
+    </VBox>
+
+  </VBox>
