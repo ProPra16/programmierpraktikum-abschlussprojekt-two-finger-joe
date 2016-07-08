@@ -221,14 +221,14 @@ public class Logic {
 			 Thread.sleep(1000); seconds++;}
 		
 		
-		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors()==true || TestFehlschlag()==true)){setStatus(Status.BabyRed); return;}
+		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors("Name","classContent")==true || TestFehlschlag("Name","classContent")==true)){setStatus(Status.BabyRed); return;}
 		
-		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors()==false && TestFehlschlag()==false)){setStatus(Status.Red); return;}
+		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors("Name","classContent")==false && TestFehlschlag("Name","classContent")==false)){setStatus(Status.Red); return;}
 		
 
-		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors()==false && TestFehlschlag()==false)){setStatus(Status.BabyGreen); return;}	
+		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors("Name","classContent")==false && TestFehlschlag("Name","classContent")==false)){setStatus(Status.BabyGreen); return;}	
 		
-		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors()==true || TestFehlschlag()==true)){setStatus(Status.Green); return;}	
+		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors("Name","classContent")==true || TestFehlschlag("Name","classContent")==true)){setStatus(Status.Green); return;}	
 		
 		
 		
