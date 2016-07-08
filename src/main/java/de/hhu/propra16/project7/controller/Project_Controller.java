@@ -53,6 +53,7 @@ public class Project_Controller
 	@FXML
 	private void handleTestButtonAction(ActionEvent event) 
 	{
+		//TODO: String classname & eingabe muss übergeben werden. Eingabe im Fenster?
 		Input(Befehl.DoRed, classname, eingabe);
 		currStatus = projectLogic.getStatus().ordinal();
 		statusLight.setFill(status[currStatus]);
@@ -62,6 +63,8 @@ public class Project_Controller
 	@FXML
 	private void handleCodeButtonAction(ActionEvent event) 
 	{
+		//TODO: String classname & eingabe muss übergeben werden. Eingabe im Fenster?
+		
 		projectLogic.Input(Befehl.DoGreen, classname, eingabe);
 		currStatus = projectLogic.getStatus().ordinal();
 		statusLight.setFill(status[currStatus]);
@@ -71,6 +74,8 @@ public class Project_Controller
 	@FXML
 	private void handleRefractoringButtonAction(ActionEvent event)
 	{
+		//TODO: String classname & eingabe muss übergeben werden. Eingabe im Fenster?
+		
 		projectLogic.Input(Befehl.DoRefactoring, classname, eingabe);
 		currStatus = projectLogic.getStatus().ordinal();
 		statusLight.setFill(status[currStatus]);
