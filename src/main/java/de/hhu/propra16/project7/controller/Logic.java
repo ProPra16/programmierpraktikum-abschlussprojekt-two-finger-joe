@@ -4,6 +4,9 @@
 
 package de.hhu.propra16.project7.controller;
 
+import java.io.IOException;
+
+import de.hhu.propra16.project7.catalogue.Project;
 import de.hhu.propra16.project7.controller.Status;
 import vk.core.api.CompilationUnit;
 import vk.core.api.CompilerFactory;
@@ -23,6 +26,8 @@ public class Logic {
 	
 	int seconds;
 	
+	Project aktProject;
+	
 	Opener opener;
 	Saver saver;
 
@@ -33,15 +38,17 @@ public class Logic {
 		
 	}*/
 	
-	public Logic(){
+	public Logic(String title){
 		
-		opener = new Opener();
-		saver = new Saver();
+		opener = new Opener(title);
+		saver = new Saver(title);
+		aktProject = new Project(title);
+		
 
 		
 	}
 	
-	public void Input(Befehl befehl, String classname, String eingabe, String title){
+	public void Input(Befehl befehl, String classname, String eingabe, String title) throws IOException{
 		boolean CompilerWorks = CompileErrors(classname,eingabe);
 		boolean TestFehlschlag = TestFehlschlag(classname, eingabe); 
 				
@@ -59,7 +66,7 @@ public class Logic {
 	}
 	
 	public void Red(Befehl befehl, boolean CompilerWorks, 
-						boolean TestFehlschlag, Status status, String classname, String eingabe, String title){
+						boolean TestFehlschlag, Status status, String classname, String eingabe, String title) throws IOException{
 		
 		if(getBabyBoolean()==true){StartTimer(getStatus(), classname, eingabe, title);return;}
 		if(befehl==Befehl.DoGreen && (CompilerWorks==false||TestFehlschlag==true)){	
@@ -74,7 +81,7 @@ public class Logic {
 	} 
 	
 	public void Green(Befehl befehl, boolean CompilerWorks,
-							boolean TestFehlschlag,  Status status, String classname, String eingabe, String title){
+							boolean TestFehlschlag,  Status status, String classname, String eingabe, String title) throws IOException{
 		if(getBabyBoolean()==true&&befehl!=Befehl.DoRefactoring){
 			StartTimer(getStatus(), classname,eingabe,title);
 			return;
@@ -88,19 +95,19 @@ public class Logic {
 			return;}
 		if(befehl==Befehl.DoRefactoring && CompilerWorks==true && TestFehlschlag == false){ 
 			setStatus(Status.Refactoring);
-			opener.open(getStatus(), String classname);
-			saver.save(getStatus(), String eingabe);	
+			opener.open(getStatus(), classname);
+			saver.save(getStatus(), eingabe);	
 			return;}
 		return;		
 	}
 	
 	public void Refactoring(Befehl befehl, boolean CompilerWorks, 
-								boolean TestFehlschlag, String classname, String eingabe){
+								boolean TestFehlschlag, String classname, String eingabe) throws IOException{
 			if(befehl==Befehl.DoRed && CompilerWorks==true && TestFehlschlag == false){ 
 				
 				setStatus(Status.Red); 
-				opener.open(getStatus(), String classname);
-				saver.save(getStatus(), String eingabe):
+				opener.open(getStatus(), classname);
+				saver.save(getStatus(), eingabe);
 				return;}
 
 			
@@ -213,7 +220,7 @@ public class Logic {
 		
 		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors(classname,eingabe)==true || TestFehlschlag("Name","classContent")==true))
 				{setStatus(Status.BabyRed); 
-				Delete(getStatus(), title);
+				Delete.delete(getStatus(), title);
 				return;}
 		
 		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors(classname,eingabe)==false && TestFehlschlag("Name","classContent")==false))
@@ -223,7 +230,7 @@ public class Logic {
 
 		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors(classname,eingabe)==false && TestFehlschlag("Name","classContent")==false))
 				{setStatus(Status.BabyGreen); 
-				Delete(getStatus(), title);		
+				Delete.delete(getStatus(), title);		
 				return;}	
 		
 		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors(classname,eingabe)==true || TestFehlschlag("Name","classContent")==true))
