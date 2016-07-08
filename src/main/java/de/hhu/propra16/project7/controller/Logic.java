@@ -43,7 +43,7 @@ public class Logic {
 		aktProject = new Project(title);		
 	}
 	
-	public void Input(Befehl befehl, String classname, String eingabe, String title) throws IOException{
+	public void Input(Befehl befehl, String classname, String eingabe) throws IOException{
 		boolean CompilerWorks = CompileErrors(classname,eingabe);
 		boolean TestFehlschlag = TestFehlschlag(classname, eingabe); 
 				
@@ -53,17 +53,17 @@ public class Logic {
 			setStatus(Status.Red);
 			} */
 		
-		if(status==Status.Red||status==Status.BabyRed)  Red( befehl,  CompilerWorks,  TestFehlschlag, status, classname, eingabe, title);
-		if(status==Status.Green||status==Status.BabyGreen)  Green( befehl,  CompilerWorks,   TestFehlschlag, status, classname, eingabe, title);
+		if(status==Status.Red||status==Status.BabyRed)  Red( befehl,  CompilerWorks,  TestFehlschlag, status, classname, eingabe);
+		if(status==Status.Green||status==Status.BabyGreen)  Green( befehl,  CompilerWorks,   TestFehlschlag, status, classname, eingabe);
 		if(status==Status.Refactoring)  Refactoring( befehl,  CompilerWorks,  TestFehlschlag, classname, eingabe);
 		
 		return;
 	}
 	
 	public void Red(Befehl befehl, boolean CompilerWorks, 
-						boolean TestFehlschlag, Status status, String classname, String eingabe, String title) throws IOException{
+						boolean TestFehlschlag, Status status, String classname, String eingabe) throws IOException{
 		
-		if(getBabyBoolean()==true){StartTimer(getStatus(), classname, eingabe, title);return;}
+		if(getBabyBoolean()==true){StartTimer(getStatus(), classname, eingabe);return;}
 		if(befehl==Befehl.DoGreen && (CompilerWorks==false||TestFehlschlag==true)){	
 			{	setStatus(Status.Green); 
 				opener.open(getStatus(), classname);
@@ -76,9 +76,9 @@ public class Logic {
 	} 
 	
 	public void Green(Befehl befehl, boolean CompilerWorks,
-							boolean TestFehlschlag,  Status status, String classname, String eingabe, String title) throws IOException{
+							boolean TestFehlschlag,  Status status, String classname, String eingabe) throws IOException{
 		if(getBabyBoolean()==true&&befehl!=Befehl.DoRefactoring){
-			StartTimer(getStatus(), classname,eingabe,title);
+			StartTimer(getStatus(), classname,eingabe);
 			return;
 		} 
 		if(befehl==Befehl.DoRed){ 
@@ -190,11 +190,11 @@ public class Logic {
 		return ItWorks;
 	}*/
 	
-	public void StartTimer(Status status , String classname, String eingabe, String title){
+	public void StartTimer(Status status , String classname, String eingabe){
 
 		int Minuten = getMinute();
 		long Vergleich = ConvertSeconds(Minuten);
-		 Stoppuhrstarte(status, Vergleich, classname, eingabe, title);
+		 Stoppuhrstarte(status, Vergleich, classname, eingabe);
 	}
 	
 	public long ConvertSeconds(int Minuten){
@@ -202,7 +202,7 @@ public class Logic {
 	return Vergleich;
 	}
 	
-	void Stoppuhrstarte(Status status, Long Vergleich, String classname, String eingabe, String title)
+	void Stoppuhrstarte(Status status, Long Vergleich, String classname, String eingabe)
 	{ 
 		
 		seconds = 0;
@@ -215,7 +215,7 @@ public class Logic {
 		
 		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors(classname,eingabe)==true || TestFehlschlag("Name","classContent")==true))
 				{setStatus(Status.BabyRed); 
-				Delete.delete(getStatus(), title);
+				Delete.delete(getStatus(), aktProject.getTitle());
 				return;}
 		
 		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors(classname,eingabe)==false && TestFehlschlag("Name","classContent")==false))
@@ -225,7 +225,7 @@ public class Logic {
 
 		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors(classname,eingabe)==false && TestFehlschlag("Name","classContent")==false))
 				{setStatus(Status.BabyGreen); 
-				Delete.delete(getStatus(), title);		
+				Delete.delete(getStatus(), aktProject.getTitle());		
 				return;}	
 		
 		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors(classname,eingabe)==true || TestFehlschlag("Name","classContent")==true))
