@@ -33,6 +33,7 @@ public class Project_Controller
 	
 	
 	public Project_Controller(){
+		
 	}
 
 	public void initialize()
