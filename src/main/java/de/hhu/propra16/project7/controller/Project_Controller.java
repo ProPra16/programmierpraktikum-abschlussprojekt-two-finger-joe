@@ -29,7 +29,7 @@ public class Project_Controller
 	private String[] statusAnw = {"Einen fehlschlagenden Test schreiben","Code schreiben","Code optimieren"};
 
 	private int currStatus = 0;
-	private Logic projectLogic = new Logic();
+	private Logic projectLogic;
 	
 	
 	public Project_Controller(){
@@ -49,7 +49,7 @@ public class Project_Controller
 	@FXML
 	private void handleTestButtonAction(ActionEvent event) 
 	{
-		projectLogic.Input(Befehl.DoRed);
+		projectLogic.Input(Befehl.DoRed, classname, eingabe);
 		currStatus = projectLogic.getStatus().ordinal();
 		statusLight.setFill(status[currStatus]);
 		statusAnweisung.setText(statusAnw[currStatus]);
