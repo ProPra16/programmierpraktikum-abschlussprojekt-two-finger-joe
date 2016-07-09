@@ -1,0 +1,14 @@
+Treffen am Fr, 08.07.2016
+
+Anwesend: Thaís, Gareth, Florian, André
+
+Ergebnisse:
+
+  - Insgesamt:
+    - Die einzelnen Programmkomponenten müssen in der kommenden Woche vollständig zusammengefügt werden.
+    - Es wird nur noch im Development-Branch gearbeitet, da die groben Klassenstrukturen bereits existieren.
+    - Jeder Teil des Projektes wird jeweils von der dafür zuständigen Person für die Systembeschreibung dokumentiert.
+
+  - Thaís und Gareth haben die Logik-Klassen zum größten Teil fertiggestellt; es werden noch kleinere Verbesserungen erfolgen. Die File-Interaction-Datentypen müssen zu bestimmten Zeitpunkten aus der Logik-Klasse aufgerufen werden.
+  - Florian wird die Katalog- und Logik-Klassen mit seiner Benutzeroberfläche verbinden und die Benutzeroberfläche somit vollständig fertigstellen.
+  - André wird die Tracking-Klasse vervollständigen und ggf. die in den Open- und Save-Klassen enthaltenen Ordnerpfade ändern, um sie der Struktur des Development-Branch anzupassen.
