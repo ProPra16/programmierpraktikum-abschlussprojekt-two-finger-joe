@@ -18,6 +18,8 @@ import de.hhu.propra16.project7.controller.Status;
 public class Tracker {
 
 	private String project;
+	private Status laststatus;
+	private String lasterror;
 
 	// Saves the project name
 	public Tracker(String project) {
@@ -26,36 +28,46 @@ public class Tracker {
 
 	// Writes a new line in the log file every time the user decides to change the program's status
 	public void statusChanged(Status status) throws IOException {
+		if (laststatus != null && status == laststatus) {
+			return;
+		}
 		String change = getTime() + " - Status changed to ";
 		switch(status) {
 			case Red:
-				change += "Red (Babysteps OFF).";
+				change += "RED (Babysteps OFF).";
 				break;
 			case BabyRed:
-				change += "Red (Babysteps ON).";
+				change += "RED (Babysteps ON).";
 				break;
 			case Green:
-				change += "Green (Babysteps OFF).";
+				change += "GREEN (Babysteps OFF).";
 				break;
 			case BabyGreen:
-				change += "Green (Babysteps ON).";
+				change += "GREEN (Babysteps ON).";
 				break;
 			case Refactoring:
-				change += "Refactoring.";
+				change += "REFACTORING.";
 				break;
 		}
 		final List<String> content = new ArrayList<>();
 		content.add(change);
 		saveChanges(content);
 		newLine();
+		laststatus = status;
 	}
 
 	// Adds a compilation error message to the log file
 	public void compilationFailed(String error) throws IOException {
 		final List<String> message = new ArrayList<>();
+		if (lasterror != null && lasterror.equals(error)) {
+			message.add(getTime() + " - Compilation failed; same error message.");
+			saveChanges(message);
+			newLine();
+			return;
+		}
 		message.add(getTime() + " - Compilation failed:");
-		message.add("");
 		saveChanges(message);
+		newLine();
 		String[] lines = error.split("\n");
 		for (int i = 0; i < lines.length; i++) {
 			for (int j = 0; j < 23; j++) {
@@ -65,6 +77,7 @@ public class Tracker {
 		final List<String> content = Arrays.asList(lines);
 		saveChanges(content);
 		newLine();
+		lasterror = error;
 	}
 
 	// Returns the project name
