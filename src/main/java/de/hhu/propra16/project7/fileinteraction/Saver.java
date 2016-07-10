@@ -35,6 +35,11 @@ public class Saver {
 		}
 	}
 
+	// Returns the project name
+	public String getProjectName() {
+		return project;
+	}
+
 	// Gets the class name
 	private String getFileName(String eingabe) {
 		String[] words = eingabe.split(" ");
@@ -52,8 +57,8 @@ public class Saver {
 	private void saveTest(String eingabe) throws IOException {
 		if (getFileName(eingabe) != null) {
 			final List<String> output = Arrays.asList(eingabe.split("\n"));
-			createPath("/de/hhu/propra16/fileinteraction/projects/" + project);
-			String path = System.getProperty("user.dir") + "/de/hhu/propra16/fileinteraction/projects/" + project + "/" + getFileName(eingabe) + ".java";
+			createPath("/data/" + project);
+			String path = System.getProperty("user.dir") + "/data/" + project + "/" + getFileName(eingabe) + ".java";
 			final Path p = Paths.get(path);
 			Files.write(p, output);
 		}
@@ -63,8 +68,8 @@ public class Saver {
 	private void codeToTemp(String eingabe) throws IOException {
 		if (getFileName(eingabe) != null) {
 			final List<String> output = Arrays.asList(eingabe.split("\n"));
-			createPath("/de/hhu/propra16/fileinteraction/projects/" + project + "/temp");
-			String path = System.getProperty("user.dir") + "/de/hhu/propra16/fileinteraction/projects/" + project + "/temp/" + getFileName(eingabe) + ".java";
+			createPath("/data/" + project + "/temp");
+			String path = System.getProperty("user.dir") + "/data/" + project + "/temp/" + getFileName(eingabe) + ".java";
 			final Path p = Paths.get(path);
 			Files.write(p, output);
 		}
@@ -74,8 +79,8 @@ public class Saver {
 	private void tempToCode(String eingabe) throws IOException {
 		if (getFileName(eingabe) != null) {
 			final List<String> output = Arrays.asList(eingabe.split("\n"));
-			createPath("/de/hhu/propra16/fileinteraction/projects/" + project);
-			String path = System.getProperty("user.dir") + "/de/hhu/propra16/fileinteraction/projects/" + project + "/" + getFileName(eingabe) + ".java";
+			createPath("/data/" + project);
+			String path = System.getProperty("user.dir") + "/data/" + project + "/" + getFileName(eingabe) + ".java";
 			final Path p = Paths.get(path);
 			Files.write(p, output);
 		}
