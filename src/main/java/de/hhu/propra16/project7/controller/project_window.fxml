@@ -31,11 +31,13 @@
 
       <HBox prefHeight="80" prefWidth="640">
         <HBox prefHeight="80.0" prefWidth="192.0" />
-        <HBox alignment="CENTER" prefHeight="80" prefWidth="733.0" spacing="20">
+          <Label fx:id="counter"/>
+	</HBox>
+        <HBox alignment="RIGHT" prefHeight="80" prefWidth="733.0" spacing="20">
           <Button fx:id="resetButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleTestButtonAction" prefWidth="100" text="Test" textAlignment="CENTER" />
           <Button fx:id="backButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleCodeButtonAction" prefWidth="100" text="Code" textAlignment="CENTER" />
           <Button fx:id="weiterButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleRefractoringButtonAction" prefWidth="100" text="Refractoring" textAlignment="CENTER" />
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleBackButtonAction" prefWidth="100" text="Zurück" textAlignment="CENTER" />
+          <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleBackButtonAction" prefWidth="100" text="Zurück" textAlignment="CENTER" />
         </HBox>
       </HBox>
 

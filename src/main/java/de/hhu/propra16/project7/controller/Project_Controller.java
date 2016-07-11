@@ -27,6 +27,9 @@ public class Project_Controller
 	@FXML
 	private Text statusAnweisung;
 
+	@FXML
+	private Text counter;
+
 	private Status currStatus;
 	private Project project;
 	private Logic projectLogic;
@@ -35,7 +38,7 @@ public class Project_Controller
 	{
 		this.currStatus = currStatus;
 		this.project = project;
-		projectLogic = new Logic(project.getTitle());
+		projectLogic = new Logic(project.getTitle(),counter);
 	}
 
 	public void initialize()
