@@ -1,7 +1,5 @@
 //import BabySteps.Status;
 
-/* Erste Skizze der Logik Architektur*/
-
 package de.hhu.propra16.project7.controller;
 
 import java.io.IOException;
@@ -215,7 +213,7 @@ public class Logic {
 		
 		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors(classname,eingabe)==true || TestFehlschlag("Name","classContent")==true))
 				{setStatus(Status.BabyRed); 
-				Delete.delete(getStatus(), aktProject.getTitle());
+				Delete.delete(getStatus(), aktProject.getTitle(), classname);
 				return;}
 		
 		if((getStatus()==Status.Green||getStatus()==Status.Green) && (CompileErrors(classname,eingabe)==false && TestFehlschlag("Name","classContent")==false))
@@ -225,7 +223,7 @@ public class Logic {
 
 		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors(classname,eingabe)==false && TestFehlschlag("Name","classContent")==false))
 				{setStatus(Status.BabyGreen); 
-				Delete.delete(getStatus(), aktProject.getTitle());		
+				Delete.delete(getStatus(), aktProject.getTitle(), classname);		
 				return;}	
 		
 		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) && (CompileErrors(classname,eingabe)==true || TestFehlschlag("Name","classContent")==true))
