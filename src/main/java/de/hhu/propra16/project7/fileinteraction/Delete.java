@@ -8,25 +8,25 @@ import de.hhu.propra16.project7.controller.Status;
 
 public class Delete {
 	
-	public static void delete(Status status, String title) {
+	public static void delete(Status status, String title, String classname) {
 		
 	if(status==Status.BabyRed){        
-		DeleteTest(title); }
+		DeleteTest(title, classname); }
 	
 	if(status==Status.BabyGreen){        
-		DeleteCode(title); }
+		DeleteCode(title, classname); }
 		
 	}
 		
 
-	public static void DeleteCode(String title){
+	public static void DeleteCode(String title, String classname){
 		bin(System.getProperty("user.dir") + "/de/hhu/propra16/fileinteraction/projects/code.java");
 		ReplaceCode(title);
 		
 	}
 	
 	
-	public static void DeleteTest(String title){
+	public static void DeleteTest(String title, String classname){
 		bin(System.getProperty("user.dir") + "/de/hhu/propra16/fileinteraction/projects/test.java");
 		ReplaceTest(title);
 	}
