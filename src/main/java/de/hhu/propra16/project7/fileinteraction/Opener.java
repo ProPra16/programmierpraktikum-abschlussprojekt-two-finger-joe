@@ -19,16 +19,21 @@ public class Opener {
 		this.project = project;
 	}
 
-	// Returns the content of the test file if status is 0
-	// Returns the content of the temp file if status is 1
+	// Returns the content of the .java files (based on the user's status)
 	// Returns null if the file doesn't exist
 	// Lines are separated by \n
 	public String open(Status status, String classname) throws IOException {
 		switch (status) {
 			case Red:
-				return readTest(classname);
+				return readFromFile("/data/" + project + "/test/" + classname);
+			case BabyRed:
+				return readFromFile("/data/" + project + "/babysteps/test/" + classname);
 			case Green:
-				return readTempCode(classname);
+				return readFromFile("/data/" + project + "/temp/" + classname);
+			case BabyGreen:
+				return readFromFile("/data/" + project + "/babysteps/temp/" + classname);
+			case Refactoring:
+				return readFromFile("/data/" + project + "/code/" + classname);
 		}
 		return null;
 	}
@@ -38,22 +43,9 @@ public class Opener {
 		return project;
 	}
 
-	// Reads the test file's content
-	private String readTest(String classname) throws IOException {
-		String path = System.getProperty("user.dir") + "/data/" + project + "/" + classname + ".java";
-		final Path p = Paths.get(path);
-		if (!fileExists(p)) return null;
-		final List<String> code = Files.readAllLines(p);
-		String content = "";
-		for (String line : code) {
-			content += line + "\n";
-		}
-		return content;
-	}
-
-	// Reads the temp file's content
-	private String readTempCode(String classname) throws IOException {
-		String path = System.getProperty("user.dir") + "/data/" + project + "/temp/" + classname + ".java";
+	// Reads content from file
+	private String readFromFile(String filepath) throws IOException {
+		String path = System.getProperty("user.dir") + filepath + ".java";
 		final Path p = Paths.get(path);
 		if (!fileExists(p)) return null;
 		final List<String> code = Files.readAllLines(p);

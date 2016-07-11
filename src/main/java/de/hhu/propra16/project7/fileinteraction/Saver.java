@@ -24,13 +24,19 @@ public class Saver {
 	public void save(Status status, String eingabe) throws IOException {
 		switch (status) {
 			case Red:
-				saveTest(eingabe);
+				saveFile(eingabe, "/data/" + project + "/test/");
+				break;
+			case BabyRed:
+				saveFile(eingabe, "/data/" + project + "/babysteps/test/");
 				break;
 			case Green:
-				codeToTemp(eingabe);
+				saveFile(eingabe, "/data/" + project + "/temp/");
+				break;
+			case BabyGreen:
+				saveFile(eingabe, "/data/" + project + "/babysteps/temp/");
 				break;
 			case Refactoring:
-				tempToCode(eingabe);
+				saveFile(eingabe, "/data/" + project + "/code/");
 				break;
 		}
 	}
@@ -53,34 +59,12 @@ public class Saver {
 		return null;
 	}
 
-	// Saves the user's test code
-	private void saveTest(String eingabe) throws IOException {
+	// Saves the input
+	private void saveFile(String eingabe, String filepath) throws IOException {
 		if (getFileName(eingabe) != null) {
 			final List<String> output = Arrays.asList(eingabe.split("\n"));
-			createPath("/data/" + project);
-			String path = System.getProperty("user.dir") + "/data/" + project + "/" + getFileName(eingabe) + ".java";
-			final Path p = Paths.get(path);
-			Files.write(p, output);
-		}
-	}
-
-	// Replaces the temporary code with the actual code
-	private void codeToTemp(String eingabe) throws IOException {
-		if (getFileName(eingabe) != null) {
-			final List<String> output = Arrays.asList(eingabe.split("\n"));
-			createPath("/data/" + project + "/temp");
-			String path = System.getProperty("user.dir") + "/data/" + project + "/temp/" + getFileName(eingabe) + ".java";
-			final Path p = Paths.get(path);
-			Files.write(p, output);
-		}
-	}
-
-	// Replaces the actual code with the temporary code
-	private void tempToCode(String eingabe) throws IOException {
-		if (getFileName(eingabe) != null) {
-			final List<String> output = Arrays.asList(eingabe.split("\n"));
-			createPath("/data/" + project);
-			String path = System.getProperty("user.dir") + "/data/" + project + "/" + getFileName(eingabe) + ".java";
+			createPath(filepath);
+			String path = System.getProperty("user.dir") + filepath + getFileName(eingabe) + ".java";
 			final Path p = Paths.get(path);
 			Files.write(p, output);
 		}
