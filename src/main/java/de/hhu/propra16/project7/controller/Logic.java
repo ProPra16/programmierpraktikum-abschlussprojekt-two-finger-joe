@@ -11,6 +11,7 @@ import vk.core.api.CompilerFactory;
 import vk.core.api.CompilerResult;
 import vk.core.api.JavaStringCompiler;
 import vk.core.api.TestResult;
+import javafx.scene.text.*;
 
 import de.hhu.propra16.project7.fileinteraction.*;
 
@@ -21,7 +22,8 @@ public class Logic {
 	private boolean Baby;
 	//private boolean ItWorks;
 	private int Minuten;
-	
+	private Text counter;
+
 	int seconds;
 	
 	Opener opener;
@@ -35,10 +37,11 @@ public class Logic {
 		
 	}*/
 	
-	public Logic(String title){		
+	public Logic(String title,Text counter){		
 		opener = new Opener(title);
 		saver = new Saver(title);
-		aktProject = new Project(title);		
+		aktProject = new Project(title);
+		this.counter = counter;
 	}
 	
 	public void Input(Befehl befehl, String classname, String eingabe) throws IOException{
@@ -92,7 +95,7 @@ public class Logic {
 			saver.save(getStatus(), eingabe);	
 			return;}
 			
-		if(befehl==Befehl.DoRefactoring && getBabyBoolean()==true && (CompilerWorks==true || TestFehlschlag == true)){ 
+		if(befehl==Befehl.DoRefactoring && getBabyBoolean()==true && (CompileErrors==true || TestFehlschlag == true)){ 
 				Delete.delete(Status.BabyRed, aktProject.getTitle(), classname);
 				setStatus(Status.Red); return;}
 			
@@ -213,7 +216,7 @@ public class Logic {
 		
 		try {
 		while(seconds<=Vergleich){
-			 Thread.sleep(1000); seconds++;}
+			 Thread.sleep(1000); seconds++; counter.setText(String.valueOf(Vergleich-seconds));}
 		
 		
 		if((getStatus()==Status.Green||getStatus()==Status.Green)
