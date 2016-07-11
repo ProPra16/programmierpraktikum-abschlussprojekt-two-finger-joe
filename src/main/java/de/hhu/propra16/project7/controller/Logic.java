@@ -96,7 +96,7 @@ public class Logic {
 			return;}
 			
 		if(befehl==Befehl.DoRefactoring && getBabyBoolean()==true && (CompileErrors==true || TestFehlschlag == true)){ 
-				Delete.delete(Status.BabyRed, aktProject.getTitle(), classname);
+				Deleter.delete(Status.BabyRed, aktProject.getTitle(), classname);
 				setStatus(Status.Red); return;}
 			
 		return;		
@@ -204,7 +204,7 @@ public class Logic {
 	}
 	
 	public long ConvertSeconds(int Minuten){
-	long Vergleich  = Minuten/2;
+	long Vergleich  = Minuten*60;
 	return Vergleich;
 	}
 	
@@ -222,7 +222,7 @@ public class Logic {
 		if((getStatus()==Status.Green||getStatus()==Status.Green)
 				&& (CompileErrors(classname,eingabe)==true || TestFehlschlag("Name","classContent")==true))
 				{
-				Delete.delete(Status.BabyRed, aktProject.getTitle(), classname);
+				Deleter.delete(Status.BabyRed, aktProject.getTitle(), classname);
 				setStatus(Status.Red); 
 				return;}
 		
@@ -236,7 +236,7 @@ public class Logic {
 		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed)
 				&& (CompileErrors(classname,eingabe)==false && TestFehlschlag("Name","classContent")==false))
 				{
-				Delete.delete(Status.BabyGreen, aktProject.getTitle(), classname);
+				Deleter.delete(Status.BabyGreen, aktProject.getTitle(), classname);
 				setStatus(Status.Green); 
 				return;}	
 		
