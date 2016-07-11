@@ -1,3 +1,22 @@
 Klasse: Logic
 
+  Diese Klasse speichert den Status der Applikation [Red, Green, Refactoring] und prüft, ob ein Wechsel der einzelnen Phasen gültig ist.
+  Gespeichert wird der Status in [setStatus] und aufgerufen in [getStatus].
+  Erzeugt der User durch betätigen einer der Buttons [Test, Code, Refactoring] ein Signal, wird dieses in Input eingelesen und
+  anschließend geprüft.
+
+  So wird zuerst geschaut, in welcher Phase sich das Programm befindet. Befinden wir zum Beispiel in Red, gehen wir zu Red(...). 
+  Green zu Green(...) und Refactoring zu Refactoring(..).
+
+  Befehle werden als DoRed, DoGreen und DoRefactoring erkannt.
+
+  In diesen besagten Methoden wird der von dem User aufgerufen Wechsel (DoRed etc.) geprüft. Kompiliert der Code? Gibt es 
+  Testfehlschläge? Kann man von Status A zu Status B gelangen?
+
+  Sollten die Bedingungen erfüllen, wird ein Wechsel zugelassen und die neue Phase gespeichert.
+  In der Klasse Logik wird auch Babysteps verwaltet. Diese liest die Minutenzahl ein und ob es überhaupt aktiv sein darf. 
+  [BabySteps(int Minuten, boolean Baby )] Der User verbleibt solange im Status Green, oder Red, bis die eingestellte Zeit abgelaufen ist.
+  Sollten die Bedingungen nicht erfüllen, um einen Wechsel zu ermöglichen, speichert die Logik BabyGreen bzw BabyRed. Diese signalisieren
+  , das die jeweiligen Code-Dateien gelöscht werden sollen.
+
 Klasse: ...
