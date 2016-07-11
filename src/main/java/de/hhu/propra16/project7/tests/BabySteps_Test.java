@@ -1,8 +1,4 @@
-//import Logic.Status;
-
-//import Logic.Befehl;
-//import Logic.Status;
-
+package de.hhu.propra16.project7.tests;
 
 public class BabySteps_Test {
 	

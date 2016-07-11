@@ -92,7 +92,7 @@ public class Logic {
 			saver.save(getStatus(), eingabe);	
 			return;}
 			
-		if(befehl==Befehl.DoRefactoring && getBabyBoolean()==true && (CompileErrors==true || TestFehlschlag == true)){ 
+		if(befehl==Befehl.DoRefactoring && getBabyBoolean()==true && (CompilerWorks==true || TestFehlschlag == true)){ 
 				Delete.delete(Status.BabyRed, aktProject.getTitle(), classname);
 				setStatus(Status.Red); return;}
 			
