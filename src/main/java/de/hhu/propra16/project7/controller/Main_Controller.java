@@ -1,8 +1,9 @@
 package de.hhu.propra16.project7.controller;
 
+import de.hhu.propra16.project7.catalogue.*;
+
 import java.io.IOException;
 
-import de.hhu.propra16.project7.catalogue.Project;
 import javafx.beans.value.*;
 import javafx.collections.*;
 import javafx.fxml.*;
@@ -22,51 +23,44 @@ public class Main_Controller
 	@FXML
 	private TextArea goals;
 
-	// private ObservableList<KLASSE VON MARVIN> listViewData = FXCollections.observableArrayList();
-	private ObservableList<String> listViewData = FXCollections.observableArrayList();
+	@FXML
+	private ToggleGroup babyStepsToggleGrp,trackingToggleGrp;
 
-	// private Project aktProject;
-	private String aktProject;
+	@FXML
+	private Toggle babyStepsYes,babyStepsNo,trackingYes,trackingNo;
+
+	private ObservableList<String> listViewData = FXCollections.observableArrayList();
+	
+	private Project aktProject;
+
+	private Catalogue catalogue = new Catalogue();
 
 	public Main_Controller(){
-		
 	}
 
 	public void initialize()
 	{
-		// Wenn Main Fenster aufgerufen wird, fuellt die Methode die "projects" ListView
-		// fuelleProjects();
-		
-		listViewData.add("Heinz");
-		listViewData.add("Horst");
+		fillObservableList();
 
-		projects.setItems(listViewData);
-
-		// Registriert, wenn anderes Projekt angeklickt wird
-		// projects.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<KLASSE VON MARVIN>()
+		// Update aktProject and goals if another Project is clicked
 		projects.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
 		{
 			
-	public void changed(ObservableValue<? extends String> observable,
+			public void changed(ObservableValue<? extends String> observable,
 			String oldValue, String newValue)
 			{
-				goals.setText(newValue);
-				aktProject = newValue;
+				aktProject = findProject(newValue);
+				goals.setText(aktProject.getInstructions());
 			}
 		});
-	}
-	
-	public String getAktProject(){
-		return aktProject;
 	}
 
 	@FXML
 	private void handleAktButtonAction(ActionEvent event) throws IOException
 	{
-		// Leere die ViewList und fuelle sie dann mit den aktuellen Projekten der Datenbank
-		// löscheProjects();
-		// fuelleProjects();
-		// Bekomme Liste von Marvins Klasse
+		catalogue = new Catalogue();
+		listViewData.clear();
+		fillObservableList();
 	}
 
 	@FXML
@@ -75,11 +69,36 @@ public class Main_Controller
 		if( aktProject == null ) return;
 		// Wechselt in das nächste Fenster, wenn der Start Button geklickt wird
 		Stage stage = (Stage) startButton.getScene().getWindow();
-		Parent root = FXMLLoader.load(getClass().getResource("project_window.fxml"));
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("first.fxml"));
+		if( babyStepsToggleGrp.getSelectedToggle() == babyStepsYes )
+			fxmlloader.setController(new Project_Controller(Status.BabyRed,aktProject));
+		else
+			fxmlloader.setController(new Project_Controller(Status.Red,aktProject));
+		Parent root = fxmlloader.load();
 		Scene scene = new Scene(root, 640, 480);
 		stage.setScene(scene);
 		stage.setResizable(false);
-		stage.setTitle("TDDT");
+		stage.setTitle(aktProject.getTitle());
 		stage.show();
+	}
+
+	private Project findProject(String title)
+	{
+		Project project;
+		for( int i = 0 ; i < catalogue.getProjects().size() ; i++ )
+		{
+			project = catalogue.getProjects().get(i);
+			if( project.getTitle().equals(title) ) return project;
+		}
+		return null;
+	}
+
+	private void fillObservableList()
+	{
+		for( int i = 0 ; i < catalogue.getProjects().size() ; i++ )
+		{
+			listViewData.add(catalogue.getProjects().get(i).getTitle());
+		}
+		projects.setItems(listViewData);
 	}
 }

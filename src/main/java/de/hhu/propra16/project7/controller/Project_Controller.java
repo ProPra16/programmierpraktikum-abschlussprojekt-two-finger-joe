@@ -1,5 +1,7 @@
 package de.hhu.propra16.project7.controller;
 
+import de.hhu.propra16.project7.catalogue.*;
+
 import java.io.IOException;
 
 import javafx.fxml.*;
@@ -25,61 +27,59 @@ public class Project_Controller
 	@FXML
 	private Text statusAnweisung;
 
-	private Color[] status = {Color.RED,Color.GREEN,Color.BLACK};
-	private String[] statusAnw = {"Einen fehlschlagenden Test schreiben","Code schreiben","Code optimieren"};
-
-	private int currStatus = 0;
+	private Status currStatus;
+	private Project project;
 	private Logic projectLogic;
-	private Main_Controller mc;
 	
-	
-	public Project_Controller(){
-		mc = new Main_Controller();
-		projectLogic = new Logic(mc.getAktProject());
-		
+	public Project_Controller(Status currStatus,Project project)
+	{
+		this.currStatus = currStatus;
+		this.project = project;
+		projectLogic = new Logic(project.getTitle());
 	}
 
 	public void initialize()
 	{
-		statusLight.setFill(status[currStatus]);
-		statusAnweisung.setText(statusAnw[currStatus]);
-	}
-
-	@FXML
-	private void handleWeiterButtonAction(ActionEvent event) throws IOException
-	{
+		statusLight.setFill(Color.RED);
+		statusAnweisung.setText("Write Tests");
 	}
 	
 	@FXML
-	private void handleTestButtonAction(ActionEvent event) 
+	private void handleTestButtonAction(ActionEvent event) throws IOException 
 	{
-		//TODO: String classname & eingabe muss übergeben werden. Eingabe im Fenster?
-		Input(Befehl.DoRed, classname, eingabe);
-		currStatus = projectLogic.getStatus().ordinal();
-		statusLight.setFill(status[currStatus]);
-		statusAnweisung.setText(statusAnw[currStatus]);
+		projectLogic.Input(Befehl.DoRed, project.getTitle() + "_Code", currStatus.toString());
+		currStatus = projectLogic.getStatus();
+		if( currStatus == Status.Red || currStatus == Status.BabyRed )
+		{
+			codewindow.setText("");
+			statusLight.setFill(Color.RED);
+			statusAnweisung.setText("Write Test");
+		}
 	}
 	
 	@FXML
-	private void handleCodeButtonAction(ActionEvent event) 
+	private void handleCodeButtonAction(ActionEvent event) throws IOException 
 	{
-		//TODO: String classname & eingabe muss übergeben werden. Eingabe im Fenster?
-		
-		projectLogic.Input(Befehl.DoGreen, classname, eingabe);
-		currStatus = projectLogic.getStatus().ordinal();
-		statusLight.setFill(status[currStatus]);
-		statusAnweisung.setText(statusAnw[currStatus]);
+		projectLogic.Input(Befehl.DoGreen, project.getTitle() + "_Test", currStatus.toString());
+		currStatus = projectLogic.getStatus();
+		if( currStatus == Status.Green || currStatus == Status.BabyGreen )
+		{
+			codewindow.setText("");
+			statusLight.setFill(Color.GREEN);
+			statusAnweisung.setText("Write Code");
+		}
 	}
 	
 	@FXML
-	private void handleRefractoringButtonAction(ActionEvent event)
+	private void handleRefractoringButtonAction(ActionEvent event) throws IOException
 	{
-		//TODO: String classname & eingabe muss übergeben werden. Eingabe im Fenster?
-		
-		projectLogic.Input(Befehl.DoRefactoring, classname, eingabe);
-		currStatus = projectLogic.getStatus().ordinal();
-		statusLight.setFill(status[currStatus]);
-		statusAnweisung.setText(statusAnw[currStatus]);
+		projectLogic.Input(Befehl.DoRefactoring, project.getTitle() + "_Code", currStatus.toString());
+		currStatus = projectLogic.getStatus();
+		if( currStatus == Status.Refactoring )
+		{
+			statusLight.setFill(Color.BLACK);
+			statusAnweisung.setText("Refactoring");
+		}
 	}
 
 	@FXML

@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<HBox prefHeight="480" prefWidth="640" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hhu.propra16.project7.controller.Project_Controller">
+<HBox prefHeight="480" prefWidth="640" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
 
     <VBox prefHeight="480" prefWidth="40" />
 
