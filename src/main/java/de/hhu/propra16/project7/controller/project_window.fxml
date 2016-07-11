@@ -30,8 +30,8 @@
       </VBox>
 
       <HBox prefHeight="80" prefWidth="640">
-        <HBox prefHeight="80.0" prefWidth="192.0" />
-          <Label fx:id="counter"/>
+        <HBox prefHeight="80.0" prefWidth="192.0" >
+          <Text fx:id="counter"/>
 	</HBox>
         <HBox alignment="RIGHT" prefHeight="80" prefWidth="733.0" spacing="20">
           <Button fx:id="resetButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleTestButtonAction" prefWidth="100" text="Test" textAlignment="CENTER" />
