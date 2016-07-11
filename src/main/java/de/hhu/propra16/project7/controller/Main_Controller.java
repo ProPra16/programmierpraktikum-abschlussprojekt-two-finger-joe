@@ -2,6 +2,7 @@ package de.hhu.propra16.project7.controller;
 
 import de.hhu.propra16.project7.catalogue.*;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.beans.value.*;
@@ -35,11 +36,21 @@ public class Main_Controller
 
 	private Catalogue catalogue = new Catalogue();
 
+	private File file = new File("Catalogue.cfg");
+	
 	public Main_Controller(){
+		
 	}
 
 	public void initialize()
 	{
+		try {
+			catalogue = CatalogueReader.readFromFile(file);
+		} catch (ParseException e) {
+			System.out.println("Blöööödd");
+		}
+		
+		
 		fillObservableList();
 
 		// Update aktProject and goals if another Project is clicked
@@ -56,9 +67,8 @@ public class Main_Controller
 	}
 
 	@FXML
-	private void handleAktButtonAction(ActionEvent event) throws IOException
+	private void handleAktButtonAction(ActionEvent event) throws IOException, ParseException
 	{
-		catalogue = new Catalogue();
 		listViewData.clear();
 		fillObservableList();
 	}
