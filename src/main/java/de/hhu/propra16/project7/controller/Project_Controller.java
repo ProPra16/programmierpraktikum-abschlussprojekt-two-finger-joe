@@ -50,7 +50,7 @@ public class Project_Controller
 	@FXML
 	private void handleTestButtonAction(ActionEvent event) throws IOException 
 	{
-		projectLogic.Input(Befehl.DoRed, project.getTitle() + "_Code", currStatus.toString());
+		projectLogic.Input(Befehl.DoRed, project.getTestTemplates().toString(), currStatus.toString());
 		currStatus = projectLogic.getStatus();
 		if( currStatus == Status.Red || currStatus == Status.BabyRed )
 		{
@@ -63,7 +63,7 @@ public class Project_Controller
 	@FXML
 	private void handleCodeButtonAction(ActionEvent event) throws IOException 
 	{
-		projectLogic.Input(Befehl.DoGreen, project.getTitle() + "_Test", currStatus.toString());
+		projectLogic.Input(Befehl.DoGreen, project.getImplementationTemplates().toString(), currStatus.toString());
 		currStatus = projectLogic.getStatus();
 		if( currStatus == Status.Green || currStatus == Status.BabyGreen )
 		{
@@ -76,7 +76,7 @@ public class Project_Controller
 	@FXML
 	private void handleRefractoringButtonAction(ActionEvent event) throws IOException
 	{
-		projectLogic.Input(Befehl.DoRefactoring, project.getTitle() + "_Code", currStatus.toString());
+		projectLogic.Input(Befehl.DoRefactoring, project.getInstructions().toString(), currStatus.toString());
 		currStatus = projectLogic.getStatus();
 		if( currStatus == Status.Refactoring )
 		{

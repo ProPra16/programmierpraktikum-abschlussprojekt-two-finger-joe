@@ -28,6 +28,7 @@ public class Logic {
 	
 	Opener opener;
 	Saver saver;
+	Deleter deleter;
 	Project aktProject;
 
 	/*public static void main(String[] args){
@@ -41,6 +42,7 @@ public class Logic {
 		opener = new Opener(title);
 		saver = new Saver(title);
 		aktProject = new Project(title);
+		deleter = new Deleter(title);
 		this.counter = counter;
 	}
 	
@@ -95,8 +97,8 @@ public class Logic {
 			saver.save(getStatus(), eingabe);	
 			return;}
 			
-		if(befehl==Befehl.DoRefactoring && getBabyBoolean()==true && (CompileErrors==true || TestFehlschlag == true)){ 
-				Deleter.delete(Status.BabyRed, aktProject.getTitle(), classname);
+		if(befehl==Befehl.DoRefactoring && getBabyBoolean()==true && (CompilerWorks==true || TestFehlschlag == true)){ 
+				deleter.delete(Status.BabyRed, classname);
 				setStatus(Status.Red); return;}
 			
 		return;		
@@ -196,7 +198,7 @@ public class Logic {
 		return ItWorks;
 	}*/
 	
-	public void StartTimer(Status status , String classname, String eingabe){
+	public void StartTimer(Status status , String classname, String eingabe) throws IOException{
 
 		int Minuten = getMinute();
 		long Vergleich = ConvertSeconds(Minuten);
@@ -208,7 +210,7 @@ public class Logic {
 	return Vergleich;
 	}
 	
-	void Stoppuhrstarte(Status status, Long Vergleich, String classname, String eingabe)
+	void Stoppuhrstarte(Status status, Long Vergleich, String classname, String eingabe) throws IOException
 	{ 
 		
 		seconds = 0;
@@ -222,7 +224,7 @@ public class Logic {
 		if((getStatus()==Status.Green||getStatus()==Status.Green)
 				&& (CompileErrors(classname,eingabe)==true || TestFehlschlag("Name","classContent")==true))
 				{
-				Deleter.delete(Status.BabyRed, aktProject.getTitle(), classname);
+				deleter.delete(Status.BabyRed, classname);
 				setStatus(Status.Red); 
 				return;}
 		
@@ -236,7 +238,7 @@ public class Logic {
 		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed)
 				&& (CompileErrors(classname,eingabe)==false && TestFehlschlag("Name","classContent")==false))
 				{
-				Deleter.delete(Status.BabyGreen, aktProject.getTitle(), classname);
+				deleter.delete(Status.BabyGreen, classname);
 				setStatus(Status.Green); 
 				return;}	
 		
