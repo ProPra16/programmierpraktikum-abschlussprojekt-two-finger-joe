@@ -26,12 +26,13 @@ public class Logic {
 
 	int seconds;
 	
+	private int aufgaben;
+	
 	Opener opener;
 	Saver saver;
 	Deleter deleter;
 	Project aktProject;
-	boolean first;
-
+	
 	/*public static void main(String[] args){
 		
 		Logic test = new Logic();
@@ -45,13 +46,14 @@ public class Logic {
 		aktProject = new Project(title);
 		deleter = new Deleter(title);
 		this.counter = counter;
-		first = true;
+		aufgaben = 0;
+		
 	}
 	
-	public boolean getFirst(){
-		return first;
+	public int getAufgabe(){
+		return aufgaben;
 	}
-	
+
 	public void Input(Befehl befehl, String classname, String eingabe) throws IOException{
 		boolean CompilerWorks = CompileErrors(classname,eingabe);
 		boolean TestFehlschlag = TestFehlschlag(classname, eingabe); 
@@ -95,7 +97,7 @@ public class Logic {
 			setStatus(Status.Red); 
 			opener.open(getStatus(), classname);
 			saver.save(getStatus(), eingabe);
-			first = false;
+			aufgaben++;
 		return;}
 		if(befehl==Befehl.DoGreen){ 
 			return;}
@@ -119,7 +121,7 @@ public class Logic {
 				setStatus(Status.Red); 
 				opener.open(getStatus(), classname);
 				saver.save(getStatus(), eingabe);
-				first = false;
+				aufgaben++;
 				return;}
 
 			
