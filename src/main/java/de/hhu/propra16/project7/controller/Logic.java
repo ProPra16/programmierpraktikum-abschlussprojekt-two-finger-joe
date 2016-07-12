@@ -30,6 +30,7 @@ public class Logic {
 	Saver saver;
 	Deleter deleter;
 	Project aktProject;
+	boolean first;
 
 	/*public static void main(String[] args){
 		
@@ -44,6 +45,11 @@ public class Logic {
 		aktProject = new Project(title);
 		deleter = new Deleter(title);
 		this.counter = counter;
+		first = true;
+	}
+	
+	public boolean getFirst(){
+		return first;
 	}
 	
 	public void Input(Befehl befehl, String classname, String eingabe) throws IOException{
@@ -51,6 +57,7 @@ public class Logic {
 		boolean TestFehlschlag = TestFehlschlag(classname, eingabe); 
 				
 		Status status = getStatus();
+		
 		/*
 		if(status==Status.BabyRed){
 			setStatus(Status.Red);
@@ -87,7 +94,8 @@ public class Logic {
 		if(befehl==Befehl.DoRed){ 
 			setStatus(Status.Red); 
 			opener.open(getStatus(), classname);
-			saver.save(getStatus(), eingabe);	
+			saver.save(getStatus(), eingabe);
+			first = false;
 		return;}
 		if(befehl==Befehl.DoGreen){ 
 			return;}
@@ -111,6 +119,7 @@ public class Logic {
 				setStatus(Status.Red); 
 				opener.open(getStatus(), classname);
 				saver.save(getStatus(), eingabe);
+				first = false;
 				return;}
 
 			
