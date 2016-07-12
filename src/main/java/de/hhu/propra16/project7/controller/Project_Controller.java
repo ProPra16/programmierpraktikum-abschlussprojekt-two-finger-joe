@@ -37,7 +37,7 @@ public class Project_Controller
 		this.currStatus = currStatus;
 		this.project = project;
 		projectLogic = new Logic(project.getTitle(),counter);
-		ct = project.getTestTemplates().get(0);
+		ct = (CodeTemplate) project.getTestTemplates().get(0);
 	}
 
 	public void initialize()
@@ -51,12 +51,12 @@ public class Project_Controller
 	@FXML
 	private void handleTestButtonAction(ActionEvent event) throws IOException 
 	{
-		projectLogic.Input(Befehl.DoRed, ct.getFileName(), currStatus.toString());
+		projectLogic.Input(Befehl.DoRed, ct.getFilename(), codewindow.getText());
 		Status oldStatus = currStatus;
 		currStatus = projectLogic.getStatus();
 		if( ( currStatus == Status.Red || currStatus == Status.BabyRed ) && oldStatus != currStatus )
 		{
-			ct = project.getTestTemplates().get(getAufgabe());
+			ct = (CodeTemplate) project.getTestTemplates().get(projectLogic.getAufgabe());
 			fillWithTemplate();
 			statusLight.setFill(Color.RED);
 			statusAnweisung.setText("Write Test");
@@ -66,12 +66,12 @@ public class Project_Controller
 	@FXML
 	private void handleCodeButtonAction(ActionEvent event) throws IOException 
 	{
-		projectLogic.Input(Befehl.DoGreen, ct.getFileName(), currStatus.toString());
+		projectLogic.Input(Befehl.DoGreen, ct.getFilename(), codewindow.getText());
 		Status oldStatus = currStatus;
 		currStatus = projectLogic.getStatus();
 		if( ( currStatus == Status.Green || currStatus == Status.BabyGreen ) && oldStatus != currStatus )
 		{
-			ct = project.getImplementationTemplates().get(getAufgabe());
+			ct = project.getImplementationTemplates().get(projectLogic.getAufgabe());
 			fillWithTemplate();
 			statusLight.setFill(Color.GREEN);
 			statusAnweisung.setText("Write Code");
@@ -81,7 +81,7 @@ public class Project_Controller
 	@FXML
 	private void handleRefractoringButtonAction(ActionEvent event) throws IOException
 	{
-		projectLogic.Input(Befehl.DoRefactoring, ct.getFileName(), currStatus.toString());
+		projectLogic.Input(Befehl.DoRefactoring, ct.getFilename(), codewindow.getText());
 		currStatus = projectLogic.getStatus();
 		if( currStatus == Status.Refactoring )
 		{
@@ -105,7 +105,7 @@ public class Project_Controller
 
 	private void fillWithTemplate()
 	{
-		aufgabenName.setText(ct.getFileName());
+		aufgabenName.setText(ct.getFilename());
 		codewindow.setText(ct.getContent());
 	}
 }
