@@ -1,4 +1,4 @@
-//import BabySteps.Status;
+
 
 package de.hhu.propra16.project7.controller;
 
@@ -30,12 +30,7 @@ public class Logic {
 	Saver saver;
 	Project aktProject;
 
-	/*public static void main(String[] args){
-		
-		Logic test = new Logic();
-		test.test();
-		
-	}*/
+	
 	
 	public Logic(String title,Text counter){		
 		opener = new Opener(title);
@@ -49,10 +44,7 @@ public class Logic {
 		boolean TestFehlschlag = TestFehlschlag(classname, eingabe); 
 				
 		Status status = getStatus();
-		/*
-		if(status==Status.BabyRed){
-			setStatus(Status.Red);
-			} */
+		
 		
 		if(status==Status.Red||status==Status.BabyRed)  Red( befehl,  CompilerWorks,  TestFehlschlag, status, classname, eingabe);
 		if(status==Status.Green||status==Status.BabyGreen)  Green( befehl,  CompilerWorks,   TestFehlschlag, status, classname, eingabe);
@@ -158,8 +150,6 @@ public class Logic {
 
 
 	
-//BabySteps * * * * * * * * * * * * * * * *     
-	
 	public void BabySteps(int Minuten, boolean Baby ){
 		
 		setMinute(Minuten);
@@ -186,15 +176,7 @@ public class Logic {
 		return Baby;
 	}
 	
-	/*public void setItWorks(boolean ItWorks){
-		this.ItWorks = ItWorks;
-	}
-	
-	public boolean getItWorks(){
-		
-		
-		return ItWorks;
-	}*/
+
 	
 	public void StartTimer(Status status , String classname, String eingabe){
 
@@ -249,14 +231,6 @@ public class Logic {
 		
 		
 		
-		/*
-		if(getItWorks()==false){
-			
-			setStatus(Status.BabyRed);
-		
-		}
-		
-		if(getItWorks()==true){return;}*/
 		
 		
 		
