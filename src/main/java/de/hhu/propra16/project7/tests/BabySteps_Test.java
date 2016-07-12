@@ -54,6 +54,11 @@ public class BabySteps_Test {
 		
 		
 		test.Input(Logic.Befehl.DoRed); System.out.println(i + ". "+test.getStatus() + " is " + (test.getStatus()==Logic.Status.Green)); i++;
+		
+		test.setCompileErrors(true);
+		test.setTestFehlschlag(true);
+		System.out.println("Compiliert nicht, Test schlägt fehl.");
+		test.Input(Logic_Standalone.Befehl.DoGreen); System.out.println(i + ". "+test.getStatus() + " is " + (test.getStatus()==Logic_Standalone.Status.Red)); i++;
 	*/
 	
 	}		
