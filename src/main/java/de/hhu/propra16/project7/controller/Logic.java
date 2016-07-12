@@ -8,9 +8,7 @@ import de.hhu.propra16.project7.catalogue.Project;
 import de.hhu.propra16.project7.controller.Status;
 import vk.core.api.CompilationUnit;
 import vk.core.api.CompilerFactory;
-import vk.core.api.CompilerResult;
 import vk.core.api.JavaStringCompiler;
-import vk.core.api.TestResult;
 import javafx.scene.text.*;
 
 import de.hhu.propra16.project7.fileinteraction.*;
