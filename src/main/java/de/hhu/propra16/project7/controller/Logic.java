@@ -56,7 +56,7 @@ public class Logic {
 
 	public void Input(Befehl befehl, String classname, String eingabe) throws IOException{
 		boolean CompilerWorks = CompileErrors(classname,eingabe);
-		boolean TestFehlschlag = TestFehlschlag(classname, eingabe); 
+		boolean TestFehlschlag = TestFehlschlag(classname, eingabe);
 				
 		Status status = getStatus();
 		
@@ -137,31 +137,27 @@ public class Logic {
 	}
 	
 	
-	public JavaStringCompiler CompilerRun(String className, String classContent){
-		CompilationUnit unit = new CompilationUnit(className, classContent, false);
+	public JavaStringCompiler CompilerRun(String className, String classContent, boolean isTest){
+		CompilationUnit unit = new CompilationUnit(className, classContent, isTest);
 		JavaStringCompiler compiler = CompilerFactory.getCompiler(unit);
 		compiler.compileAndRunTests();
 		return compiler;
 	}
 	
 	public boolean TestFehlschlag(String className, String classContent){
-		JavaStringCompiler compiler = CompilerRun(className, classContent);
-		TestResult result = compiler.getTestResult();
-		
-		if(result.getNumberOfFailedTests()>=1){
-			return true;	
-		
+		JavaStringCompiler compiler = CompilerRun(className, classContent, true);
+		int result = compiler.getTestResult().getNumberOfFailedTests();
+		if (result != 0){
+			return true;
+		}
+		return false;
 		//TODO Exception falls die Datei nicht vorhanden ist
 		}
-		
-		return false;
-	}
 	
 	public boolean CompileErrors(String className, String classContent){
-		JavaStringCompiler compiler = CompilerRun(className, classContent);
-		CompilerResult result = compiler.getCompilerResult();
-						
-		return result.hasCompileErrors();  
+		JavaStringCompiler compiler = CompilerRun(className, classContent, false);
+								
+		return compiler.getCompilerResult().hasCompileErrors();
 	}
 
 
