@@ -33,6 +33,7 @@ public class Project_Controller
 	private Status currStatus;
 	private Project project;
 	private Logic projectLogic;
+	private CodeTemplate ct;
 	
 	public Project_Controller(Status currStatus,Project project)
 	{
@@ -50,7 +51,7 @@ public class Project_Controller
 	@FXML
 	private void handleTestButtonAction(ActionEvent event) throws IOException 
 	{
-		projectLogic.Input(Befehl.DoRed, project.getTestTemplates().toString(), currStatus.toString());
+		projectLogic.Input(Befehl.DoRed, ct.getFilename() ,currStatus.toString());
 		currStatus = projectLogic.getStatus();
 		if( currStatus == Status.Red || currStatus == Status.BabyRed )
 		{
@@ -63,7 +64,7 @@ public class Project_Controller
 	@FXML
 	private void handleCodeButtonAction(ActionEvent event) throws IOException 
 	{
-		projectLogic.Input(Befehl.DoGreen, project.getImplementationTemplates().toString(), currStatus.toString());
+		projectLogic.Input(Befehl.DoGreen, ct.getFilename(), currStatus.toString());
 		currStatus = projectLogic.getStatus();
 		if( currStatus == Status.Green || currStatus == Status.BabyGreen )
 		{
@@ -76,7 +77,7 @@ public class Project_Controller
 	@FXML
 	private void handleRefractoringButtonAction(ActionEvent event) throws IOException
 	{
-		projectLogic.Input(Befehl.DoRefactoring, project.getInstructions().toString(), currStatus.toString());
+		projectLogic.Input(Befehl.DoRefactoring, ct.getFilename(), currStatus.toString());
 		currStatus = projectLogic.getStatus();
 		if( currStatus == Status.Refactoring )
 		{
