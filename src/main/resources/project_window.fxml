@@ -22,7 +22,7 @@
         <TilePane alignment="CENTER" prefHeight="40" prefWidth="230">
           <Text fx:id="aufgabenName" textAlignment="CENTER">
             <font>
-              <Font name="Arial Black" size="14.0">
+              <Font name="Arial Black" size="14.0"></Font>
             </font>
           </Text>
         </TilePane>

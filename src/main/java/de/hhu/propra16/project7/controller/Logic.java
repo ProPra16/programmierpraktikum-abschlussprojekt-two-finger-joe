@@ -2,6 +2,7 @@
 package de.hhu.propra16.project7.controller;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import de.hhu.propra16.project7.catalogue.Project;
 import de.hhu.propra16.project7.fileinteraction.Deleter;
@@ -10,7 +11,9 @@ import de.hhu.propra16.project7.fileinteraction.Saver;
 import de.hhu.propra16.project7.tracking.Tracker;
 import javafx.scene.text.Text;
 import vk.core.api.CompilationUnit;
+import vk.core.api.CompileError;
 import vk.core.api.CompilerFactory;
+import vk.core.api.CompilerResult;
 import vk.core.api.JavaStringCompiler;
 
 public class Logic {
@@ -54,6 +57,8 @@ public class Logic {
 		boolean TestFehlschlag = TestFehlschlag(classname, eingabe);
 
 		Status status = getStatus();
+
+		System.out.println("Status" + status);
 
 		if (status == Status.Red)
 			Red(befehl, CompilerWorks, TestFehlschlag, status, classname, eingabe);
@@ -164,12 +169,21 @@ public class Logic {
 		CompilationUnit unit = new CompilationUnit(className, classContent, isTest);
 		JavaStringCompiler compiler = CompilerFactory.getCompiler(unit);
 		compiler.compileAndRunTests();
+		CompilerResult compilerResult = compiler.getCompilerResult();
+		Collection<CompileError> errs = compilerResult.getCompilerErrorsForCompilationUnit(unit);
+		for (CompileError e : errs) {
+			System.out.println(e.getMessage());
+			System.out.println(e.getCodeLineContainingTheError());
+		}
+		System.out.println("End of errors");
 		return compiler;
 	}
 
 	public boolean TestFehlschlag(String className, String classContent) {
 		JavaStringCompiler compiler = CompilerRun(className, classContent, true);
+
 		int result = compiler.getTestResult().getNumberOfFailedTests();
+		System.out.println("Failed tests " + result);
 		if (result != 0) {
 			return true;
 		}
