@@ -31,12 +31,7 @@ public class Logic {
 	Deleter deleter;
 	Project aktProject;
 	
-	/*public static void main(String[] args){
-		
-		Logic test = new Logic();
-		test.test();
-		
-	}*/
+
 	
 	public Logic(String title,Text counter){		
 		opener = new Opener(title);
@@ -58,13 +53,10 @@ public class Logic {
 				
 		Status status = getStatus();
 		
-		/*
-		if(status==Status.BabyRed){
-			setStatus(Status.Red);
-			} */
+	
 		
-		if(status==Status.Red||status==Status.BabyRed)  Red( befehl,  CompilerWorks,  TestFehlschlag, status, classname, eingabe);
-		if(status==Status.Green||status==Status.BabyGreen)  Green( befehl,  CompilerWorks,   TestFehlschlag, status, classname, eingabe);
+		if(status==Status.Red)  Red( befehl,  CompilerWorks,  TestFehlschlag, status, classname, eingabe);
+		if(status==Status.Green)  Green( befehl,  CompilerWorks,   TestFehlschlag, status, classname, eingabe);
 		if(status==Status.Refactoring)  Refactoring( befehl,  CompilerWorks,  TestFehlschlag, classname, eingabe);
 		
 		return;
@@ -193,15 +185,7 @@ public class Logic {
 		return Baby;
 	}
 	
-	/*public void setItWorks(boolean ItWorks){
-		this.ItWorks = ItWorks;
-	}
-	
-	public boolean getItWorks(){
-		
-		
-		return ItWorks;
-	}*/
+
 	
 	public void StartTimer(Status status , String classname, String eingabe) throws IOException{
 
@@ -226,28 +210,28 @@ public class Logic {
 			 Thread.sleep(1000); seconds++; counter.setText(String.valueOf(Vergleich-seconds));}
 		
 		
-		if((getStatus()==Status.Green||getStatus()==Status.Green)
+		if(getStatus()==Status.Green
 				&& (CompileErrors(classname,eingabe)==true || TestFehlschlag("Name","classContent")==true))
 				{
 				deleter.delete(Status.BabyRed, classname);
 				setStatus(Status.Red); 
 				return;}
 		
-		if((getStatus()==Status.Green||getStatus()==Status.Green) 
+		if(getStatus()==Status.Green 
 				&& (CompileErrors(classname,eingabe)==false && TestFehlschlag("Name","classContent")==false))
 				{
 				setStatus(Status.Red); 
 				return;}
 		
 
-		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed)
+		if( getStatus()==Status.Red
 				&& (CompileErrors(classname,eingabe)==false && TestFehlschlag("Name","classContent")==false))
 				{
 				deleter.delete(Status.BabyGreen, classname);
 				setStatus(Status.Green); 
 				return;}	
 		
-		if( (getStatus()==Status.Red||getStatus()==Status.BabyRed) 
+		if( getStatus()==Status.Red 
 				&& (CompileErrors(classname,eingabe)==true || TestFehlschlag("Name","classContent")==true))
 				{
 				setStatus(Status.Green); 
@@ -256,14 +240,7 @@ public class Logic {
 		
 		
 		
-		/*
-		if(getItWorks()==false){
-			
-			setStatus(Status.BabyRed);
-		
-		}
-		
-		if(getItWorks()==true){return;}*/
+
 		
 		
 		
