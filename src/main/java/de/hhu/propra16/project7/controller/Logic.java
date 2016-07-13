@@ -36,7 +36,7 @@ public class Logic {
 
 	int RunTime = 0; // FIXME
 
-	public Logic(String title, Text counter) {
+	public Logic(String title, Text counter, Status currStatus) {
 		opener = new Opener(title);
 		saver = new Saver(title);
 		aktProject = new Project(title);
@@ -44,7 +44,7 @@ public class Logic {
 		tracker = new Tracker(title);
 		this.counter = counter;
 		aufgaben = 0;
-
+		Zustand = currStatus;
 	}
 
 	public int getAufgabe() {
@@ -52,7 +52,7 @@ public class Logic {
 	}
 
 	public void Input(Befehl befehl, String classname, String eingabe) throws IOException {
-		boolean CompilerWorks = CompileErrors(classname, eingabe);
+		boolean CompilerWorks = !CompileErrors(classname, eingabe);
 		boolean TestFehlschlag = TestFehlschlag(classname, eingabe);
 
 		Status status = getStatus();
@@ -105,7 +105,7 @@ public class Logic {
 
 			opener.open(getStatus(), classname);
 			saver.save(getStatus(), eingabe);
-			aufgaben++;
+			if(CompilerWorks == true && TestFehlschlag == false) aufgaben++;
 			return;
 		}
 		if (befehl == Befehl.DoGreen) {

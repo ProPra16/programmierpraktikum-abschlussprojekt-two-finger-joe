@@ -32,12 +32,13 @@ public class Project_Controller
 	private Logic projectLogic;
 	private CodeTemplate ct;
 	
-	public Project_Controller(Status currStatus,Project project)
+	public Project_Controller(Status currStatus, Project project, boolean baby, double minuten)
 	{
 		this.currStatus = currStatus;
 		this.project = project;
-		projectLogic = new Logic(project.getTitle(),counter);
+		projectLogic = new Logic(project.getTitle(),counter,currStatus);
 		ct = (CodeTemplate) project.getTestTemplates().get(0);
+		projectLogic.BabySteps((int)minuten,baby);
 	}
 
 	public void initialize()
@@ -54,7 +55,7 @@ public class Project_Controller
 		projectLogic.Input(Befehl.DoRed, ct.getFilename(), codewindow.getText());
 		Status oldStatus = currStatus;
 		currStatus = projectLogic.getStatus();
-		if( ( currStatus == Status.Red || currStatus == Status.BabyRed ) && oldStatus != currStatus )
+		if( currStatus == Status.Red && oldStatus != currStatus )
 		{
 			ct = (CodeTemplate) project.getTestTemplates().get(projectLogic.getAufgabe());
 			fillWithTemplate();
@@ -69,7 +70,7 @@ public class Project_Controller
 		projectLogic.Input(Befehl.DoGreen, ct.getFilename(), codewindow.getText());
 		Status oldStatus = currStatus;
 		currStatus = projectLogic.getStatus();
-		if( ( currStatus == Status.Green || currStatus == Status.BabyGreen ) && oldStatus != currStatus )
+		if( currStatus == Status.Green && oldStatus != currStatus )
 		{
 			ct = project.getImplementationTemplates().get(projectLogic.getAufgabe());
 			fillWithTemplate();
@@ -95,7 +96,7 @@ public class Project_Controller
 	{
 		// Wechselt in das Main-Fenster, wenn der Start Button geklickt wird
 		Stage stage = (Stage) backButton.getScene().getWindow();
-		Parent root = FXMLLoader.load(getClass().getResource("main_window.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/main_window.fxml"));
 		Scene scene = new Scene(root, 640, 480);
 		stage.setScene(scene);
 		stage.setResizable(false);
