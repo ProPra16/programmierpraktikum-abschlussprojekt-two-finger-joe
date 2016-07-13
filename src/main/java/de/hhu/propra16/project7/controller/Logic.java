@@ -1,4 +1,4 @@
-//import BabySteps.Status;
+
 
 package de.hhu.propra16.project7.controller;
 
@@ -18,7 +18,7 @@ public class Logic {
 	private Status Zustand;
 	
 	private boolean Baby;
-	//private boolean ItWorks;
+	private boolean CounterActive;
 	private int Minuten;
 	private Text counter;
 
@@ -126,6 +126,14 @@ public class Logic {
 		return Zustand;
 	}
 	
+	public void CounterActive(Status status){
+	this.CounterActive = CounterActive;
+	}
+	
+	public Status CounterActive(){
+		return CounterActive;
+	}
+	
 	
 	public JavaStringCompiler CompilerRun(String className, String classContent, boolean isTest){
 		CompilationUnit unit = new CompilationUnit(className, classContent, isTest);
@@ -191,6 +199,7 @@ public class Logic {
 
 		int Minuten = getMinute();
 		long Vergleich = ConvertSeconds(Minuten);
+		CounterActive(true);
 		 Stoppuhrstarte(status, Vergleich, classname, eingabe);
 	}
 	
@@ -208,7 +217,7 @@ public class Logic {
 		try {
 		while(seconds<=Vergleich){
 			 Thread.sleep(1000); seconds++; counter.setText(String.valueOf(Vergleich-seconds));}
-		
+		CounterActive(false);
 		
 		if(getStatus()==Status.Green
 				&& (CompileErrors(classname,eingabe)==true || TestFehlschlag("Name","classContent")==true))
