@@ -4,14 +4,14 @@ package de.hhu.propra16.project7.controller;
 import java.io.IOException;
 
 import de.hhu.propra16.project7.catalogue.Project;
-import de.hhu.propra16.project7.controller.Status;
+import de.hhu.propra16.project7.fileinteraction.Deleter;
+import de.hhu.propra16.project7.fileinteraction.Opener;
+import de.hhu.propra16.project7.fileinteraction.Saver;
+import de.hhu.propra16.project7.tracking.Tracker;
+import javafx.scene.text.Text;
 import vk.core.api.CompilationUnit;
 import vk.core.api.CompilerFactory;
 import vk.core.api.JavaStringCompiler;
-import javafx.scene.text.*;
-
-import de.hhu.propra16.project7.fileinteraction.*;
-import de.hhu.propra16.project7.tracking.Tracker;
 
 public class Logic {
 
