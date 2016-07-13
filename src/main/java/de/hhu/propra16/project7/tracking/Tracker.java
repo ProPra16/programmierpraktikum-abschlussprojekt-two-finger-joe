@@ -29,12 +29,12 @@ public class Tracker {
 	// Writes a new message in the log file every time the user decides to change the program's status
 	// seconds = time (seconds) the user has spent working on the code
 	// maxtime = the highest time allowed by Babysteps (minutes)
-	public void statusChanged(Status status, int seconds, int maxtime) throws IOException {
+	public void statusChanged(Status status, long seconds, int maxtime) throws IOException {
 		if (laststatus != null && status == laststatus) {
 			return;
 		}
-		int sec = seconds % 60;
-		int min = (seconds - sec) / 60;
+		long sec = seconds % 60;
+		long min = (seconds - sec) / 60;
 		String change = getTime() + " - Status changed to ";
 		switch(status) {
 			case Red:
