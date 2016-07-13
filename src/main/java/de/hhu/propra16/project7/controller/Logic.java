@@ -45,6 +45,8 @@ public class Logic {
 		this.counter = counter;
 		aufgaben = 0;
 
+	}
+
 	public int getAufgabe() {
 		return aufgaben;
 	}
