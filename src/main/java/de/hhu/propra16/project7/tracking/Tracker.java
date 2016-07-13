@@ -26,11 +26,15 @@ public class Tracker {
 		this.project = project;
 	}
 
-	// Writes a new line in the log file every time the user decides to change the program's status
-	public void statusChanged(Status status) throws IOException {
+	// Writes a new message in the log file every time the user decides to change the program's status
+	// seconds = time (seconds) the user has spent working on the code
+	// maxtime = the highest time allowed by Babysteps (minutes)
+	public void statusChanged(Status status, int seconds, int maxtime) throws IOException {
 		if (laststatus != null && status == laststatus) {
 			return;
 		}
+		int sec = seconds % 60;
+		int min = (seconds - sec) / 60;
 		String change = getTime() + " - Status changed to ";
 		switch(status) {
 			case Red:
@@ -51,9 +55,32 @@ public class Tracker {
 		}
 		final List<String> content = new ArrayList<>();
 		content.add(change);
+		content.add(toTheRight("The status was successfully changed after " + min + " minute/s and " + sec + " second/s.", 23));
+		if (status == Status.BabyRed || status == Status.BabyGreen) {
+			String graph = "Graphical representation: [";
+			for (int i = 0; i < 100; i++) {
+				if (i <= 100.0 / (maxtime * 60.0 / seconds)) {
+					graph += "*";
+				}
+				else {
+					graph += " ";
+				}
+			}
+			graph += "] <- " + maxtime + " minutes (Babysteps maxtime)";
+			content.add(toTheRight(graph, 23));
+			content.add(toTheRight("^ " + (int) (100.0 / (maxtime * 60.0 / seconds)) + "%", (int) (23 + 100.0 / (maxtime * 60.0 / seconds) + "Graphical representation: [".length())));
+		}
 		saveChanges(content);
 		newLine();
 		laststatus = status;
+	}
+
+	// Adds a "Time's Up" message to the log file (for Babysteps)
+	public void timesUp(int maxtime) throws IOException {
+		final List<String> message = new ArrayList<>();
+		message.add(getTime() + " - Time's up! All changes made during the last " + maxtime + " minutes have been removed by Babysteps.");
+		saveChanges(message);
+		newLine();
 	}
 
 	// Adds a compilation error message to the log file
@@ -70,9 +97,7 @@ public class Tracker {
 		newLine();
 		String[] lines = error.split("\n");
 		for (int i = 0; i < lines.length; i++) {
-			for (int j = 0; j < 23; j++) {
-				lines[i] = " " + lines[i];
-			}
+			lines[i] = toTheRight(lines[i], 23);
 		}
 		final List<String> content = Arrays.asList(lines);
 		saveChanges(content);
@@ -83,6 +108,14 @@ public class Tracker {
 	// Returns the project name
 	public String getProjectName() {
 		return project;
+	}
+
+	// Shifts a string to the right by <times> digits
+	private String toTheRight(String text, int times) {
+		for (int i = 0; i < times; i++) {
+			text = " " + text;
+		}
+		return text;
 	}
 
 	// Adds a new line to the log file

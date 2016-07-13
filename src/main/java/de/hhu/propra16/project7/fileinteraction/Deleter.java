@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import de.hhu.propra16.project7.catalogue.Project;
 import de.hhu.propra16.project7.controller.Status;
 
 /* @author André Juber */
@@ -26,12 +27,14 @@ public class Deleter {
 				break;
 			case BabyRed:
 				deleteFile("/data/" + project + "/babysteps/test/" + classname);
+				replaceTest();
 				break;
 			case Green:
 				deleteFile("/data/" + project + "/temp/" + classname);
 				break;
 			case BabyGreen:
 				deleteFile("/data/" + project + "/babysteps/temp/" + classname);
+				replaceCode();
 				break;
 			case Refactoring:
 				deleteFile("/data/" + project + "/code/" + classname);
@@ -39,11 +42,28 @@ public class Deleter {
 		}
 	}
 
+	// Returns the project name
+	public String getProjectName() {
+		return project;
+	}
+
 	// Deletes the file
 	private void deleteFile(String filepath) throws IOException {
 		String path = System.getProperty("user.dir") + filepath + ".java";
 		final Path p = Paths.get(path);
 		Files.deleteIfExists(p);
+	}
+
+	// Replace test
+	private void replaceTest() {
+		Project project = new Project(this.project);
+		project.getTestTemplates();
+    }
+
+	// Replace code
+	private void replaceCode() {
+		Project project = new Project(this.project);
+		project.getInstructions();
 	}
 
 }

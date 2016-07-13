@@ -17,13 +17,28 @@
 
       <VBox prefHeight="10" prefWidth="560" />
 
-      <TilePane alignment="CENTER" prefHeight="40" prefWidth="100">
-        <Text fx:id="statusAnweisung" textAlignment="CENTER">
-          <font>
-            <Font name="Arial Black" size="20.0" />
-          </font>
-        </Text>
-      </TilePane>
+      <HBox prefHeight="40" prefWidth="230">
+
+        <TilePane alignment="CENTER" prefHeight="40" prefWidth="230">
+          <Text fx:id="aufgabenName" textAlignment="CENTER">
+            <font>
+              <Font name="Arial Black" size="14.0"></Font>
+            </font>
+          </Text>
+        </TilePane>
+
+        <TilePane alignment="CENTER" prefHeight="40" prefWidth="100">
+          <Text fx:id="statusAnweisung" textAlignment="CENTER">
+            <font>
+              <Font name="Arial Black" size="20.0" />
+            </font>
+          </Text>
+        </TilePane>
+
+        <VBox prefHeight="40" prefWidth="230"/>
+
+      </HBox>
+
       <VBox prefHeight="350" prefWidth="560">
         <TextArea fx:id="codewindow" prefHeight="350" prefWidth="560" />
       </VBox>

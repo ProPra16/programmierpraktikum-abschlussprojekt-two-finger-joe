@@ -25,24 +25,25 @@ public class Project_Controller
 	private Circle statusLight;
 
 	@FXML
-	private Text statusAnweisung;
-
-	@FXML
-	private Text counter;
+	private Text statusAnweisung, counter, aufgabenName;
 
 	private Status currStatus;
 	private Project project;
 	private Logic projectLogic;
+	private CodeTemplate ct;
 	
 	public Project_Controller(Status currStatus,Project project)
 	{
 		this.currStatus = currStatus;
 		this.project = project;
 		projectLogic = new Logic(project.getTitle(),counter);
+		ct = (CodeTemplate) project.getTestTemplates().get(0);
 	}
 
 	public void initialize()
 	{
+		counter.setText("0");
+		fillWithTemplate();
 		statusLight.setFill(Color.RED);
 		statusAnweisung.setText("Write Tests");
 	}
@@ -50,11 +51,13 @@ public class Project_Controller
 	@FXML
 	private void handleTestButtonAction(ActionEvent event) throws IOException 
 	{
-		projectLogic.Input(Befehl.DoRed, project.getTitle() + "_Code", currStatus.toString());
+		projectLogic.Input(Befehl.DoRed, ct.getFilename(), codewindow.getText());
+		Status oldStatus = currStatus;
 		currStatus = projectLogic.getStatus();
-		if( currStatus == Status.Red || currStatus == Status.BabyRed )
+		if( ( currStatus == Status.Red || currStatus == Status.BabyRed ) && oldStatus != currStatus )
 		{
-			codewindow.setText("");
+			ct = (CodeTemplate) project.getTestTemplates().get(projectLogic.getAufgabe());
+			fillWithTemplate();
 			statusLight.setFill(Color.RED);
 			statusAnweisung.setText("Write Test");
 		}
@@ -63,11 +66,13 @@ public class Project_Controller
 	@FXML
 	private void handleCodeButtonAction(ActionEvent event) throws IOException 
 	{
-		projectLogic.Input(Befehl.DoGreen, project.getTitle() + "_Test", currStatus.toString());
+		projectLogic.Input(Befehl.DoGreen, ct.getFilename(), codewindow.getText());
+		Status oldStatus = currStatus;
 		currStatus = projectLogic.getStatus();
-		if( currStatus == Status.Green || currStatus == Status.BabyGreen )
+		if( ( currStatus == Status.Green || currStatus == Status.BabyGreen ) && oldStatus != currStatus )
 		{
-			codewindow.setText("");
+			ct = project.getImplementationTemplates().get(projectLogic.getAufgabe());
+			fillWithTemplate();
 			statusLight.setFill(Color.GREEN);
 			statusAnweisung.setText("Write Code");
 		}
@@ -76,7 +81,7 @@ public class Project_Controller
 	@FXML
 	private void handleRefractoringButtonAction(ActionEvent event) throws IOException
 	{
-		projectLogic.Input(Befehl.DoRefactoring, project.getTitle() + "_Code", currStatus.toString());
+		projectLogic.Input(Befehl.DoRefactoring, ct.getFilename(), codewindow.getText());
 		currStatus = projectLogic.getStatus();
 		if( currStatus == Status.Refactoring )
 		{
@@ -96,5 +101,11 @@ public class Project_Controller
 		stage.setResizable(false);
 		stage.setTitle("TDDT");
 		stage.show();
+	}
+
+	private void fillWithTemplate()
+	{
+		aufgabenName.setText(ct.getFilename());
+		codewindow.setText(ct.getContent());
 	}
 }

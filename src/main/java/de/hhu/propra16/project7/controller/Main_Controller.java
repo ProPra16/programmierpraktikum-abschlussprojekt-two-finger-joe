@@ -44,13 +44,12 @@ public class Main_Controller
 
 	public void initialize()
 	{
+
 		try {
 			catalogue = CatalogueReader.readFromFile(file);
 		} catch (ParseException e) {
-			System.out.println("Blöööödd");
-		}
-		
-		
+			System.out.println(e.getMessage());
+		}		
 		fillObservableList();
 
 		// Update aktProject and goals if another Project is clicked
@@ -70,6 +69,11 @@ public class Main_Controller
 	private void handleAktButtonAction(ActionEvent event) throws IOException, ParseException
 	{
 		listViewData.clear();
+		try {
+			catalogue = CatalogueReader.readFromFile(file);
+		} catch (ParseException e) {
+			System.out.println(e.getMessage());
+		}
 		fillObservableList();
 	}
 
@@ -79,7 +83,7 @@ public class Main_Controller
 		if( aktProject == null ) return;
 		// Wechselt in das nächste Fenster, wenn der Start Button geklickt wird
 		Stage stage = (Stage) startButton.getScene().getWindow();
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("first.fxml"));
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/project_window.fxml"));
 		if( babyStepsToggleGrp.getSelectedToggle() == babyStepsYes )
 			fxmlloader.setController(new Project_Controller(Status.BabyRed,aktProject));
 		else
