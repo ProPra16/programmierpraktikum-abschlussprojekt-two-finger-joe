@@ -1,4 +1,3 @@
-
 package de.hhu.propra16.project7.controller;
 
 import java.io.IOException;
@@ -45,8 +44,6 @@ public class Logic {
 		tracker = new Tracker(title);
 		this.counter = counter;
 		aufgaben = 0;
-
-	}
 
 	public int getAufgabe() {
 		return aufgaben;
