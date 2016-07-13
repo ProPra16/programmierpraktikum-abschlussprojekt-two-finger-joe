@@ -23,6 +23,7 @@ public class Logic {
 	private boolean CounterActive;
 	private int Minuten;
 	private Text counter;
+	long RunTime; //For Tracker
 
 	int seconds;
 
@@ -34,7 +35,7 @@ public class Logic {
 	Tracker tracker;
 	Project aktProject;
 
-	int RunTime = 0; // FIXME
+	
 
 	public Logic(String title, Text counter, Status currStatus) {
 		opener = new Opener(title);
@@ -45,6 +46,7 @@ public class Logic {
 		this.counter = counter;
 		aufgaben = 0;
 		Zustand = currStatus;
+		starteRunTime(); //???
 	}
 
 	public int getAufgabe() {
@@ -81,7 +83,7 @@ public class Logic {
 			{
 				setStatus(Status.Green);
 
-				tracker.statusChanged(getStatus(), RunTime, -1); // Look here
+				tracker.statusChanged(getStatus(), returnRunTime(), -1); // Look here
 
 				opener.open(getStatus(), classname);
 				saver.save(getStatus(), eingabe);
@@ -101,7 +103,7 @@ public class Logic {
 		if (befehl == Befehl.DoRed) {
 			setStatus(Status.Red);
 
-			tracker.statusChanged(getStatus(), RunTime, -1); // Look here
+			tracker.statusChanged(getStatus(), returnRunTime(), -1); // Look here
 
 			opener.open(getStatus(), classname);
 			saver.save(getStatus(), eingabe);
@@ -114,7 +116,7 @@ public class Logic {
 		if (befehl == Befehl.DoRefactoring && CompilerWorks == true && TestFehlschlag == false) {
 			setStatus(Status.Refactoring);
 
-			tracker.statusChanged(getStatus(), RunTime, -1); // Look here
+			tracker.statusChanged(getStatus(), returnRunTime(), -1); // Look here
 
 			opener.open(getStatus(), classname);
 			saver.save(getStatus(), eingabe);
@@ -137,7 +139,7 @@ public class Logic {
 
 			setStatus(Status.Red);
 
-			tracker.statusChanged(getStatus(), RunTime, -1); // Look here
+			tracker.statusChanged(getStatus(), returnRunTime(), -1); // Look here
 
 			opener.open(getStatus(), classname);
 			saver.save(getStatus(), eingabe);
@@ -147,6 +149,24 @@ public class Logic {
 
 		return;
 	}
+
+
+	
+	
+		void starteRunTime()
+		{ RunTime = System.currentTimeMillis();
+			}
+		void stoppeRunTime()
+		{ RunTime = System.currentTimeMillis() - RunTime;
+		}
+		long returnRunTime()
+		{ return RunTime;
+		}
+
+	
+
+
+
 
 	public void setStatus(Status status) {
 		this.Zustand = status;
@@ -160,7 +180,7 @@ public class Logic {
 		this.CounterActive = CounterActive;
 	}
 
-	public boolean CounterActive() {
+	public boolean getCounterActive() {
 		return CounterActive;
 	}
 
@@ -228,7 +248,7 @@ public class Logic {
 		int Minuten = getMinute();
 		long Vergleich = ConvertSeconds(Minuten);
 		CounterActive(true);
-		Stoppuhrstarte(status, Vergleich, classname, eingabe);
+		Stoppuhrstarte(status, Vergleich, classname, eingabe, Minuten);
 	}
 
 	public long ConvertSeconds(int Minuten) {
@@ -236,7 +256,7 @@ public class Logic {
 		return Vergleich;
 	}
 
-	void Stoppuhrstarte(Status status, Long Vergleich, String classname, String eingabe) throws IOException {
+	void Stoppuhrstarte(Status status, Long Vergleich, String classname, String eingabe, int Minuten) throws IOException {
 
 		seconds = 0;
 
@@ -251,7 +271,7 @@ public class Logic {
 			if (getStatus() == Status.Green
 					&& (CompileErrors(classname, eingabe) == true || TestFehlschlag("Name", "classContent") == true)) {
 
-				tracker.statusChanged(getStatus(), RunTime, -1); // Look here
+				tracker.statusChanged(getStatus(), returnRunTime(), Minuten); // Look here
 
 				deleter.delete(Status.BabyRed, classname);
 				setStatus(Status.Red);
@@ -262,7 +282,7 @@ public class Logic {
 					&& (CompileErrors(classname, eingabe) == false
 							&& TestFehlschlag("Name", "classContent") == false)) {
 
-				tracker.statusChanged(getStatus(), RunTime, -1); // Look here
+				tracker.statusChanged(getStatus(), returnRunTime(), Minuten); // Look here
 
 				setStatus(Status.Red);
 				return;
@@ -272,7 +292,7 @@ public class Logic {
 					&& (CompileErrors(classname, eingabe) == false
 							&& TestFehlschlag("Name", "classContent") == false)) {
 
-				tracker.statusChanged(getStatus(), RunTime, -1); // Look here
+				tracker.statusChanged(getStatus(), returnRunTime(), Minuten); // Look here
 
 				deleter.delete(Status.BabyGreen, classname);
 				setStatus(Status.Green);
@@ -282,7 +302,7 @@ public class Logic {
 			if (getStatus() == Status.Red
 					&& (CompileErrors(classname, eingabe) == true || TestFehlschlag("Name", "classContent") == true)) {
 
-				tracker.statusChanged(getStatus(), RunTime, -1); // Look here
+				tracker.statusChanged(getStatus(), returnRunTime(), Minuten); // Look here
 
 				setStatus(Status.Green);
 				return;
