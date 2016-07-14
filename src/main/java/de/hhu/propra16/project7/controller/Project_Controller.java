@@ -67,7 +67,7 @@ public class Project_Controller
 	@FXML
 	private void handleCodeButtonAction(ActionEvent event) throws IOException 
 	{
-		projectLogic.Input(Befehl.DoGreen, ct.getFilename(), codewindow.getText());
+		projectLogic.Input(Befehl.DoGreen, ct.getFilename(), codewindow.getText());  //Gareth: sind es die korrekten Strings?
 		Status oldStatus = currStatus;
 		currStatus = projectLogic.getStatus();
 		if( currStatus == Status.Green && oldStatus != currStatus )
@@ -75,14 +75,14 @@ public class Project_Controller
 			ct = project.getImplementationTemplates().get(projectLogic.getAufgabe());
 			fillWithTemplate();
 			statusLight.setFill(Color.GREEN);
-			statusAnweisung.setText("Write Code");
+			statusAnweisung.setText("Write Code.");
 		}
 	}
 	
 	@FXML
 	private void handleRefractoringButtonAction(ActionEvent event) throws IOException
 	{
-		projectLogic.Input(Befehl.DoRefactoring, ct.getFilename(), codewindow.getText());
+		projectLogic.Input(Befehl.DoRefactoring, ct.getFilename(), codewindow.getText());  //Gareth: sind es die korrekten Strings?
 		currStatus = projectLogic.getStatus();
 		if( currStatus == Status.Refactoring )
 		{
