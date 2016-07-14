@@ -27,14 +27,12 @@ public class Deleter {
 				break;
 			case BabyRed:
 				deleteFile("/data/" + project + "/babysteps/test/" + classname);
-				replaceTest();
 				break;
 			case Green:
 				deleteFile("/data/" + project + "/temp/" + classname);
 				break;
 			case BabyGreen:
 				deleteFile("/data/" + project + "/babysteps/temp/" + classname);
-				replaceCode();
 				break;
 			case Refactoring:
 				deleteFile("/data/" + project + "/code/" + classname);
@@ -52,18 +50,6 @@ public class Deleter {
 		String path = System.getProperty("user.dir") + filepath + ".java";
 		final Path p = Paths.get(path);
 		Files.deleteIfExists(p);
-	}
-
-	// Replace test
-	private void replaceTest() {
-		Project project = new Project(this.project);
-		project.getTestTemplates();
-    }
-
-	// Replace code
-	private void replaceCode() {
-		Project project = new Project(this.project);
-		project.getInstructions();
 	}
 
 }
