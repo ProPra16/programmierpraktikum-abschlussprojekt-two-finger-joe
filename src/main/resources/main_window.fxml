@@ -19,7 +19,7 @@
       <VBox spacing="10" prefWidth="260" prefHeight="460">
         <children>
           <VBox prefWidth="260" prefHeight="20" alignment="CENTER">
-            <Text text="Übungen" textAlignment="CENTER">
+            <Text text="Projects" textAlignment="CENTER">
               <font>
                 <Font name="Arial Black" size="20"/>
               </font>
@@ -59,7 +59,7 @@
               </fx:define>
               <RadioButton fx:id="babyStepsYes" text="Yes" toggleGroup="$babyStepsToggleGrp" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
               <RadioButton fx:id="babyStepsNo" text="No" toggleGroup="$babyStepsToggleGrp" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-              <Slider min="1" max="3" showTickLabels="true" fx:id="minuten" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="3"/>
+              <Slider min="1" max="3" showTickMarks="true" minorTickCount="0" snapToTicks="true" majorTickUnit="0.5" blockIncrement="0.5" showTickLabels="true" fx:id="minuten" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="3"/>
             </GridPane>
           </VBox>
         </children>
