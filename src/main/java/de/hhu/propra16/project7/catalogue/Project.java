@@ -26,7 +26,7 @@ public class Project {
 	}
 	
 	// Get test templates only. Don't try to use add() on this one.
-	public List<Object> getTestTemplates() {
+	public List<CodeTemplate> getTestTemplates() {
 		return mTemplates.stream()
 				.filter(t -> t.getCategory() == Category.Test)
 				.collect(Collectors.toList());
