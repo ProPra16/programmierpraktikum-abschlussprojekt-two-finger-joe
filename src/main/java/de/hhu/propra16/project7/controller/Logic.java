@@ -54,32 +54,35 @@ public class Logic {
 	}
 
 	public void Input(Befehl befehl, String classname, String eingabe) throws IOException {
-		boolean CompilerWorks = !CompileErrors(classname, eingabe);
-		boolean TestFehlschlag = TestFehlschlag(classname, eingabe);
+		
 
 		Status status = getStatus();
 
 		System.out.println("Status" + status);
+		if(getBabyBoolean() == true){System.out.println("Baby Is Active");}
 
 		if (status == Status.Red)
-			Red(befehl, CompilerWorks, TestFehlschlag, status, classname, eingabe);
+			Red(befehl,  status, classname, eingabe);
 		if (status == Status.Green)
-			Green(befehl, CompilerWorks, TestFehlschlag, status, classname, eingabe);
+			Green(befehl,  status, classname, eingabe);
 		if (status == Status.Refactoring)
-			Refactoring(befehl, CompilerWorks, TestFehlschlag, classname, eingabe);
+			Refactoring(befehl,  classname, eingabe);
 
 		return;
 	}
 
-	public void Red(Befehl befehl, boolean CompilerWorks,
-			boolean TestFehlschlag, Status status, String classname, String eingabe) throws IOException {
+	public void Red(Befehl befehl,
+			 Status status, String classname, String eingabe) throws IOException {
 
 		if (getBabyBoolean() == true) {
 			StartTimer(getStatus(), classname, eingabe);
 			return;
 		}
 
-		if (befehl == Befehl.DoGreen && (CompilerWorks == false || TestFehlschlag == true)) {
+
+
+
+		if (befehl == Befehl.DoGreen && (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
 			{
 				setStatus(Status.Green);
 
@@ -94,8 +97,8 @@ public class Logic {
 		return;
 	}
 
-	public void Green(Befehl befehl, boolean CompilerWorks,
-			boolean TestFehlschlag, Status status, String classname, String eingabe) throws IOException {
+	public void Green(Befehl befehl, 
+			 Status status, String classname, String eingabe) throws IOException {
 		if (getBabyBoolean() == true && befehl != Befehl.DoRefactoring) {
 			StartTimer(getStatus(), classname, eingabe);
 			return;
@@ -105,44 +108,47 @@ public class Logic {
 
 			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, -1); // Look here
 
-			opener.open(getStatus(), classname);
 			saver.save(getStatus(), eingabe);
-			if(CompilerWorks == true && TestFehlschlag == false) aufgaben++;
+			opener.open(getStatus(), classname);
+			
+			if(CompileErrors(classname, eingabe) == true && TestFehlschlag(classname, eingabe) == false) aufgaben++;
 			return;
 		}
 		if (befehl == Befehl.DoGreen) {
 			return;
 		}
-		if (befehl == Befehl.DoRefactoring && CompilerWorks == true && TestFehlschlag == false) {
+		if (befehl == Befehl.DoRefactoring && CompileErrors(classname, eingabe) == true && TestFehlschlag(classname, eingabe) == false) {
 			setStatus(Status.Refactoring);
 
 			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, -1); // Look here
-
-			opener.open(getStatus(), classname);
+		
 			saver.save(getStatus(), eingabe);
+			opener.open(getStatus(), classname);
+			
 			return;
 		}
 
-		if (befehl == Befehl.DoRefactoring && getBabyBoolean() == true
-				&& (CompilerWorks == true || TestFehlschlag == true)) {
+		/*if (befehl == Befehl.DoRefactoring && getBabyBoolean() == true
+				&& (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
 			deleter.delete(Status.BabyRed, classname);
 			setStatus(Status.Red);
 			return;
-		}
+		} */
 
 		return;
 	}
 
-	public void Refactoring(Befehl befehl, boolean CompilerWorks,
-			boolean TestFehlschlag, String classname, String eingabe) throws IOException {
-		if (befehl == Befehl.DoRed && CompilerWorks == true && TestFehlschlag == false) {
+	public void Refactoring(Befehl befehl, 
+			String classname, String eingabe) throws IOException {
+		if (befehl == Befehl.DoRed && CompileErrors(classname, eingabe) == false && TestFehlschlag(classname, eingabe) == false) {
 
 			setStatus(Status.Red);
 
 			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, -1); // Look here
-
-			opener.open(getStatus(), classname);
+		
 			saver.save(getStatus(), eingabe);
+			opener.open(getStatus(), classname);
+			
 			aufgaben++;
 			return;
 		}
@@ -162,6 +168,7 @@ public class Logic {
 		long returnRunTime()
 		{ return RunTime;
 		}
+
 
 	
 
@@ -199,6 +206,8 @@ public class Logic {
 	}
 
 	public boolean TestFehlschlag(String className, String classContent) {
+
+		if(CompileErrors(className, classContent) == false){
 		JavaStringCompiler compiler = CompilerRun(className, classContent, true);
 
 		int result = compiler.getTestResult().getNumberOfFailedTests();
@@ -207,6 +216,8 @@ public class Logic {
 			return true;
 		}
 		return false;
+
+		} return false;
 		// TODO Exception falls die Datei nicht vorhanden ist
 	}
 
