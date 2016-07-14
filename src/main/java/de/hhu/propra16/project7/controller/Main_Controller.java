@@ -12,7 +12,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.*;
-
+	 
 public class Main_Controller
 {
 	@FXML
@@ -25,21 +25,24 @@ public class Main_Controller
 	private TextArea goals;
 
 	@FXML
+	private Slider minuten;
+
+	@FXML
 	private ToggleGroup babyStepsToggleGrp,trackingToggleGrp;
 
 	@FXML
 	private Toggle babyStepsYes,babyStepsNo,trackingYes,trackingNo;
 
 	private ObservableList<String> listViewData = FXCollections.observableArrayList();
-
+	
 	private Project aktProject;
 
 	private Catalogue catalogue = new Catalogue();
 
 	private File file = new File("Catalogue.cfg");
-
+	
 	public Main_Controller(){
-
+		
 	}
 
 	public void initialize()
@@ -49,13 +52,13 @@ public class Main_Controller
 			catalogue = CatalogueReader.readFromFile(file);
 		} catch (ParseException e) {
 			System.out.println(e.getMessage());
-		}
+		}		
 		fillObservableList();
 
 		// Update aktProject and goals if another Project is clicked
 		projects.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
 		{
-
+			
 			public void changed(ObservableValue<? extends String> observable,
 			String oldValue, String newValue)
 			{
@@ -85,9 +88,9 @@ public class Main_Controller
 		Stage stage = (Stage) startButton.getScene().getWindow();
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/project_window.fxml"));
 		if( babyStepsToggleGrp.getSelectedToggle() == babyStepsYes )
-			fxmlloader.setController(new Project_Controller(Status.BabyRed,aktProject));
+			fxmlloader.setController(new Project_Controller(Status.Red,aktProject,true,minuten.getValue()));
 		else
-			fxmlloader.setController(new Project_Controller(Status.Red,aktProject));
+			fxmlloader.setController(new Project_Controller(Status.Red,aktProject,false,minuten.getValue()));
 		Parent root = fxmlloader.load();
 		Scene scene = new Scene(root, 640, 480);
 		stage.setScene(scene);

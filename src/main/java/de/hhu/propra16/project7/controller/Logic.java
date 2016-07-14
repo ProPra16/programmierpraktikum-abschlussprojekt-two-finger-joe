@@ -23,6 +23,7 @@ public class Logic {
 	private boolean CounterActive;
 	private int Minuten;
 	private Text counter;
+	long RunTime; //For Tracker
 
 	int seconds;
 
@@ -34,9 +35,9 @@ public class Logic {
 	Tracker tracker;
 	Project aktProject;
 
-	int RunTime = 0; // FIXME
+	
 
-	public Logic(String title, Text counter) {
+	public Logic(String title, Text counter, Status currStatus) {
 		opener = new Opener(title);
 		saver = new Saver(title);
 		aktProject = new Project(title);
@@ -44,7 +45,8 @@ public class Logic {
 		tracker = new Tracker(title);
 		this.counter = counter;
 		aufgaben = 0;
-
+		Zustand = currStatus;
+		starteRunTime(); //???
 	}
 
 	public int getAufgabe() {
@@ -52,37 +54,40 @@ public class Logic {
 	}
 
 	public void Input(Befehl befehl, String classname, String eingabe) throws IOException {
-		boolean CompilerWorks = CompileErrors(classname, eingabe);
-		boolean TestFehlschlag = TestFehlschlag(classname, eingabe);
+		
 
 		Status status = getStatus();
 
 		System.out.println("Status" + status);
+		if(getBabyBoolean() == true){System.out.println("Baby Is Active");}
 
 		if (status == Status.Red)
-			Red(befehl, CompilerWorks, TestFehlschlag, status, classname, eingabe);
+			Red(befehl, status, classname, eingabe);
 		if (status == Status.Green)
-			Green(befehl, CompilerWorks, TestFehlschlag, status, classname, eingabe);
+			Green(befehl, status, classname, eingabe);
 		if (status == Status.Refactoring)
-			Refactoring(befehl, CompilerWorks, TestFehlschlag, classname, eingabe);
+			Refactoring(befehl, classname, eingabe);
 
 		return;
 	}
 
-	public void Red(Befehl befehl, boolean CompilerWorks,
-			boolean TestFehlschlag, Status status, String classname, String eingabe) throws IOException {
+	public void Red(Befehl befehl,
+			 Status status, String classname, String eingabe) throws IOException {
 
 		if (getBabyBoolean() == true) {
 			StartTimer(getStatus(), classname, eingabe);
 			return;
 		}
 
-		if (befehl == Befehl.DoGreen && (CompilerWorks == false || TestFehlschlag == true)) {
+
+
+
+		if (befehl == Befehl.DoGreen && (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
 			{
 				setStatus(Status.Green);
-
-				tracker.statusChanged(getStatus(), RunTime, -1); // Look here
-
+				stoppeRunTime();
+				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); // Look here
+				starteRunTime();
 				opener.open(getStatus(), classname);
 				saver.save(getStatus(), eingabe);
 			}
@@ -92,61 +97,84 @@ public class Logic {
 		return;
 	}
 
-	public void Green(Befehl befehl, boolean CompilerWorks,
-			boolean TestFehlschlag, Status status, String classname, String eingabe) throws IOException {
+	public void Green(Befehl befehl, 
+			 Status status, String classname, String eingabe) throws IOException {
 		if (getBabyBoolean() == true && befehl != Befehl.DoRefactoring) {
 			StartTimer(getStatus(), classname, eingabe);
 			return;
 		}
 		if (befehl == Befehl.DoRed) {
 			setStatus(Status.Red);
-
-			tracker.statusChanged(getStatus(), RunTime, -1); // Look here
-
-			opener.open(getStatus(), classname);
+			stoppeRunTime();
+			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); // Look here
+			starteRunTime();
 			saver.save(getStatus(), eingabe);
-			aufgaben++;
+			opener.open(getStatus(), classname);
+			
+			if(CompileErrors(classname, eingabe) == false && TestFehlschlag(classname, eingabe) == false) aufgaben++;
 			return;
 		}
 		if (befehl == Befehl.DoGreen) {
 			return;
 		}
-		if (befehl == Befehl.DoRefactoring && CompilerWorks == true && TestFehlschlag == false) {
+		if (befehl == Befehl.DoRefactoring && CompileErrors(classname, eingabe) == false && TestFehlschlag(classname, eingabe) == false) {
 			setStatus(Status.Refactoring);
-
-			tracker.statusChanged(getStatus(), RunTime, -1); // Look here
-
-			opener.open(getStatus(), classname);
+			stoppeRunTime();
+			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); // Look here
+			starteRunTime();
 			saver.save(getStatus(), eingabe);
+			opener.open(getStatus(), classname);
+			
 			return;
 		}
 
-		if (befehl == Befehl.DoRefactoring && getBabyBoolean() == true
-				&& (CompilerWorks == true || TestFehlschlag == true)) {
+		/*if (befehl == Befehl.DoRefactoring && getBabyBoolean() == true
+				&& (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
 			deleter.delete(Status.BabyRed, classname);
 			setStatus(Status.Red);
 			return;
-		}
+		} */
 
 		return;
 	}
 
-	public void Refactoring(Befehl befehl, boolean CompilerWorks,
-			boolean TestFehlschlag, String classname, String eingabe) throws IOException {
-		if (befehl == Befehl.DoRed && CompilerWorks == true && TestFehlschlag == false) {
+	public void Refactoring(Befehl befehl, 
+			String classname, String eingabe) throws IOException {
+		if (befehl == Befehl.DoRed && CompileErrors(classname, eingabe) == false && TestFehlschlag(classname, eingabe) == false) {
 
 			setStatus(Status.Red);
-
-			tracker.statusChanged(getStatus(), RunTime, -1); // Look here
-
-			opener.open(getStatus(), classname);
+			
+			stoppeRunTime();
+			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); // Look here
+			starteRunTime();
 			saver.save(getStatus(), eingabe);
+			opener.open(getStatus(), classname);
+			
 			aufgaben++;
 			return;
 		}
 
 		return;
 	}
+
+
+	
+	
+		void starteRunTime()
+		{ RunTime = System.currentTimeMillis();
+			}
+		void stoppeRunTime()
+		{ RunTime = System.currentTimeMillis() - RunTime;
+		}
+		long returnRunTime()
+		{ return RunTime;
+		}
+
+
+	
+
+
+
 
 	public void setStatus(Status status) {
 		this.Zustand = status;
@@ -160,7 +188,7 @@ public class Logic {
 		this.CounterActive = CounterActive;
 	}
 
-	public boolean CounterActive() {
+	public boolean getCounterActive() {
 		return CounterActive;
 	}
 
@@ -179,6 +207,8 @@ public class Logic {
 	}
 
 	public boolean TestFehlschlag(String className, String classContent) {
+
+		if(CompileErrors(className, classContent) == false){
 		JavaStringCompiler compiler = CompilerRun(className, classContent, true);
 
 		int result = compiler.getTestResult().getNumberOfFailedTests();
@@ -187,6 +217,8 @@ public class Logic {
 			return true;
 		}
 		return false;
+
+		} return false;
 		// TODO Exception falls die Datei nicht vorhanden ist
 	}
 
@@ -228,7 +260,7 @@ public class Logic {
 		int Minuten = getMinute();
 		long Vergleich = ConvertSeconds(Minuten);
 		CounterActive(true);
-		Stoppuhrstarte(status, Vergleich, classname, eingabe);
+		Stoppuhrstarte(status, Vergleich, classname, eingabe, Minuten);
 	}
 
 	public long ConvertSeconds(int Minuten) {
@@ -236,7 +268,7 @@ public class Logic {
 		return Vergleich;
 	}
 
-	void Stoppuhrstarte(Status status, Long Vergleich, String classname, String eingabe) throws IOException {
+	void Stoppuhrstarte(Status status, Long Vergleich, String classname, String eingabe, int Minuten) throws IOException {
 
 		seconds = 0;
 
@@ -251,8 +283,9 @@ public class Logic {
 			if (getStatus() == Status.Green
 					&& (CompileErrors(classname, eingabe) == true || TestFehlschlag("Name", "classContent") == true)) {
 
-				tracker.statusChanged(getStatus(), RunTime, -1); // Look here
-
+				stoppeRunTime();
+				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); // Look here
+				starteRunTime();
 				deleter.delete(Status.BabyRed, classname);
 				setStatus(Status.Red);
 				return;
@@ -262,8 +295,9 @@ public class Logic {
 					&& (CompileErrors(classname, eingabe) == false
 							&& TestFehlschlag("Name", "classContent") == false)) {
 
-				tracker.statusChanged(getStatus(), RunTime, -1); // Look here
-
+				stoppeRunTime();
+				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); // Look here
+				starteRunTime();
 				setStatus(Status.Red);
 				return;
 			}
@@ -272,8 +306,9 @@ public class Logic {
 					&& (CompileErrors(classname, eingabe) == false
 							&& TestFehlschlag("Name", "classContent") == false)) {
 
-				tracker.statusChanged(getStatus(), RunTime, -1); // Look here
-
+				stoppeRunTime();
+				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); // Look here
+				starteRunTime();
 				deleter.delete(Status.BabyGreen, classname);
 				setStatus(Status.Green);
 				return;
@@ -282,8 +317,9 @@ public class Logic {
 			if (getStatus() == Status.Red
 					&& (CompileErrors(classname, eingabe) == true || TestFehlschlag("Name", "classContent") == true)) {
 
-				tracker.statusChanged(getStatus(), RunTime, -1); // Look here
-
+				stoppeRunTime();
+				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); // Look here
+				starteRunTime();
 				setStatus(Status.Green);
 				return;
 			}
