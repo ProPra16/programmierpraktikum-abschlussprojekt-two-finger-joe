@@ -62,11 +62,11 @@ public class Logic {
 		if(getBabyBoolean() == true){System.out.println("Baby Is Active");}
 
 		if (status == Status.Red)
-			Red(befehl,  status, classname, eingabe);
+			Red(befehl, status, classname, eingabe);
 		if (status == Status.Green)
-			Green(befehl,  status, classname, eingabe);
+			Green(befehl, status, classname, eingabe);
 		if (status == Status.Refactoring)
-			Refactoring(befehl,  classname, eingabe);
+			Refactoring(befehl, classname, eingabe);
 
 		return;
 	}
@@ -111,13 +111,13 @@ public class Logic {
 			saver.save(getStatus(), eingabe);
 			opener.open(getStatus(), classname);
 			
-			if(CompileErrors(classname, eingabe) == true && TestFehlschlag(classname, eingabe) == false) aufgaben++;
+			if(CompileErrors(classname, eingabe) == false && TestFehlschlag(classname, eingabe) == false) aufgaben++;
 			return;
 		}
 		if (befehl == Befehl.DoGreen) {
 			return;
 		}
-		if (befehl == Befehl.DoRefactoring && CompileErrors(classname, eingabe) == true && TestFehlschlag(classname, eingabe) == false) {
+		if (befehl == Befehl.DoRefactoring && CompileErrors(classname, eingabe) == false && TestFehlschlag(classname, eingabe) == false) {
 			setStatus(Status.Refactoring);
 			stoppeRunTime();
 			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); // Look here
