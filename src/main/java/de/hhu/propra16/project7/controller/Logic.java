@@ -69,7 +69,7 @@ public class Logic {
 	if (getBabyBoolean() == true) {
 			System.out.println("Starte BabySteps...");
 			starteBabyTime();  
-			StartTimer(befehl, getStatus(), classname, eingabe);
+			//StartTimer(befehl, getStatus(), classname, eingabe);
 			return;
 		}
 
