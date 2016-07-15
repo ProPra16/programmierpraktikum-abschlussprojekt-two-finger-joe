@@ -2,7 +2,7 @@ package de.hhu.propra16.project7.controller;
 
 import java.io.IOException;
 import java.util.Collection;
-
+import java.util.*;
 import de.hhu.propra16.project7.catalogue.Project;
 import de.hhu.propra16.project7.fileinteraction.Deleter;
 import de.hhu.propra16.project7.fileinteraction.Opener;
@@ -23,7 +23,7 @@ public class Logic {
 	private boolean CounterActive;
 	private int Minuten;
 	private Text counter;
-	long RunTime; //For Tracker
+	long RunTime; 
 
 	int seconds;
 
@@ -46,7 +46,7 @@ public class Logic {
 		this.counter = counter;
 		aufgaben = 0;
 		Zustand = currStatus;
-		starteRunTime(); //???
+		starteRunTime(); 
 	}
 
 	public int getAufgabe() {
@@ -59,7 +59,23 @@ public class Logic {
 		Status status = getStatus();
 
 		System.out.println("Status" + status);
-		if(getBabyBoolean() == true){System.out.println("Baby Is Active");}
+	
+	if (getBabyBoolean() == true) {
+			System.out.println("Starte BabySteps...");
+			starteBabyTime();  //Für Thais:  Hier startet Counter.
+			StartTimer(befehl, getStatus(), classname, eingabe);
+			return;
+		}
+
+	
+
+
+	
+
+	
+
+
+
 
 		if (status == Status.Red)
 			Red(befehl, status, classname, eingabe);
@@ -74,10 +90,7 @@ public class Logic {
 	public void Red(Befehl befehl,
 			 Status status, String classname, String eingabe) throws IOException {
 
-		if (getBabyBoolean() == true) {
-			StartTimer(getStatus(), classname, eingabe);
-			return;
-		}
+		
 
 
 
@@ -99,10 +112,7 @@ public class Logic {
 
 	public void Green(Befehl befehl, 
 			 Status status, String classname, String eingabe) throws IOException {
-		if (getBabyBoolean() == true && befehl != Befehl.DoRefactoring) {
-			StartTimer(getStatus(), classname, eingabe);
-			return;
-		}
+	
 		if (befehl == Befehl.DoRed) {
 			setStatus(Status.Red);
 			stoppeRunTime();
@@ -128,12 +138,7 @@ public class Logic {
 			return;
 		}
 
-		/*if (befehl == Befehl.DoRefactoring && getBabyBoolean() == true
-				&& (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
-			deleter.delete(Status.BabyRed, classname);
-			setStatus(Status.Red);
-			return;
-		} */
+
 
 		return;
 	}
@@ -161,12 +166,22 @@ public class Logic {
 	
 	
 		void starteRunTime()
-		{ RunTime = System.currentTimeMillis();
+		{ RunTime = RunTime + System.currentTimeMillis();
 			}
 		void stoppeRunTime()
 		{ RunTime = System.currentTimeMillis() - RunTime;
 		}
 		long returnRunTime()
+		{ return RunTime;
+		}
+
+		void starteBabyTime()
+		{ RunTime = System.currentTimeMillis();
+			}
+		void stoppeBabyTime()
+		{ RunTime = System.currentTimeMillis() - RunTime;
+		}
+		long returnBabyTime()
 		{ return RunTime;
 		}
 
@@ -255,29 +270,38 @@ public class Logic {
 		return Baby;
 	}
 
-	public void StartTimer(Status status, String classname, String eingabe) throws IOException {
+	public void StartTimer(Befehl befehl, Status status, String classname, String eingabe) throws IOException {
 
 		int Minuten = getMinute();
 		long Vergleich = ConvertSeconds(Minuten);
-		CounterActive(true);
-		Stoppuhrstarte(status, Vergleich, classname, eingabe, Minuten);
+		
+		Stoppuhrstarte(befehl, status, Vergleich, classname, eingabe, Minuten);
 	}
 
 	public long ConvertSeconds(int Minuten) {
-		long Vergleich = Minuten * 60;
+		long Vergleich = Minuten * 600000;
 		return Vergleich;
 	}
 
-	void Stoppuhrstarte(Status status, Long Vergleich, String classname, String eingabe, int Minuten) throws IOException {
+	void Stoppuhrstarte(Befehl befehl, Status status, long Vergleich, String classname, String eingabe, int Minuten) throws IOException {
+				
+		CounterActive(true);
 
-		seconds = 0;
 
-		try {
-			while (seconds <= Vergleich) {
-				Thread.sleep(1000);
-				seconds++;
-				counter.setText(String.valueOf(Vergleich - seconds));
-			}
+
+
+			
+			stoppeBabyTime();
+
+			if(returnBabyTime()>=Vergleich)System.out.println("fertig"); //Für Thais: hier prüft er den Counter. Wenn Zeit nicht abgelaufen, springt er zurück.
+			else return;
+
+	
+	
+
+
+			
+			
 			CounterActive(false);
 
 			if (getStatus() == Status.Green
@@ -304,7 +328,7 @@ public class Logic {
 
 			if (getStatus() == Status.Red
 					&& (CompileErrors(classname, eingabe) == false
-							&& TestFehlschlag("Name", "classContent") == false)) {
+							&& TestFehlschlag(classname, eingabe) == false)) {
 
 				stoppeRunTime();
 				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); // Look here
@@ -315,7 +339,7 @@ public class Logic {
 			}
 
 			if (getStatus() == Status.Red
-					&& (CompileErrors(classname, eingabe) == true || TestFehlschlag("Name", "classContent") == true)) {
+					&& (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
 
 				stoppeRunTime();
 				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); // Look here
@@ -324,10 +348,7 @@ public class Logic {
 				return;
 			}
 
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
+		
 	}
 
 }
