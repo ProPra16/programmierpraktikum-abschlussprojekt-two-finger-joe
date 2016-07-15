@@ -8,7 +8,14 @@ import de.hhu.propra16.project7.fileinteraction.Deleter;
 import de.hhu.propra16.project7.fileinteraction.Opener;
 import de.hhu.propra16.project7.fileinteraction.Saver;
 import de.hhu.propra16.project7.tracking.Tracker;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.control.Label;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import vk.core.api.CompilationUnit;
 import vk.core.api.CompileError;
 import vk.core.api.CompilerFactory;
@@ -24,9 +31,8 @@ public class Logic {
 	private int Minuten;
 	private Text counter;
 	long RunTime; 
-
-	int seconds;
-
+	private Timeline timeline;
+	
 	private int aufgaben;
 
 	Opener opener;
@@ -34,8 +40,8 @@ public class Logic {
 	Deleter deleter;
 	Tracker tracker;
 	Project aktProject;
-
 	
+	private Integer STARTTIME;
 
 	public Logic(String title, Text counter, Status currStatus) {
 		opener = new Opener(title);
@@ -63,19 +69,9 @@ public class Logic {
 	if (getBabyBoolean() == true) {
 			System.out.println("Starte BabySteps...");
 			starteBabyTime();  //Für Thais:  Hier startet Counter.
-			StartTimer(befehl, getStatus(), classname, eingabe);
+			//StartTimer(befehl, getStatus(), classname, eingabe);
 			return;
 		}
-
-	
-
-
-	
-
-	
-
-
-
 
 		if (status == Status.Red)
 			Red(befehl, status, classname, eingabe);
@@ -87,13 +83,7 @@ public class Logic {
 		return;
 	}
 
-	public void Red(Befehl befehl,
-			 Status status, String classname, String eingabe) throws IOException {
-
-		
-
-
-
+	public void Red(Befehl befehl, Status status, String classname, String eingabe) throws IOException {
 
 		if (befehl == Befehl.DoGreen && (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
 			{
@@ -163,8 +153,29 @@ public class Logic {
 	}
 
 
+	private void starteBabyTime(){
+		if (timeline != null) {
+	            timeline.stop();
+	        }
+		
+		IntegerProperty Minuten = new SimpleIntegerProperty(STARTTIME);
+			counter.textProperty().bind(Minuten.asString());
+	        Minuten.set(STARTTIME);
+	        timeline = new Timeline();
+	        timeline.getKeyFrames().add(
+	                new KeyFrame(Duration.minutes(STARTTIME+1),
+	                new KeyValue(Minuten, 0)));
+	        timeline.playFromStart();
+	    }
+	//Idee für Minuten und Sekunden:
 	
+    /*public void resetTimer() {
+        timeline.stop();
+        startTimeSec = 60; 
+        startTimeMin = min-1;
+        timerText.setText(String.format("%d min, %02d sec", startTimeMin, startTimeSec));*/
 	
+
 		void starteRunTime()
 		{ RunTime = RunTime + System.currentTimeMillis();
 			}
@@ -175,7 +186,7 @@ public class Logic {
 		{ return RunTime;
 		}
 
-		void starteBabyTime()
+	/*	void starteBabyTime()
 		{ RunTime = System.currentTimeMillis();
 			}
 		void stoppeBabyTime()
@@ -184,7 +195,7 @@ public class Logic {
 		long returnBabyTime()
 		{ return RunTime;
 		}
-
+*/
 
 	
 
@@ -199,13 +210,13 @@ public class Logic {
 		return Zustand;
 	}
 
-	public void CounterActive(boolean status) {
+	/*public void CounterActive(boolean status) {
 		this.CounterActive = CounterActive;
 	}
 
 	public boolean getCounterActive() {
 		return CounterActive;
-	}
+	}*/
 
 	public JavaStringCompiler CompilerRun(String className, String classContent, boolean isTest) {
 		CompilationUnit unit = new CompilationUnit(className, classContent, isTest);
@@ -270,7 +281,7 @@ public class Logic {
 		return Baby;
 	}
 
-	public void StartTimer(Befehl befehl, Status status, String classname, String eingabe) throws IOException {
+	/*public void StartTimer(Befehl befehl, Status status, String classname, String eingabe) throws IOException {
 
 		int Minuten = getMinute();
 		long Vergleich = ConvertSeconds(Minuten);
@@ -285,7 +296,7 @@ public class Logic {
 
 	void Stoppuhrstarte(Befehl befehl, Status status, long Vergleich, String classname, String eingabe, int Minuten) throws IOException {
 				
-		CounterActive(true);
+		CounterActive(true);*/
 
 
 
