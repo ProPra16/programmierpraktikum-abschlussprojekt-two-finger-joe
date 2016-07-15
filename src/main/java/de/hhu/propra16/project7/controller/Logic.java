@@ -279,7 +279,7 @@ public class Logic {
 	}
 
 	public long ConvertSeconds(int Minuten) {
-		long Vergleich = Minuten * 10000;
+		long Vergleich = Minuten * 600000;
 		return Vergleich;
 	}
 
