@@ -23,7 +23,7 @@ public class Logic {
 	private boolean CounterActive;
 	private int Minuten;
 	private Text counter;
-	long RunTime; //For Tracker
+	long RunTime; 
 
 	int seconds;
 
@@ -62,6 +62,7 @@ public class Logic {
 	
 	if (getBabyBoolean() == true) {
 			System.out.println("Starte BabySteps...");
+			starteBabyTime();  //Für Thais:  Hier startet Counter.
 			StartTimer(befehl, getStatus(), classname, eingabe);
 			return;
 		}
@@ -287,22 +288,17 @@ public class Logic {
 		CounterActive(true);
 
 
-System.out.println("Bitte warte " + Minuten + " Minute/n! ");
 
-			starteBabyTime();
-			stoppeBabyTime();
 
-			long wait = returnBabyTime();
-
-		while(wait<=Vergleich){
-			starteBabyTime();
-			stoppeBabyTime();
-			System.out.println(wait);
-			wait = wait + returnBabyTime();
-		}
-
-System.out.println("Fertig");
 			
+			stoppeBabyTime();
+
+			if(returnBabyTime()>=Vergleich)System.out.println("fertig"); //Für Thais: hier prüft er den Counter. Wenn Zeit nicht abgelaufen, springt er zurück.
+			else return;
+
+	
+	
+
 
 			
 			
