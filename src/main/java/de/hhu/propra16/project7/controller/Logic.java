@@ -68,8 +68,8 @@ public class Logic {
 	
 	if (getBabyBoolean() == true) {
 			System.out.println("Starte BabySteps...");
-			starteBabyTime();  //Für Thais:  Hier startet Counter.
-			//StartTimer(befehl, getStatus(), classname, eingabe);
+			starteBabyTime();  
+			StartTimer(befehl, getStatus(), classname, eingabe);
 			return;
 		}
 
@@ -153,7 +153,7 @@ public class Logic {
 	}
 
 
-	private void starteBabyTime(){
+	public void starteBabyTime(){
 		if (timeline != null) {
 	            timeline.stop();
 	        }
@@ -167,6 +167,7 @@ public class Logic {
 	                new KeyValue(Minuten, 0)));
 	        timeline.playFromStart();
 	    }
+	
 	//Idee für Minuten und Sekunden:
 	
     /*public void resetTimer() {
@@ -186,7 +187,7 @@ public class Logic {
 		{ return RunTime;
 		}
 
-	/*	void starteBabyTime()
+		/*void starteBabyTime()
 		{ RunTime = System.currentTimeMillis();
 			}
 		void stoppeBabyTime()
@@ -194,12 +195,7 @@ public class Logic {
 		}
 		long returnBabyTime()
 		{ return RunTime;
-		}
-*/
-
-	
-
-
+		}*/
 
 
 	public void setStatus(Status status) {
@@ -210,13 +206,13 @@ public class Logic {
 		return Zustand;
 	}
 
-	/*public void CounterActive(boolean status) {
+	public void CounterActive(boolean status) {
 		this.CounterActive = CounterActive;
 	}
 
 	public boolean getCounterActive() {
 		return CounterActive;
-	}*/
+	}
 
 	public JavaStringCompiler CompilerRun(String className, String classContent, boolean isTest) {
 		CompilationUnit unit = new CompilationUnit(className, classContent, isTest);
@@ -296,7 +292,7 @@ public class Logic {
 
 	void Stoppuhrstarte(Befehl befehl, Status status, long Vergleich, String classname, String eingabe, int Minuten) throws IOException {
 				
-		CounterActive(true);*/
+		CounterActive(true);
 
 
 
@@ -360,6 +356,6 @@ public class Logic {
 			}
 
 		
-	}
+	}*/
 
 }
