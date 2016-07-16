@@ -197,15 +197,15 @@ public class Logic {
 
 	
 
-	public void BabySteps(String classname, String eingabe, int time)  {
+	public void BabySteps(String classname, String eingabe, int time) {
 
-
+			try{
 			if (getStatus() == Status.Green  //Falls Code nicht kompiliert, oder ein Test fehlschlägt: Bedingung nicht erfüllt!
 					&& (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
 
 				
 				stoppeRunTime();
-				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, time); 
+				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int) time); 
 				starteRunTime();
 
 				//deleter.delete(Status.BabyRed, classname); 
@@ -218,7 +218,7 @@ public class Logic {
 							&& TestFehlschlag(classname, eingabe) == false)) {
 
 				stoppeRunTime();
-				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, time);  
+				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int) time);  
 				starteRunTime();
 				setStatus(Status.Red);
 				return;
@@ -229,7 +229,7 @@ public class Logic {
 							&& TestFehlschlag(classname, eingabe) == false)) {
 
 				stoppeRunTime();
-				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, time); 
+				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int) time); 
 				starteRunTime();
 				//deleter.delete(Status.BabyGreen, classname);
 				setStatus(Status.Green);
@@ -240,10 +240,13 @@ public class Logic {
 					&& (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
 
 				stoppeRunTime();
-				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, time); 
+				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int) time); 
 				starteRunTime();
 				setStatus(Status.Green);
 				return;
+			}
+			} catch(IOException e){
+				System.out.println(e.getMessage());
 			}
 	}
 
