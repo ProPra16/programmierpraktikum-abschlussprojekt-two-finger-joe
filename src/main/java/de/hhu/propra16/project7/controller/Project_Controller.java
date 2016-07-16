@@ -100,7 +100,7 @@ public class Project_Controller implements Initializable
 	@FXML
 	private void handleTestButtonAction(ActionEvent event) throws IOException
 	{
-		if( projectLogic.getCounterActive() == true ) return;
+//		if( projectLogic.getCounterActive() == true ) return;
 		projectLogic.Input(Befehl.DoRed, ct.getFilename(), codewindow.getText());
 		Status oldStatus = _currStatus;
 		_currStatus = projectLogic.getStatus();
@@ -116,7 +116,7 @@ public class Project_Controller implements Initializable
 	@FXML
 	private void handleCodeButtonAction(ActionEvent event) throws IOException
 	{
-		if( projectLogic.getCounterActive() == true ) return;
+		//if( projectLogic.getCounterActive() == true ) return;
 		projectLogic.Input(Befehl.DoGreen, ct.getFilename(), codewindow.getText());  //Gareth: sind es die korrekten Strings?
 		Status oldStatus = _currStatus;
 		_currStatus = projectLogic.getStatus();
@@ -132,7 +132,7 @@ public class Project_Controller implements Initializable
 	@FXML
 	private void handleRefractoringButtonAction(ActionEvent event) throws IOException
 	{
-		if( projectLogic.getCounterActive() == true ) return;
+		//if( projectLogic.getCounterActive() == true ) return;
 		projectLogic.Input(Befehl.DoRefactoring, ct.getFilename(), codewindow.getText());  //Gareth: sind es die korrekten Strings?
 		_currStatus = projectLogic.getStatus();
 		if( _currStatus == Status.Refactoring )
