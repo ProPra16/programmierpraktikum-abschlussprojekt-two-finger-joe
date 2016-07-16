@@ -22,12 +22,12 @@ import vk.core.api.CompilerFactory;
 import vk.core.api.CompilerResult;
 import vk.core.api.JavaStringCompiler;
 
+/* @author Gareth Bilaney & Thaís */
+
 public class Logic {
 
 	private Status Zustand;
-
-	private boolean CounterActive;
-	long RunTime;
+	private long RunTime;
 	private int aufgaben;
 
 	Opener opener;
@@ -47,34 +47,27 @@ public class Logic {
 		starteRunTime();
 	}
 
-	public int getAufgabe() {
-		return aufgaben;
-	}
-
 	public void Input(Befehl befehl, String classname, String eingabe) throws IOException {
 
-
 		Status status = getStatus();
-
 		System.out.println("Status" + status);
 
 		if (status == Status.Red)
-			Red(befehl, status, classname, eingabe);
+			Red(befehl, classname, eingabe);
 		if (status == Status.Green)
-			Green(befehl, status, classname, eingabe);
+			Green(befehl, classname, eingabe);
 		if (status == Status.Refactoring)
 			Refactoring(befehl, classname, eingabe);
 
 		return;
 	}
 
-	public void Red(Befehl befehl, Status status, String classname, String eingabe) throws IOException {
+	public void Red(Befehl befehl, String classname, String eingabe) throws IOException {
 
 		if (befehl == Befehl.DoGreen && (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
-			{
 				setStatus(Status.Green);
 				stoppeRunTime();
-				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); 
+				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0);
 				starteRunTime();
 				opener.open(getStatus(), classname);
 				saver.save(getStatus(), eingabe);
@@ -82,30 +75,27 @@ public class Logic {
 			return;
 		}
 
-		return;
-	}
-
-	public void Green(Befehl befehl,
-			 Status status, String classname, String eingabe) throws IOException {
+	public void Green(Befehl befehl, String classname, String eingabe) throws IOException {
 
 		if (befehl == Befehl.DoRed) {
 			setStatus(Status.Red);
 			stoppeRunTime();
-			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); 
+			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0);
 			starteRunTime();
 			saver.save(getStatus(), eingabe);
 			opener.open(getStatus(), classname);
 
 			if(CompileErrors(classname, eingabe) == false && TestFehlschlag(classname, eingabe) == false) aufgaben++;
+
 			return;
 		}
-		if (befehl == Befehl.DoGreen) {
-			return;
-		}
+
+		if (befehl == Befehl.DoGreen) return;
+
 		if (befehl == Befehl.DoRefactoring && CompileErrors(classname, eingabe) == false && TestFehlschlag(classname, eingabe) == false) {
 			setStatus(Status.Refactoring);
 			stoppeRunTime();
-			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); 
+			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0);
 			starteRunTime();
 			saver.save(getStatus(), eingabe);
 			opener.open(getStatus(), classname);
@@ -116,14 +106,13 @@ public class Logic {
 		return;
 	}
 
-	public void Refactoring(Befehl befehl,
-			String classname, String eingabe) throws IOException {
+	public void Refactoring(Befehl befehl, String classname, String eingabe) throws IOException {
+
 		if (befehl == Befehl.DoRed && CompileErrors(classname, eingabe) == false && TestFehlschlag(classname, eingabe) == false) {
 
 			setStatus(Status.Red);
-
 			stoppeRunTime();
-			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); 
+			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0);
 			starteRunTime();
 			saver.save(getStatus(), eingabe);
 			opener.open(getStatus(), classname);
@@ -135,20 +124,19 @@ public class Logic {
 		return;
 	}
 
-
-		void starteRunTime()
-		{ RunTime = RunTime + System.currentTimeMillis();
-			}
-		void stoppeRunTime()
-		{ RunTime = System.currentTimeMillis() - RunTime;
-		}
-		long returnRunTime()
-		{ return RunTime;
+		void starteRunTime(){
+			RunTime = RunTime + System.currentTimeMillis();
 		}
 
+		void stoppeRunTime(){
+			RunTime = System.currentTimeMillis() - RunTime;
+		}
 
+		long returnRunTime(){
+			return RunTime;
+		}
 
-
+	//Setters und Getters
 	public void setStatus(Status status) {
 		this.Zustand = status;
 	}
@@ -157,7 +145,9 @@ public class Logic {
 		return Zustand;
 	}
 
-
+	public int getAufgabe() {
+		return aufgaben;
+	}
 
 	public JavaStringCompiler CompilerRun(String className, String classContent, boolean isTest) {
 		CompilationUnit unit = new CompilationUnit(className, classContent, isTest);
@@ -186,7 +176,7 @@ public class Logic {
 		return false;
 
 		} return false;
-		
+
 	}
 
 	public boolean CompileErrors(String className, String classContent) {
@@ -195,59 +185,44 @@ public class Logic {
 		return compiler.getCompilerResult().hasCompileErrors();
 	}
 
-	
+
 
 	public void BabySteps(String classname, String eingabe, int time) {
-
 			try{
-			if (getStatus() == Status.Green  //Falls Code nicht kompiliert, oder ein Test fehlschlägt: Bedingung nicht erfüllt!
-					&& (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
-
-				
-				stoppeRunTime();
-				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int) time); 
-				starteRunTime();
-
-				//deleter.delete(Status.BabyRed, classname); 
-				setStatus(Status.Red);
-				return;
-			}
-
-			if (getStatus() == Status.Green			//Falls Code  kompiliert und  ein Test nicht fehlschlägt: Bedingung erfüllt!
-					&& (CompileErrors(classname, eingabe) == false
-							&& TestFehlschlag(classname, eingabe) == false)) {
-
-				stoppeRunTime();
-				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int) time);  
-				starteRunTime();
-				setStatus(Status.Red);
-				return;
-			}
-
-			if (getStatus() == Status.Red			//Falls Code kompiliert und  ein Test nicht fehlschlägt: Bedingung nicht erfüllt!
-					&& (CompileErrors(classname, eingabe) == false
-							&& TestFehlschlag(classname, eingabe) == false)) {
-
-				stoppeRunTime();
-				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int) time); 
-				starteRunTime();
-				//deleter.delete(Status.BabyGreen, classname);
-				setStatus(Status.Green);
-				return;
-			}
-
-			if (getStatus() == Status.Red			//Falls Code kompiliert oder  ein Test  fehlschlägt. Bedingung erfüllt!
-					&& (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
-
-				stoppeRunTime();
-				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int) time); 
-				starteRunTime();
-				setStatus(Status.Green);
-				return;
-			}
+				//Falls Code nicht kompiliert, oder ein Test fehlschlägt: Bedingung nicht erfüllt!
+				if (getStatus() == Status.Green && (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
+					stoppeRunTime();
+					setStatus(Status.BabyRed);
+					tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int) time);
+					deleter.delete(Status.BabyRed, classname);
+					return;
+					}
+				//Falls Code  kompiliert und  ein Test nicht fehlschlägt: Bedingung erfüllt!
+				if (getStatus() == Status.Green	&& (CompileErrors(classname, eingabe) == false && TestFehlschlag(classname, eingabe) == false)) {
+					stoppeRunTime();
+					setStatus(Status.BabyGreen);
+					tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int) time);
+					return;
+					}
+				//Falls Code kompiliert und  ein Test nicht fehlschlägt: Bedingung nicht erfüllt!
+				if (getStatus() == Status.Red && (CompileErrors(classname, eingabe) == false && TestFehlschlag(classname, eingabe) == false)) {
+					stoppeRunTime();
+					setStatus(Status.BabyGreen);
+					tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int) time);
+					starteRunTime();
+					deleter.delete(Status.BabyGreen, classname);
+					return;
+					}
+				//Falls Code kompiliert oder  ein Test  fehlschlägt. Bedingung erfüllt!
+				if (getStatus() == Status.Red	&& (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
+					stoppeRunTime();
+					setStatus(Status.Green);
+					tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int) time);
+					starteRunTime();
+					return;
+					}
 			} catch(IOException e){
 				System.out.println(e.getMessage());
+				}
 			}
-	}
-
 }
