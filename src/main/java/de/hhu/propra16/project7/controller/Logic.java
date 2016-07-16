@@ -113,8 +113,6 @@ public class Logic {
 			return;
 		}
 
-
-
 		return;
 	}
 
@@ -167,13 +165,13 @@ public class Logic {
 		return Zustand;
 	}
 
-	public void CounterActive(boolean status) {
+	/*public void CounterActive(boolean status) {
 		this.CounterActive = CounterActive;
 	}
 
 	public boolean getCounterActive() {
 		return CounterActive;
-	}
+	}*/
 
 	public JavaStringCompiler CompilerRun(String className, String classContent, boolean isTest) {
 		CompilationUnit unit = new CompilationUnit(className, classContent, isTest);
