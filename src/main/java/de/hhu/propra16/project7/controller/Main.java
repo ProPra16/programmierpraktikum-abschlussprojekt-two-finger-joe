@@ -7,23 +7,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.stage.*;
 
-public class Main extends Application
-{
-	public static void main(String[] args)
-	{
+public class Main extends Application{
+
+	public static void main(String[] args) {
 		launch(args);
 	}
 
 	@Override
-	public void start(Stage stage) throws IOException
-	{
+	public void start(Stage stage) throws IOException	{
 		Parent root = FXMLLoader.load(getClass().getResource("/main_window.fxml"));
-
 		Scene scene = new Scene(root, 640, 480);
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.setTitle("TDDT");
 		stage.show();
 	}
-
 }
