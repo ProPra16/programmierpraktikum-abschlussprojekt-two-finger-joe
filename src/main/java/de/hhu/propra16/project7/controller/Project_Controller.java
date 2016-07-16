@@ -34,6 +34,7 @@ public class Project_Controller implements Initializable
 	private boolean _baby;
 	private Timer _timer;
 	private int babyTime;
+	int _secondsElapsed;
 
 	public Project_Controller()	{
 		
@@ -57,28 +58,32 @@ public class Project_Controller implements Initializable
 	}
 	
 	public void setTime(double time){
-		babyTime = (int) time;
+		double babyTimetemp = 10*time;
+		babyTime = (int) babyTimetemp;
+		_secondsElapsed = babyTime*6;
 		lbcounter.setText("Have Fun");
 	}
 	
 	public void setStatus(Status status){
 		_currStatus = Status.Red;
 	}
+	
 
 	public void initialize(URL url, ResourceBundle rb) {
 
 		_timer = new Timer();
-        _timer.schedule(new TimerTask()	{
-			@Override
-			public void run()
+        _timer.schedule(new TimerTask()
+	{
+		
+		public void run()
+		{
+			Platform.runLater(() ->
 			{
-				Platform.runLater(() ->
-				{
-
-					if (_baby) SetTimerLabel();
-				});
-			}
-		}, 1000, 1000);
+                                
+				if (_baby) SetTimerLabel();
+			});
+		}
+	}, 1000, 1000);
 
     		statusLight.setFill(Color.RED);
     		statusAnweisung.setText("Write Tests");
@@ -88,9 +93,11 @@ public class Project_Controller implements Initializable
 
 	private void SetTimerLabel(){
 
-		int _secondsElapsed = babyTime*60;
 		_secondsElapsed--;
-		
+		if(_secondsElapsed == 0) {
+			projectLogic.BabySteps(ct.getFilename(), codewindow.getText(), babyTime);
+		}
+
 		int minutes = _secondsElapsed / 60;
 		int seconds = _secondsElapsed % 60;
 		
