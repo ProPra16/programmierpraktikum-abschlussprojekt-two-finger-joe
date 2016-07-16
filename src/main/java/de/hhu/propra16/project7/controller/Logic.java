@@ -26,13 +26,8 @@ public class Logic {
 
 	private Status Zustand;
 
-	private boolean Baby;
 	private boolean CounterActive;
-	private int Minuten;
-	private Text counter;
-	long RunTime; 
-	private Timeline timeline;
-	
+	long RunTime;
 	private int aufgaben;
 
 	Opener opener;
@@ -40,19 +35,16 @@ public class Logic {
 	Deleter deleter;
 	Tracker tracker;
 	Project aktProject;
-	
-	private Integer STARTTIME;
 
-	public Logic(String title, Text counter, Status currStatus) {
+	public Logic(String title, Status currStatus) {
 		opener = new Opener(title);
 		saver = new Saver(title);
 		aktProject = new Project(title);
 		deleter = new Deleter(title);
 		tracker = new Tracker(title);
-		this.counter = counter;
 		aufgaben = 0;
 		Zustand = currStatus;
-		starteRunTime(); 
+		starteRunTime();
 	}
 
 	public int getAufgabe() {
@@ -60,18 +52,11 @@ public class Logic {
 	}
 
 	public void Input(Befehl befehl, String classname, String eingabe) throws IOException {
-		
+
 
 		Status status = getStatus();
 
 		System.out.println("Status" + status);
-	
-	if (getBabyBoolean() == true) {
-			System.out.println("Starte BabySteps...");
-			starteBabyTime();  
-			//StartTimer(befehl, getStatus(), classname, eingabe);
-			return;
-		}
 
 		if (status == Status.Red)
 			Red(befehl, status, classname, eingabe);
@@ -100,9 +85,9 @@ public class Logic {
 		return;
 	}
 
-	public void Green(Befehl befehl, 
+	public void Green(Befehl befehl,
 			 Status status, String classname, String eingabe) throws IOException {
-	
+
 		if (befehl == Befehl.DoRed) {
 			setStatus(Status.Red);
 			stoppeRunTime();
@@ -110,7 +95,7 @@ public class Logic {
 			starteRunTime();
 			saver.save(getStatus(), eingabe);
 			opener.open(getStatus(), classname);
-			
+
 			if(CompileErrors(classname, eingabe) == false && TestFehlschlag(classname, eingabe) == false) aufgaben++;
 			return;
 		}
@@ -124,7 +109,7 @@ public class Logic {
 			starteRunTime();
 			saver.save(getStatus(), eingabe);
 			opener.open(getStatus(), classname);
-			
+
 			return;
 		}
 
@@ -133,18 +118,18 @@ public class Logic {
 		return;
 	}
 
-	public void Refactoring(Befehl befehl, 
+	public void Refactoring(Befehl befehl,
 			String classname, String eingabe) throws IOException {
 		if (befehl == Befehl.DoRed && CompileErrors(classname, eingabe) == false && TestFehlschlag(classname, eingabe) == false) {
 
 			setStatus(Status.Red);
-			
+
 			stoppeRunTime();
 			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); // Look here
 			starteRunTime();
 			saver.save(getStatus(), eingabe);
 			opener.open(getStatus(), classname);
-			
+
 			aufgaben++;
 			return;
 		}
@@ -152,30 +137,6 @@ public class Logic {
 		return;
 	}
 
-
-	public void starteBabyTime(){
-		if (timeline != null) {
-	            timeline.stop();
-	        }
-		
-		IntegerProperty Minuten = new SimpleIntegerProperty(STARTTIME);
-			counter.textProperty().bind(Minuten.asString());
-	        Minuten.set(STARTTIME);
-	        timeline = new Timeline();
-	        timeline.getKeyFrames().add(
-	                new KeyFrame(Duration.minutes(STARTTIME+1),
-	                new KeyValue(Minuten, 0)));
-	        timeline.playFromStart();
-	    }
-	
-	//Idee für Minuten und Sekunden:
-	
-    /*public void resetTimer() {
-        timeline.stop();
-        startTimeSec = 60; 
-        startTimeMin = min-1;
-        timerText.setText(String.format("%d min, %02d sec", startTimeMin, startTimeSec));*/
-	
 
 		void starteRunTime()
 		{ RunTime = RunTime + System.currentTimeMillis();
@@ -252,7 +213,7 @@ public class Logic {
 
 	// BabySteps * * * * * * * * * * * * * * * *
 
-	public void BabySteps(int Minuten, boolean Baby) {
+	/*public void BabySteps(int Minuten, boolean Baby) {
 
 		setMinute(Minuten);
 		setBabyBoolean(Baby);
@@ -277,11 +238,11 @@ public class Logic {
 		return Baby;
 	}
 
-	/*public void StartTimer(Befehl befehl, Status status, String classname, String eingabe) throws IOException {
+	public void StartTimer(Befehl befehl, Status status, String classname, String eingabe) throws IOException {
 
 		int Minuten = getMinute();
 		long Vergleich = ConvertSeconds(Minuten);
-		
+
 		Stoppuhrstarte(befehl, status, Vergleich, classname, eingabe, Minuten);
 	}
 
@@ -291,24 +252,24 @@ public class Logic {
 	}
 
 	void Stoppuhrstarte(Befehl befehl, Status status, long Vergleich, String classname, String eingabe, int Minuten) throws IOException {
-				
+
 		CounterActive(true);
 
 
 
 
-			
+
 			stoppeBabyTime();
 
 			if(returnBabyTime()>=Vergleich)System.out.println("fertig"); //Für Thais: hier prüft er den Counter. Wenn Zeit nicht abgelaufen, springt er zurück.
 			else return;
 
-	
-	
 
 
-			
-			
+
+
+
+
 			CounterActive(false);
 
 			if (getStatus() == Status.Green
@@ -355,7 +316,7 @@ public class Logic {
 				return;
 			}
 
-		
+
 	}*/
 
 }
