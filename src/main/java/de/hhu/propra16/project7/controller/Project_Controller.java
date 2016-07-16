@@ -60,7 +60,7 @@ public class Project_Controller implements Initializable
 	public void setTime(double time){
 		double babyTimetemp = 10*time;
 		babyTime = (int) babyTimetemp;
-		_secondsElapsed = babyTime*60;
+		_secondsElapsed = babyTime*6;
 		lbcounter.setText("Have Fun");
 	}
 	
@@ -68,13 +68,13 @@ public class Project_Controller implements Initializable
 		_currStatus = Status.Red;
 	}
 	
-	@Override
+
 	public void initialize(URL url, ResourceBundle rb) {
 
 		_timer = new Timer();
         _timer.schedule(new TimerTask()
 	{
-		@Override
+		
 		public void run()
 		{
 			Platform.runLater(() ->
@@ -95,7 +95,7 @@ public class Project_Controller implements Initializable
 
 		_secondsElapsed--;
 		if(_secondsElapsed == 0) {
-			projectLogic.BabySteps(ct.getFilename(), codewindow.getText(), int _babyTime);
+			projectLogic.BabySteps(ct.getFilename(), codewindow.getText(), babyTime);
 		}
 
 		int minutes = _secondsElapsed / 60;
