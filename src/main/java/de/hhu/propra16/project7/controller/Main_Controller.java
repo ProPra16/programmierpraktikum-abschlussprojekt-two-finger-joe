@@ -1,6 +1,7 @@
 package de.hhu.propra16.project7.controller;
 
 import de.hhu.propra16.project7.catalogue.*;
+import de.hhu.propra16.project7.controller.Project_Controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +13,8 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.*;
-	 
+import javafx.fxml.FXMLLoader;
+
 public class Main_Controller
 {
 	@FXML
@@ -34,15 +36,21 @@ public class Main_Controller
 	private Toggle babyStepsYes,babyStepsNo,trackingYes,trackingNo;
 
 	private ObservableList<String> listViewData = FXCollections.observableArrayList();
-	
+
 	private Project aktProject;
 
 	private Catalogue catalogue = new Catalogue();
 
 	private File file = new File("Catalogue.cfg");
 	
+	private boolean _baby;
+	
+	private double _time;
+	
+	private Project_Controller pc;
+
 	public Main_Controller(){
-		
+
 	}
 
 	public void initialize()
@@ -52,13 +60,13 @@ public class Main_Controller
 			catalogue = CatalogueReader.readFromFile(file);
 		} catch (ParseException e) {
 			System.out.println(e.getMessage());
-		}		
+		}
 		fillObservableList();
 
 		// Update aktProject and goals if another Project is clicked
 		projects.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
 		{
-			
+
 			public void changed(ObservableValue<? extends String> observable,
 			String oldValue, String newValue)
 			{
@@ -83,19 +91,24 @@ public class Main_Controller
 	@FXML
 	private void handleStartButtonAction(ActionEvent event) throws IOException
 	{
+		if( babyStepsToggleGrp.getSelectedToggle() == babyStepsYes) {
+			_baby = true;
+			}
+		else _baby = false;
+		
+		_time = minuten.getValue();
+		
 		if( aktProject == null ) return;
 		// Wechselt in das nächste Fenster, wenn der Start Button geklickt wird
 		Stage stage = (Stage) startButton.getScene().getWindow();
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/project_window.fxml"));
-		if( babyStepsToggleGrp.getSelectedToggle() == babyStepsYes )
-			fxmlloader.setController(new Project_Controller(Status.Red,aktProject,true,minuten.getValue()));
-		else
-			fxmlloader.setController(new Project_Controller(Status.Red,aktProject,false,minuten.getValue()));
-		Parent root = fxmlloader.load();
-		Scene scene = new Scene(root, 640, 480);
+		FXMLLoader fxmlloader = new FXMLLoader();
+		Parent root = fxmlloader.load(getClass().getResource("/project_window.fxml").openStream());
+		pc = (Project_Controller) fxmlloader.getController();
+        pc.initialData(aktProject, _baby, _time);
+        Scene scene = new Scene(root, 640, 480);
 		stage.setScene(scene);
 		stage.setResizable(false);
-		stage.setTitle(aktProject.getTitle());
+		stage.setTitle("TDDT");
 		stage.show();
 	}
 
@@ -118,4 +131,6 @@ public class Main_Controller
 		}
 		projects.setItems(listViewData);
 	}
+	
+
 }
