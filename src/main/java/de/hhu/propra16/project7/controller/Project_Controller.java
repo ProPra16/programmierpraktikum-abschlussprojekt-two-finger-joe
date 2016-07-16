@@ -58,7 +58,8 @@ public class Project_Controller implements Initializable
 	}
 	
 	public void setTime(double time){
-		babyTime = (int) time;
+		double babyTimetemp = 10*time;
+		babyTime = (int) babyTimetemp;
 		_secondsElapsed = babyTime*60;
 		lbcounter.setText("Have Fun");
 	}
@@ -66,6 +67,7 @@ public class Project_Controller implements Initializable
 	public void setStatus(Status status){
 		_currStatus = Status.Red;
 	}
+	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 
