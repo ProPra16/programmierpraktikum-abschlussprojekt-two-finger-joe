@@ -94,7 +94,10 @@ public class Project_Controller implements Initializable
 	private void SetTimerLabel(){
 
 		_secondsElapsed--;
-		
+		if(_secondsElapsed == 0) {
+			projectLogic.BabySteps(ct.getFilename(), codewindow.getText(), int _babyTime);
+		}
+
 		int minutes = _secondsElapsed / 60;
 		int seconds = _secondsElapsed % 60;
 		
