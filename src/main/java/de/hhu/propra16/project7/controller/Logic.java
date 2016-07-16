@@ -197,7 +197,7 @@ public class Logic {
 
 	
 
-	public void BabySteps(String classname, String eingabe)  {  //Für Tracking benötigen wir jedoch die vom User eingestellte Zeit.
+	public void BabySteps(String classname, String eingabe, int time)  {
 
 
 			if (getStatus() == Status.Green  //Falls Code nicht kompiliert, oder ein Test fehlschlägt: Bedingung nicht erfüllt!
@@ -205,7 +205,7 @@ public class Logic {
 
 				
 				stoppeRunTime();
-				//tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); 
+				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, time); 
 				starteRunTime();
 
 				//deleter.delete(Status.BabyRed, classname); 
@@ -218,7 +218,7 @@ public class Logic {
 							&& TestFehlschlag(classname, eingabe) == false)) {
 
 				stoppeRunTime();
-				//tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten);  
+				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, time);  
 				starteRunTime();
 				setStatus(Status.Red);
 				return;
@@ -229,7 +229,7 @@ public class Logic {
 							&& TestFehlschlag(classname, eingabe) == false)) {
 
 				stoppeRunTime();
-				//tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); 
+				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, time); 
 				starteRunTime();
 				//deleter.delete(Status.BabyGreen, classname);
 				setStatus(Status.Green);
@@ -240,7 +240,7 @@ public class Logic {
 					&& (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
 
 				stoppeRunTime();
-				//tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); 
+				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, time); 
 				starteRunTime();
 				setStatus(Status.Green);
 				return;
