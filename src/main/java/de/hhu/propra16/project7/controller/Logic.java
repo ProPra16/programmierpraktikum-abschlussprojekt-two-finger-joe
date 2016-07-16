@@ -74,14 +74,14 @@ public class Logic {
 			{
 				setStatus(Status.Green);
 				stoppeRunTime();
-				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); // Look here
+				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); 
 				starteRunTime();
 				opener.open(getStatus(), classname);
 				saver.save(getStatus(), eingabe);
 			}
 			return;
 		}
-		// setStatus(Status.Red);
+
 		return;
 	}
 
@@ -91,7 +91,7 @@ public class Logic {
 		if (befehl == Befehl.DoRed) {
 			setStatus(Status.Red);
 			stoppeRunTime();
-			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); // Look here
+			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); 
 			starteRunTime();
 			saver.save(getStatus(), eingabe);
 			opener.open(getStatus(), classname);
@@ -105,7 +105,7 @@ public class Logic {
 		if (befehl == Befehl.DoRefactoring && CompileErrors(classname, eingabe) == false && TestFehlschlag(classname, eingabe) == false) {
 			setStatus(Status.Refactoring);
 			stoppeRunTime();
-			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); // Look here
+			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); 
 			starteRunTime();
 			saver.save(getStatus(), eingabe);
 			opener.open(getStatus(), classname);
@@ -123,7 +123,7 @@ public class Logic {
 			setStatus(Status.Red);
 
 			stoppeRunTime();
-			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); // Look here
+			tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, 0); 
 			starteRunTime();
 			saver.save(getStatus(), eingabe);
 			opener.open(getStatus(), classname);
@@ -146,15 +146,7 @@ public class Logic {
 		{ return RunTime;
 		}
 
-		/*void starteBabyTime()
-		{ RunTime = System.currentTimeMillis();
-			}
-		void stoppeBabyTime()
-		{ RunTime = System.currentTimeMillis() - RunTime;
-		}
-		long returnBabyTime()
-		{ return RunTime;
-		}*/
+
 
 
 	public void setStatus(Status status) {
@@ -165,13 +157,7 @@ public class Logic {
 		return Zustand;
 	}
 
-	/*public void CounterActive(boolean status) {
-		this.CounterActive = CounterActive;
-	}
 
-	public boolean getCounterActive() {
-		return CounterActive;
-	}*/
 
 	public JavaStringCompiler CompilerRun(String className, String classContent, boolean isTest) {
 		CompilationUnit unit = new CompilationUnit(className, classContent, isTest);
@@ -200,7 +186,7 @@ public class Logic {
 		return false;
 
 		} return false;
-		// TODO Exception falls die Datei nicht vorhanden ist
+		
 	}
 
 	public boolean CompileErrors(String className, String classContent) {
@@ -209,112 +195,56 @@ public class Logic {
 		return compiler.getCompilerResult().hasCompileErrors();
 	}
 
-	// BabySteps * * * * * * * * * * * * * * * *
+	
 
-	/*public void BabySteps(int Minuten, boolean Baby) {
-
-		setMinute(Minuten);
-		setBabyBoolean(Baby);
-
-	}
-
-	public void setMinute(int Minuten) {
-		this.Minuten = Minuten;
-
-	}
-
-	public int getMinute() {
-		return Minuten;
-	}
-
-	public void setBabyBoolean(boolean Baby) {
-		this.Baby = Baby;
-
-	}
-
-	public boolean getBabyBoolean() {
-		return Baby;
-	}
-
-	public void StartTimer(Befehl befehl, Status status, String classname, String eingabe) throws IOException {
-
-		int Minuten = getMinute();
-		long Vergleich = ConvertSeconds(Minuten);
-
-		Stoppuhrstarte(befehl, status, Vergleich, classname, eingabe, Minuten);
-	}
-
-	public long ConvertSeconds(int Minuten) {
-		long Vergleich = Minuten * 600000;
-		return Vergleich;
-	}
-
-	void Stoppuhrstarte(Befehl befehl, Status status, long Vergleich, String classname, String eingabe, int Minuten) throws IOException {
-
-		CounterActive(true);
+	public void BabySteps(String classname, String eingabe)  {  //Für Tracking benötigen wir jedoch die vom User eingestellte Zeit.
 
 
+			if (getStatus() == Status.Green  //Falls Code nicht kompiliert, oder ein Test fehlschlägt: Bedingung nicht erfüllt!
+					&& (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
 
-
-
-			stoppeBabyTime();
-
-			if(returnBabyTime()>=Vergleich)System.out.println("fertig"); //Für Thais: hier prüft er den Counter. Wenn Zeit nicht abgelaufen, springt er zurück.
-			else return;
-
-
-
-
-
-
-
-			CounterActive(false);
-
-			if (getStatus() == Status.Green
-					&& (CompileErrors(classname, eingabe) == true || TestFehlschlag("Name", "classContent") == true)) {
-
+				
 				stoppeRunTime();
-				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); // Look here
+				//tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); 
 				starteRunTime();
-				deleter.delete(Status.BabyRed, classname);
+
+				//deleter.delete(Status.BabyRed, classname); 
 				setStatus(Status.Red);
 				return;
 			}
 
-			if (getStatus() == Status.Green
-					&& (CompileErrors(classname, eingabe) == false
-							&& TestFehlschlag("Name", "classContent") == false)) {
-
-				stoppeRunTime();
-				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); // Look here
-				starteRunTime();
-				setStatus(Status.Red);
-				return;
-			}
-
-			if (getStatus() == Status.Red
+			if (getStatus() == Status.Green			//Falls Code  kompiliert und  ein Test nicht fehlschlägt: Bedingung erfüllt!
 					&& (CompileErrors(classname, eingabe) == false
 							&& TestFehlschlag(classname, eingabe) == false)) {
 
 				stoppeRunTime();
-				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); // Look here
+				//tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten);  
 				starteRunTime();
-				deleter.delete(Status.BabyGreen, classname);
+				setStatus(Status.Red);
+				return;
+			}
+
+			if (getStatus() == Status.Red			//Falls Code kompiliert und  ein Test nicht fehlschlägt: Bedingung nicht erfüllt!
+					&& (CompileErrors(classname, eingabe) == false
+							&& TestFehlschlag(classname, eingabe) == false)) {
+
+				stoppeRunTime();
+				//tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); 
+				starteRunTime();
+				//deleter.delete(Status.BabyGreen, classname);
 				setStatus(Status.Green);
 				return;
 			}
 
-			if (getStatus() == Status.Red
+			if (getStatus() == Status.Red			//Falls Code kompiliert oder  ein Test  fehlschlägt. Bedingung erfüllt!
 					&& (CompileErrors(classname, eingabe) == true || TestFehlschlag(classname, eingabe) == true)) {
 
 				stoppeRunTime();
-				tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); // Look here
+				//tracker.statusChanged(getStatus(), (int)returnRunTime()/1000, (int)Minuten); 
 				starteRunTime();
 				setStatus(Status.Green);
 				return;
 			}
-
-
-	}*/
+	}
 
 }
