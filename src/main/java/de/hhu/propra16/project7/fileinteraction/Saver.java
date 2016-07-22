@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import de.hhu.propra16.project7.controller.Status;
+import de.hhu.propra16.project7.tracking.CodeTracker;
 
 /* @author André Juber */
 
@@ -37,6 +38,8 @@ public class Saver {
 				break;
 			case Refactoring:
 				saveFile(eingabe, "/data/" + project + "/code/");
+				CodeTracker ctracker = new CodeTracker(project);
+				ctracker.addCode(eingabe);
 				break;
 		}
 	}
